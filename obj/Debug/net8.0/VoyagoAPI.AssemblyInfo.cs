@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VoyagoAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+492a054574b89d4f1dd4f52ce47c7ecd214e7459")]
 [assembly: System.Reflection.AssemblyProductAttribute("VoyagoAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VoyagoAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

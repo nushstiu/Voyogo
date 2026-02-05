@@ -32,3 +32,9 @@ D:\School\Proiect\Voyago\obj\Debug\net8.0\refint\VoyagoAPI.dll
 D:\School\Proiect\Voyago\obj\Debug\net8.0\VoyagoAPI.pdb
 D:\School\Proiect\Voyago\obj\Debug\net8.0\VoyagoAPI.genruntimeconfig.cache
 D:\School\Proiect\Voyago\obj\Debug\net8.0\ref\VoyagoAPI.dll
+D:\School\Proiect\Voyago\bin\Debug\net8.0\frontend\package-lock.json
+D:\School\Proiect\Voyago\bin\Debug\net8.0\frontend\package.json
+D:\School\Proiect\Voyago\bin\Debug\net8.0\frontend\tsconfig.app.json
+D:\School\Proiect\Voyago\bin\Debug\net8.0\frontend\tsconfig.json
+D:\School\Proiect\Voyago\bin\Debug\net8.0\frontend\tsconfig.node.json
+D:\School\Proiect\Voyago\obj\Debug\net8.0\VoyagoAPI.sourcelink.json
