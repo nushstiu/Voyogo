@@ -1,5 +1,7 @@
 ﻿import { useEffect, useState } from 'react';
 import { testApi, getDataApi } from './api/client';
+import Navbar from "./components/navbar.tsx";
+import Footer from "./components/footer.tsx";
 
 interface DataItem {
   id: number;
@@ -31,32 +33,16 @@ function App() {
   }, []);
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-4'>
-      <div className='bg-white p-8 rounded-lg shadow-2xl max-w-md w-full'>
-        <h1 className='text-4xl font-bold text-gray-800 mb-4'>
-          Voyogo Project
-        </h1>
-
-        {loading && <p className='text-gray-600'>Se încarcă...</p>}
-        
-        {error && <p className='text-red-500'>{error}</p>}
-
-        {!loading && !error && (
-          <>
-            <p className='text-green-600 font-semibold mb-4'>{message}</p>
-            
-            <div className='space-y-2'>
-              <h2 className='text-xl font-bold text-gray-700'>Date din API:</h2>
-              {data.map(item => (
-                <div key={item.id} className='bg-gray-100 p-3 rounded'>
-                  {item.name}
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-      </div>
-    </div>
+      <>
+        <Navbar />
+        <main>
+          {/* Your page content here */}
+          {loading && <p>Loading...</p>}
+          {error && <p>{error}</p>}
+          {message && <p>{message}</p>}
+        </main>
+        <Footer />
+      </>
   );
 }
 
