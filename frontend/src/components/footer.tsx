@@ -10,42 +10,26 @@ const Footer: React.FC<FooterProps> = ({ className = '' }) => {
     return (
         <footer className={`bg-gray-800 text-white p-10 ${className}`}>
             <div className="flex justify-between items-center">
-                <img
-                    src="../assets/site_assets/sky.png"
-                    alt="logo"
-                    className="h-10"
-                />
+                <img src="../assets/" alt="logo" className="h-10"/>
 
                 <ul className="flex space-x-5">
                     <li>
-                        <a
-                            href="../views/destination.view.php"
-                            className="hover:text-cyan-400"
-                        >
+                        <a href="../pages/Destination.tsx" className="hover:text-cyan-400">
                             Destinations
                         </a>
                     </li>
                     <li>
-                        <a
-                            href="../views/tours.view.php"
-                            className="hover:text-cyan-400"
-                        >
+                        <a href="../pages/Tours.tsx" className="hover:text-cyan-400">
                             Tours
                         </a>
                     </li>
                     <li>
-                        <a
-                            href="/pages/about.html"
-                            className="hover:text-cyan-400"
-                        >
+                        <a href="/pages/About.tsx" className="hover:text-cyan-400">
                             About
                         </a>
                     </li>
                     <li>
-                        <a
-                            href="../views/book.view.php"
-                            className="hover:text-cyan-400"
-                        >
+                        <a href="../pages/Book.tsx" className="hover:text-cyan-400">
                             Book
                         </a>
                     </li>
