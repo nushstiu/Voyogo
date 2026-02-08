@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\School\\Proiect\\Voyago\\VoyagoAPI.csproj": {}
+    "C:\\Users\\petcu\\RiderProjects\\Voyogo\\VoyagoAPI.csproj": {}
   },
   "projects": {
-    "D:\\School\\Proiect\\Voyago\\VoyagoAPI.csproj": {
+    "C:\\Users\\petcu\\RiderProjects\\Voyogo\\VoyagoAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\School\\Proiect\\Voyago\\VoyagoAPI.csproj",
+        "projectUniqueName": "C:\\Users\\petcu\\RiderProjects\\Voyogo\\VoyagoAPI.csproj",
         "projectName": "VoyagoAPI",
-        "projectPath": "D:\\School\\Proiect\\Voyago\\VoyagoAPI.csproj",
-        "packagesPath": "C:\\Users\\latul\\.nuget\\packages\\",
-        "outputPath": "D:\\School\\Proiect\\Voyago\\obj\\",
+        "projectPath": "C:\\Users\\petcu\\RiderProjects\\Voyogo\\VoyagoAPI.csproj",
+        "packagesPath": "C:\\Users\\petcu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\petcu\\RiderProjects\\Voyogo\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\latul\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\petcu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -77,7 +77,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Users\\latul\\.dotnet\\sdk\\8.0.417/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\petcu\\.dotnet\\sdk\\8.0.417/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
