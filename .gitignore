@@ -91,7 +91,6 @@ appsettings.json
 tsconfig.tsbuildinfo
 .ncurc.js
 knip.jsonc
-
 *.tsbuildinfo
 ._*
 *.cache
