@@ -12,7 +12,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-black/30" />
 
       <div className="relative z-10 text-center px-4">
-        <p className="text-white text-2xl tracking-[20px] mb-4 uppercase">
+        <p className="text-white text-l tracking-[20px] mb-4 uppercase">
           Unforgettable Travel Awaits The
         </p>
         <h1 className="text-white text-7xl md:text-9xl font-extrabold tracking-wider">

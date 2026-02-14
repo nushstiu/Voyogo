@@ -33,7 +33,7 @@ export default function FAQSection() {
   };
 
   return (
-    <section className="py-20 px-6 md:px-16 lg:px-32">
+    <section className="py-12 px-6 md:px-16 lg:px-32">
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
         <div className="lg:w-1/3">
           <p className="text-cyan-400 tracking-widest text-sm font-semibold uppercase">Blog</p>
