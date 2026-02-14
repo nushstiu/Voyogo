@@ -1,48 +1,23 @@
-﻿import { useEffect, useState } from 'react';
-import { testApi, getDataApi } from './api/client';
-import Navbar from "./components/navbar.tsx";
-import Footer from "./components/footer.tsx";
-
-interface DataItem {
-  id: number;
-  name: string;
-}
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Destinations from './pages/Destinations';
+import Tours from './pages/Tours';
+import Booking from './pages/Booking';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
-  const [message, setMessage] = useState<string>('');
-  const [data, setData] = useState<DataItem[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const msgResponse = await testApi();
-        setMessage(msgResponse.message);
-
-        const dataResponse = await getDataApi();
-        setData(dataResponse);
-      } catch (err) {
-        setError('Nu s-a putut conecta la backend!');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   return (
-      <>
-        <Navbar />
-        <main>
-          {/* Your page content here */}
-          {loading && <p>Loading...</p>}
-          {error && <p>{error}</p>}
-          {message && <p>{message}</p>}
-        </main>
-        <Footer />
-      </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/destinations" element={<Destinations />} />
+        <Route path="/tours" element={<Tours />} />
+        <Route path="/booking" element={<Booking />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
