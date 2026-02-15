@@ -3,6 +3,8 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
+
+
 import Home from './pages/Home';
 import Destinations from './pages/Destinations';
 import Tours from './pages/Tours';
