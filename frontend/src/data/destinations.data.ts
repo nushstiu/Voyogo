@@ -1,0 +1,58 @@
+import type { Destination } from '../types';
+
+export const MOCK_DESTINATIONS: Destination[] = [
+  {
+    id: 1,
+    name: 'Indonesia',
+    packages: 20,
+    price_range: '$2,000 - $2,500',
+    image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800',
+    description: 'Welcome to Indonesia, an enchanting archipelago where adventure meets tranquility. Picture-perfect beaches, turquoise waters, and lush tropical rainforests await you.',
+    created_at: '2024-01-01T00:00:00.000Z',
+  },
+  {
+    id: 2,
+    name: 'Japan',
+    packages: 20,
+    price_range: '$1,500 - $2,000',
+    image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800',
+    description: 'Discover the enchanting beauty of Japan, a land where ancient traditions meet modern marvels. From the bustling streets of Tokyo to the serene temples of Kyoto.',
+    created_at: '2024-01-01T00:00:00.000Z',
+  },
+  {
+    id: 3,
+    name: 'Thailand',
+    packages: 20,
+    price_range: '$500 - $1,000',
+    image: 'https://images.unsplash.com/photo-1528181304800-259b08848526?w=800',
+    description: 'Experience the vibrant tapestry of Thailand with expertly crafted travel packages. From bustling Bangkok to pristine islands.',
+    created_at: '2024-01-01T00:00:00.000Z',
+  },
+  {
+    id: 4,
+    name: 'China',
+    packages: 20,
+    price_range: '$1,000 - $2,500',
+    image: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800',
+    description: 'Immerse yourself in the vibrant tapestry of culture, history, and modernity that is China. From the Great Wall to modern Shanghai.',
+    created_at: '2024-01-01T00:00:00.000Z',
+  },
+  {
+    id: 5,
+    name: 'Philippines',
+    packages: 20,
+    price_range: '$500 - $1,500',
+    image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=800',
+    description: 'Discover the vibrant culture influenced by indigenous traditions and Spanish heritage. Over 7,000 islands of paradise await.',
+    created_at: '2024-01-01T00:00:00.000Z',
+  },
+  {
+    id: 6,
+    name: 'South Korea',
+    packages: 20,
+    price_range: '$500 - $1,000',
+    image: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=800',
+    description: 'Experience the dynamic fusion of ancient tradition and cutting-edge modernity in South Korea. K-pop culture meets historic palaces.',
+    created_at: '2024-01-01T00:00:00.000Z',
+  },
+];
