@@ -1,0 +1,348 @@
+import { useState, useEffect, useCallback } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faPlus,
+  faEdit,
+  faTrash,
+  faEye,
+  faFileExport,
+  faCheckDouble,
+  faBan,
+} from '@fortawesome/free-solid-svg-icons';
+import { UI_TEXT, API_ENDPOINTS } from '../../constants';
+import { useDebounce } from '../../hooks/useDebounce';
+import { useFilters } from '../../hooks/useFilters';
+import { usePagination } from '../../hooks/usePagination';
+import { useModal } from '../../hooks/useModal';
+import SearchInput from '../../components/common/SearchInput';
+import FilterDropdown from '../../components/common/FilterDropdown';
+import Pagination from '../../components/common/Pagination';
+import StatusBadge from '../../components/common/StatusBadge';
+import EmptyState from '../../components/common/EmptyState';
+import ConfirmDialog from '../../components/common/ConfirmDialog';
+import Breadcrumb from '../../components/common/Breadcrumb';
+import BookingModal from '../../components/admin/modals/BookingModal';
+import BookingDetailModal from '../../components/admin/modals/BookingDetailModal';
+import type { Booking, Destination } from '../../types';
+import toast from 'react-hot-toast';
+
+const STATUS_OPTIONS = [
+  { label: 'Pending', value: 'pending' },
+  { label: 'Confirmed', value: 'confirmed' },
+  { label: 'Cancelled', value: 'cancelled' },
+];
+
+export default function AdminBookings() {
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [destinations, setDestinations] = useState<Destination[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const { filters, setFilter } = useFilters({
+    keys: ['search', 'status', 'destination', 'fromDate', 'toDate'],
+  });
+  const debouncedSearch = useDebounce(filters.search, 300);
+
+  const createModal = useModal<undefined>();
+  const editModal = useModal<Booking>();
+  const viewModal = useModal<Booking>();
+  const deleteConfirm = useModal<Booking>();
+
+  const fetchBookings = useCallback(async () => {
+    setLoading(true);
+    const params = new URLSearchParams();
+    if (debouncedSearch) params.set('search', debouncedSearch);
+    if (filters.status) params.set('status', filters.status);
+    if (filters.destination) params.set('destination', filters.destination);
+    if (filters.fromDate) params.set('fromDate', filters.fromDate);
+    if (filters.toDate) params.set('toDate', filters.toDate);
+
+    const [bookingsRes, destRes] = await Promise.all([
+      fetch(`${API_ENDPOINTS.BOOKINGS}?${params}`),
+      fetch(API_ENDPOINTS.DESTINATIONS),
+    ]);
+    setBookings(await bookingsRes.json());
+    setDestinations(await destRes.json());
+    setSelectedIds(new Set());
+    setLoading(false);
+  }, [debouncedSearch, filters.status, filters.destination, filters.fromDate, filters.toDate]);
+
+  useEffect(() => {
+    fetchBookings();
+  }, [fetchBookings]);
+
+  const { page, totalPages, paginated, total, goTo, perPage } = usePagination(bookings, 8);
+
+  const destOptions = destinations.map((d) => ({ label: d.name, value: d.name }));
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleAll = () => {
+    if (selectedIds.size === paginated.length) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(paginated.map((b) => b.id)));
+    }
+  };
+
+  const handleBulkUpdate = async (status: 'confirmed' | 'cancelled') => {
+    if (selectedIds.size === 0) return;
+    await fetch('/api/bookings/bulk-update', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ids: Array.from(selectedIds), status }),
+    });
+    toast.success(UI_TEXT.SUCCESS_STATUS_CHANGED);
+    fetchBookings();
+  };
+
+  const handleDelete = async (booking: Booking) => {
+    await fetch(API_ENDPOINTS.BOOKING_BY_ID(booking.id), { method: 'DELETE' });
+    toast.success(UI_TEXT.SUCCESS_BOOKING_UPDATED);
+    fetchBookings();
+  };
+
+  const handleExportCSV = () => {
+    const headers = ['Name', 'Email', 'Destination', 'Tour', 'Date', 'Duration', 'Status'];
+    const rows = bookings.map((b) => [
+      `${b.name} ${b.surname}`,
+      b.email,
+      b.destination,
+      b.tour_name || '',
+      b.booking_date,
+      b.duration,
+      b.status,
+    ]);
+    const csv = [headers, ...rows].map((r) => r.join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'bookings.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <Breadcrumb />
+
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+        <h1 className="text-2xl font-bold text-text-primary">Bookings</h1>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleExportCSV}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-text-secondary hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <FontAwesomeIcon icon={faFileExport} />
+            {UI_TEXT.ACTION_EXPORT_CSV}
+          </button>
+          <button
+            onClick={() => createModal.open()}
+            className="btn-primary flex items-center gap-2 px-4 py-2.5 text-sm"
+          >
+            <FontAwesomeIcon icon={faPlus} />
+            {UI_TEXT.ACTION_CREATE_BOOKING}
+          </button>
+        </div>
+      </div>
+
+      <div className="card-default overflow-hidden">
+        <div className="p-4 border-b border-gray-100 flex flex-col gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
+            <SearchInput
+              value={filters.search}
+              onChange={(v) => setFilter('search', v)}
+              className="flex-1"
+            />
+            <FilterDropdown
+              value={filters.status || 'all'}
+              onChange={(v) => setFilter('status', v)}
+              options={STATUS_OPTIONS}
+              allLabel={UI_TEXT.FILTER_STATUS}
+            />
+            <FilterDropdown
+              value={filters.destination || 'all'}
+              onChange={(v) => setFilter('destination', v)}
+              options={destOptions}
+              allLabel={UI_TEXT.FILTER_DESTINATION}
+            />
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+            <div className="flex items-center gap-2">
+              <label className="text-sm text-text-secondary">From:</label>
+              <input
+                type="date"
+                value={filters.fromDate}
+                onChange={(e) => setFilter('fromDate', e.target.value)}
+                className="input-default py-2 text-sm"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <label className="text-sm text-text-secondary">To:</label>
+              <input
+                type="date"
+                value={filters.toDate}
+                onChange={(e) => setFilter('toDate', e.target.value)}
+                className="input-default py-2 text-sm"
+              />
+            </div>
+          </div>
+        </div>
+
+        {selectedIds.size > 0 && (
+          <div className="px-4 py-3 bg-primary-light flex items-center justify-between">
+            <span className="text-sm text-primary font-medium">
+              {selectedIds.size} selected
+            </span>
+            <div className="flex gap-2">
+              <button
+                onClick={() => handleBulkUpdate('confirmed')}
+                className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-accent text-white rounded-lg hover:bg-accent-hover transition-colors"
+              >
+                <FontAwesomeIcon icon={faCheckDouble} />
+                {UI_TEXT.ACTION_BULK_CONFIRM}
+              </button>
+              <button
+                onClick={() => handleBulkUpdate('cancelled')}
+                className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-danger text-white rounded-lg hover:bg-danger-hover transition-colors"
+              >
+                <FontAwesomeIcon icon={faBan} />
+                {UI_TEXT.ACTION_BULK_CANCEL}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary" />
+          </div>
+        ) : paginated.length === 0 ? (
+          <EmptyState title={UI_TEXT.NO_BOOKINGS} />
+        ) : (
+          <>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-gray-50 text-left text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                    <th className="px-6 py-3 w-10">
+                      <input
+                        type="checkbox"
+                        checked={selectedIds.size === paginated.length && paginated.length > 0}
+                        onChange={toggleAll}
+                        className="rounded border-gray-300"
+                      />
+                    </th>
+                    <th className="px-6 py-3">Guest</th>
+                    <th className="px-6 py-3">Destination</th>
+                    <th className="px-6 py-3">Tour</th>
+                    <th className="px-6 py-3">Date</th>
+                    <th className="px-6 py-3">Duration</th>
+                    <th className="px-6 py-3">Status</th>
+                    <th className="px-6 py-3 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {paginated.map((b) => (
+                    <tr key={b.id} className="hover:bg-gray-50 transition-colors">
+                      <td className="px-6 py-4">
+                        <input
+                          type="checkbox"
+                          checked={selectedIds.has(b.id)}
+                          onChange={() => toggleSelect(b.id)}
+                          className="rounded border-gray-300"
+                        />
+                      </td>
+                      <td className="px-6 py-4">
+                        <div>
+                          <p className="font-semibold text-text-primary text-sm">
+                            {b.name} {b.surname}
+                          </p>
+                          <p className="text-xs text-text-secondary">{b.email}</p>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-text-secondary">{b.destination}</td>
+                      <td className="px-6 py-4 text-sm text-text-secondary">{b.tour_name || '—'}</td>
+                      <td className="px-6 py-4 text-sm text-text-secondary">{b.booking_date}</td>
+                      <td className="px-6 py-4 text-sm text-text-secondary">{b.duration}</td>
+                      <td className="px-6 py-4">
+                        <StatusBadge status={b.status} />
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center justify-end gap-1">
+                          <button
+                            onClick={() => viewModal.open(b)}
+                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-text-secondary"
+                            title={UI_TEXT.ACTION_VIEW}
+                          >
+                            <FontAwesomeIcon icon={faEye} className="text-sm" />
+                          </button>
+                          <button
+                            onClick={() => editModal.open(b)}
+                            className="p-2 hover:bg-primary-light rounded-lg transition-colors text-primary"
+                            title={UI_TEXT.ACTION_EDIT}
+                          >
+                            <FontAwesomeIcon icon={faEdit} className="text-sm" />
+                          </button>
+                          <button
+                            onClick={() => deleteConfirm.open(b)}
+                            className="p-2 hover:bg-danger-light rounded-lg transition-colors text-danger"
+                            title={UI_TEXT.ACTION_DELETE}
+                          >
+                            <FontAwesomeIcon icon={faTrash} className="text-sm" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <Pagination
+              page={page}
+              totalPages={totalPages}
+              total={total}
+              perPage={perPage}
+              onPageChange={goTo}
+            />
+          </>
+        )}
+      </div>
+
+      <BookingModal
+        isOpen={createModal.isOpen}
+        onClose={createModal.close}
+        onSaved={fetchBookings}
+      />
+
+      <BookingModal
+        isOpen={editModal.isOpen}
+        onClose={editModal.close}
+        booking={editModal.data}
+        onSaved={fetchBookings}
+      />
+
+      <BookingDetailModal
+        isOpen={viewModal.isOpen}
+        onClose={viewModal.close}
+        booking={viewModal.data}
+      />
+
+      <ConfirmDialog
+        isOpen={deleteConfirm.isOpen}
+        onClose={deleteConfirm.close}
+        onConfirm={() => deleteConfirm.data && handleDelete(deleteConfirm.data)}
+        title={UI_TEXT.ACTION_DELETE}
+        message={UI_TEXT.CONFIRM_DELETE}
+      />
+    </div>
+  );
+}

@@ -12,7 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="frontend\src\pages\Destination.tsx" />
       <None Remove="frontend\src\pages\Register.tsx" />
       <None Remove="frontend\src\pages\Login.tsx" />
     </ItemGroup>

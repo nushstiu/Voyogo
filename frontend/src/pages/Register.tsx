@@ -1,0 +1,220 @@
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from '../context/AuthContext';
+import { ROUTES } from '../constants';
+import Header from '../components/layout/Header';
+import Footer from '../components/layout/Footer';
+
+export default function Register() {
+  const navigate = useNavigate();
+  const { register, loading } = useAuth();
+
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    if (!username.trim()) {
+      newErrors.username = 'This field is required';
+    } else if (username.length < 5) {
+      newErrors.username = 'Username must be at least 5 characters';
+    } else if (username.length > 15) {
+      newErrors.username = 'Username must be maximum 15 characters';
+    } else if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+      newErrors.username = 'Username can only contain letters, numbers, and underscores';
+    }
+    if (!email.trim()) {
+      newErrors.email = 'This field is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      newErrors.email = 'Invalid email address';
+    }
+    if (!password) {
+      newErrors.password = 'This field is required';
+    } else if (password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+    if (!confirmPassword) {
+      newErrors.confirmPassword = 'This field is required';
+    } else if (password !== confirmPassword) {
+      newErrors.confirmPassword = "Passwords don't match";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const clearError = (field: string) => {
+    if (errors[field]) {
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next[field];
+        return next;
+      });
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+    try {
+      await register(username, email, password);
+      navigate(ROUTES.USER_DASHBOARD);
+    } catch {
+      // handled in AuthContext
+    }
+  };
+
+  return (
+    <>
+      <Header transparent />
+      <main>
+        <section
+          className="relative min-h-screen bg-cover bg-center flex items-center justify-center"
+          style={{
+            backgroundImage:
+              'url(https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=80)',
+          }}
+        >
+          <div className="absolute inset-0 bg-black/50" />
+
+          <div className="relative z-10 w-full max-w-md mx-4 mt-20 mb-10">
+            <div className="bg-white rounded-2xl p-8 md:p-10 shadow-xl">
+              <h2 className="text-3xl font-bold text-gray-800 text-center mb-2">
+                Create Account
+              </h2>
+              <p className="text-gray-500 text-center mb-8">
+                Start your adventure with us
+              </p>
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
+                    Username <span className="text-blue-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Username"
+                      value={username}
+                      onChange={(e) => { setUsername(e.target.value); clearError('username'); }}
+                      className={`p-4 pl-11 rounded bg-gray-100 outline-none w-full ${
+                        errors.username ? 'ring-2 ring-red-400' : ''
+                      }`}
+                    />
+                  </div>
+                  {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username}</p>}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
+                    Email <span className="text-blue-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <FontAwesomeIcon
+                      icon={faEnvelope}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                    />
+                    <input
+                      type="email"
+                      placeholder="your@email.com"
+                      value={email}
+                      onChange={(e) => { setEmail(e.target.value); clearError('email'); }}
+                      className={`p-4 pl-11 rounded bg-gray-100 outline-none w-full ${
+                        errors.email ? 'ring-2 ring-red-400' : ''
+                      }`}
+                    />
+                  </div>
+                  {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
+                    Password <span className="text-blue-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <FontAwesomeIcon
+                      icon={faLock}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                    />
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder="Password"
+                      value={password}
+                      onChange={(e) => { setPassword(e.target.value); clearError('password'); }}
+                      className={`p-4 pl-11 pr-11 rounded bg-gray-100 outline-none w-full ${
+                        errors.password ? 'ring-2 ring-red-400' : ''
+                      }`}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                    </button>
+                  </div>
+                  {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
+                    Confirm Password <span className="text-blue-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <FontAwesomeIcon
+                      icon={faLock}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                    />
+                    <input
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      placeholder="Confirm Password"
+                      value={confirmPassword}
+                      onChange={(e) => { setConfirmPassword(e.target.value); clearError('confirmPassword'); }}
+                      className={`p-4 pl-11 pr-11 rounded bg-gray-100 outline-none w-full ${
+                        errors.confirmPassword ? 'ring-2 ring-red-400' : ''
+                      }`}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                    </button>
+                  </div>
+                  {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full h-[55px] bg-blue-500 text-white rounded-lg font-semibold text-lg hover:bg-blue-600 transition-colors disabled:opacity-50"
+                >
+                  {loading ? 'Creating account...' : 'Create Account'}
+                </button>
+              </form>
+
+              <p className="text-center text-gray-500 mt-6">
+                Already have an account?{' '}
+                <Link to={ROUTES.LOGIN} className="text-cyan-400 font-semibold hover:text-cyan-500">
+                  Sign in
+                </Link>
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
+  );
+}
