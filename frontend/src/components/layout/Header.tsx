@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faBars, faXmark, faSignOutAlt, faShieldAlt } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faBars, faXmark, faSignOutAlt, faShieldAlt, faGlobe } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { ROUTES } from '../../constants';
 
@@ -14,6 +15,11 @@ export default function Header({ transparent = false }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+
+  const toggleLanguage = () => {
+    i18n.changeLanguage(i18n.language === 'en' ? 'ro' : 'en');
+  };
 
   useEffect(() => {
     if (!transparent) return;
@@ -36,24 +42,24 @@ export default function Header({ transparent = false }: HeaderProps) {
   };
 
   const publicLinks = [
-    { to: '/destinations', label: 'Destinations' },
-    { to: '/tours', label: 'Tours' },
-    { to: '/booking', label: 'Book' },
+    { to: '/destinations', label: t('nav.destinations') },
+    { to: '/tours', label: t('nav.tours') },
+    { to: '/booking', label: t('nav.book') },
   ];
 
   const userLinks = [
-    { to: ROUTES.USER_DASHBOARD, label: 'Dashboard' },
-    { to: ROUTES.USER_BOOKINGS, label: 'My Bookings' },
-    { to: ROUTES.USER_PROFILE, label: 'Profile' },
+    { to: ROUTES.USER_DASHBOARD, label: t('nav.dashboard') },
+    { to: ROUTES.USER_BOOKINGS, label: t('nav.myBookings') },
+    { to: ROUTES.USER_PROFILE, label: t('nav.profile') },
   ];
 
   const adminLinks = [
-    { to: ROUTES.ADMIN_DASHBOARD, label: 'Dashboard' },
-    { to: ROUTES.ADMIN_USERS, label: 'Users' },
-    { to: ROUTES.ADMIN_DESTINATIONS, label: 'Destinations' },
-    { to: ROUTES.ADMIN_TOURS, label: 'Tours' },
-    { to: ROUTES.ADMIN_BOOKINGS, label: 'Bookings' },
-    { to: ROUTES.ADMIN_ANALYTICS, label: 'Analytics' },
+    { to: ROUTES.ADMIN_DASHBOARD, label: t('nav.dashboard') },
+    { to: ROUTES.ADMIN_USERS, label: t('nav.users') },
+    { to: ROUTES.ADMIN_DESTINATIONS, label: t('nav.destinations') },
+    { to: ROUTES.ADMIN_TOURS, label: t('nav.tours') },
+    { to: ROUTES.ADMIN_BOOKINGS, label: t('nav.bookings') },
+    { to: ROUTES.ADMIN_ANALYTICS, label: t('nav.analytics') },
   ];
 
   const navLinks = user
@@ -82,6 +88,15 @@ export default function Header({ transparent = false }: HeaderProps) {
             </Link>
           ))}
 
+          <button
+            onClick={toggleLanguage}
+            className={`flex items-center gap-1.5 text-sm font-semibold hover:text-cyan-400 transition-colors ${textClass}`}
+            aria-label="Toggle language"
+          >
+            <FontAwesomeIcon icon={faGlobe} />
+            {i18n.language === 'en' ? 'RO' : 'EN'}
+          </button>
+
           {user ? (
             <div className="flex items-center gap-4">
               <span className={`text-sm font-medium ${textClass}`}>
@@ -93,7 +108,7 @@ export default function Header({ transparent = false }: HeaderProps) {
               <button
                 onClick={handleLogout}
                 className={`text-lg hover:text-red-400 transition-colors ${textClass}`}
-                aria-label="Logout"
+                aria-label={t('nav.logout')}
               >
                 <FontAwesomeIcon icon={faSignOutAlt} />
               </button>
@@ -102,7 +117,7 @@ export default function Header({ transparent = false }: HeaderProps) {
             <Link
               to="/login"
               className={`text-xl hover:text-cyan-400 transition-colors ${textClass}`}
-              aria-label="Login"
+              aria-label={t('nav.login')}
             >
               <FontAwesomeIcon icon={faUser} />
             </Link>
@@ -130,13 +145,21 @@ export default function Header({ transparent = false }: HeaderProps) {
               {link.label}
             </Link>
           ))}
+          <button
+            onClick={() => { toggleLanguage(); }}
+            className="text-lg font-semibold text-gray-800 hover:text-cyan-400 text-left flex items-center gap-2"
+          >
+            <FontAwesomeIcon icon={faGlobe} />
+            {i18n.language === 'en' ? 'Romana' : 'English'}
+          </button>
+
           {user ? (
             <button
               onClick={() => { handleLogout(); setMobileOpen(false); }}
               className="text-lg font-semibold text-red-500 hover:text-red-600 text-left"
             >
               <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
-              Logout
+              {t('nav.logout')}
             </button>
           ) : (
             <Link
@@ -145,7 +168,7 @@ export default function Header({ transparent = false }: HeaderProps) {
               onClick={() => setMobileOpen(false)}
             >
               <FontAwesomeIcon icon={faUser} className="mr-2" />
-              Login
+              {t('nav.login')}
             </Link>
           )}
         </nav>

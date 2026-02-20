@@ -1,4 +1,4 @@
-﻿export const mockAuthHandlers = [
+﻿    export const mockAuthHandlers = [
     {
         path: '/api/auth/login',
         method: 'POST',

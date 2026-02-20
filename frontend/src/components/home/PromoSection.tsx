@@ -1,6 +1,8 @@
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 export default function PromoSection() {
+  const { t } = useTranslation();
   return (
     <section className="flex flex-col md:flex-row justify-center gap-6 md:gap-10 px-6 md:px-16 my-10">
       <div
@@ -12,13 +14,13 @@ export default function PromoSection() {
       >
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
         <div className="relative z-10 p-8">
-          <h3 className="text-4xl font-bold text-white">Escape to Paradise</h3>
-          <p className="text-white/80 mt-2">Book now and save 20% on your magical trip</p>
+          <h3 className="text-4xl font-bold text-white">{t('home.escapeToParadise')}</h3>
+          <p className="text-white/80 mt-2">{t('home.escapeSubtitle')}</p>
           <Link
             to="/booking"
             className="inline-block mt-4 bg-white text-black px-6 py-2 rounded font-semibold hover:bg-gray-100 transition-colors"
           >
-            Book now
+            {t('home.bookNow')}
           </Link>
         </div>
       </div>
@@ -33,14 +35,14 @@ export default function PromoSection() {
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative z-10 text-center p-8">
           <h3 className="text-3xl font-bold text-white uppercase tracking-wider">
-            Adventure Awaits
+            {t('home.adventureAwaits')}
           </h3>
-          <p className="text-white/80 mt-2">Book a tour today, get a FREE excursion!</p>
+          <p className="text-white/80 mt-2">{t('home.adventureSubtitle')}</p>
           <Link
             to="/tours"
             className="inline-block mt-4 bg-black text-white px-6 py-2 rounded font-semibold hover:bg-gray-900 transition-colors"
           >
-            Book now
+            {t('home.bookNow')}
           </Link>
         </div>
       </div>

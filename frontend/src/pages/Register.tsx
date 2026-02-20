@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +11,7 @@ import Footer from '../components/layout/Footer';
 export default function Register() {
   const navigate = useNavigate();
   const { register, loading } = useAuth();
+  const { t } = useTranslation();
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -22,28 +24,28 @@ export default function Register() {
   const validate = () => {
     const newErrors: Record<string, string> = {};
     if (!username.trim()) {
-      newErrors.username = 'This field is required';
+      newErrors.username = t('validation.required');
     } else if (username.length < 5) {
-      newErrors.username = 'Username must be at least 5 characters';
+      newErrors.username = t('validation.usernameMin');
     } else if (username.length > 15) {
-      newErrors.username = 'Username must be maximum 15 characters';
+      newErrors.username = t('validation.usernameMax');
     } else if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-      newErrors.username = 'Username can only contain letters, numbers, and underscores';
+      newErrors.username = t('validation.usernameFormat');
     }
     if (!email.trim()) {
-      newErrors.email = 'This field is required';
+      newErrors.email = t('validation.required');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = 'Invalid email address';
+      newErrors.email = t('validation.invalidEmail');
     }
     if (!password) {
-      newErrors.password = 'This field is required';
+      newErrors.password = t('validation.required');
     } else if (password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = t('validation.passwordMin');
     }
     if (!confirmPassword) {
-      newErrors.confirmPassword = 'This field is required';
+      newErrors.confirmPassword = t('validation.required');
     } else if (password !== confirmPassword) {
-      newErrors.confirmPassword = "Passwords don't match";
+      newErrors.confirmPassword = t('validation.passwordsMismatch');
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Header from '../components/layout/Header';
@@ -11,6 +12,7 @@ import destinationsData from '../data/destinations.json';
 const categories = ['all', 'best-seller', 'nature', 'city', 'seasonal'];
 
 export default function Destinations() {
+  const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState('all');
   const [search, setSearch] = useState('');
 
@@ -44,9 +46,9 @@ export default function Destinations() {
         >
           <div className="absolute inset-0 bg-black/30" />
           <div className="relative z-10 h-3/4 flex flex-col items-center justify-center">
-            <p className="text-white text-xl">Home | Destinations</p>
+            <p className="text-white text-xl">{t('destinations.breadcrumb')}</p>
             <h1 className="text-white text-7xl md:text-9xl font-extrabold tracking-wider mt-4">
-              DESTINATIONS
+              {t('destinations.title')}
             </h1>
           </div>
         </section>
@@ -54,13 +56,13 @@ export default function Destinations() {
         {/* Filter & Search */}
         <div className="w-full px-6 md:px-16 mt-16">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <h2 className="text-3xl md:text-4xl font-bold">Popular Destinations</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">{t('destinations.popular')}</h2>
             <div className="relative">
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search..."
+                placeholder={t('form.search')}
                 className="border-b border-gray-400 bg-transparent py-2 pr-8 pl-2 outline-none text-gray-700"
                 aria-label="Search destinations"
               />
@@ -89,7 +91,7 @@ export default function Destinations() {
           </div>
           {filtered.length === 0 && (
             <p className="text-center text-gray-500 mt-10 text-lg">
-              No destinations found matching your criteria.
+              {t('destinations.noResults')}
             </p>
           )}
         </div>

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import type { BookingData, AvailableTour } from '../types/booking';
 import type { Destination } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -15,6 +16,7 @@ import BookingConfirmation from '../components/booking/BookingConfirmation';
 export default function Booking() {
     const { user } = useAuth();
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const [currentStep, setCurrentStep] = useState(1);
     const [bookingData, setBookingData] = useState<BookingData>({
         duration: 7,
@@ -37,14 +39,14 @@ export default function Booking() {
     }
 
     const steps = [
-        { number: 1, title: 'Destinatie' },
-        { number: 2, title: 'Durata' },
-        { number: 3, title: 'Date' },
-        { number: 4, title: 'Detalii Tur' },
-        { number: 5, title: 'Preferinte' },
-        { number: 6, title: 'Documente' },
-        { number: 7, title: 'Plata' },
-        { number: 8, title: 'Confirmare' }
+        { number: 1, title: t('booking.steps.destination') },
+        { number: 2, title: t('booking.steps.duration') },
+        { number: 3, title: t('booking.steps.dates') },
+        { number: 4, title: t('booking.steps.tourDetails') },
+        { number: 5, title: t('booking.steps.preferences') },
+        { number: 6, title: t('booking.steps.documents') },
+        { number: 7, title: t('booking.steps.payment') },
+        { number: 8, title: t('booking.steps.confirmation') }
     ];
 
     const renderStep = () => {
