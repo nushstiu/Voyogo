@@ -1,0 +1,580 @@
+{
+  "app": {
+    "name": "Voyogo",
+    "tagline": "Aventuri de neuitat te asteapta"
+  },
+
+  "nav": {
+    "destinations": "Destinatii",
+    "tours": "Tururi",
+    "book": "Rezerva",
+    "dashboard": "Panou",
+    "myBookings": "Rezervarile mele",
+    "profile": "Profil",
+    "users": "Utilizatori",
+    "bookings": "Rezervari",
+    "analytics": "Analitice",
+    "login": "Autentificare",
+    "logout": "Deconectare"
+  },
+
+  "auth": {
+    "loginTitle": "Bine ai revenit",
+    "loginSubtitle": "Conecteaza-te pentru a continua calatoria",
+    "registerTitle": "Creeaza cont",
+    "registerSubtitle": "Incepe aventura cu noi",
+    "loginButton": "Conecteaza-te",
+    "loginLoading": "Se conecteaza...",
+    "registerButton": "Creeaza cont",
+    "registerLoading": "Se creeaza contul...",
+    "demoAccounts": "Conturi demo",
+    "userLogin": "Login utilizator",
+    "adminLogin": "Login admin",
+    "noAccount": "Nu ai cont?",
+    "signUp": "Inregistreaza-te",
+    "hasAccount": "Ai deja cont?",
+    "signIn": "Conecteaza-te",
+    "googleLogin": "Continua cu Google",
+    "facebookLogin": "Continua cu Facebook",
+    "orDivider": "Sau continua cu email"
+  },
+
+  "form": {
+    "username": "Nume utilizator",
+    "email": "Email",
+    "password": "Parola",
+    "confirmPassword": "Confirma parola",
+    "phone": "Telefon",
+    "country": "Tara",
+    "firstName": "Prenume",
+    "lastName": "Nume",
+    "dateOfBirth": "Data nasterii",
+    "preferredLanguage": "Limba preferata",
+    "address": "Adresa",
+    "emergencyContact": "Contact de urgenta",
+    "contactName": "Nume contact",
+    "contactPhone": "Telefon contact",
+    "search": "Cauta..."
+  },
+
+  "validation": {
+    "required": "Acest camp este obligatoriu",
+    "invalidEmail": "Adresa de email invalida",
+    "passwordMin": "Parola trebuie sa aiba cel putin 6 caractere",
+    "passwordsMismatch": "Parolele nu coincid",
+    "usernameMin": "Numele de utilizator trebuie sa aiba cel putin 5 caractere",
+    "usernameMax": "Numele de utilizator trebuie sa aiba maxim 15 caractere",
+    "usernameFormat": "Numele de utilizator poate contine doar litere, cifre si underscore",
+    "phoneFormat": "Telefonul trebuie sa inceapa cu + si sa contina doar cifre si spatii",
+    "countryFormat": "Tara trebuie sa contina doar litere, spatii si cratime"
+  },
+
+  "userDashboard": {
+    "welcome": "Bine ai revenit, {{name}}!",
+    "subtitle": "Gestioneaza rezervarile si profilul tau",
+    "totalBookings": "Total rezervari",
+    "upcomingTrips": "Calatorii viitoare",
+    "completedTrips": "Calatorii finalizate",
+    "recentBookings": "Rezervari recente",
+    "noBookings": "Nicio rezervare inca",
+    "customTrip": "Calatorie personalizata",
+    "unknownTour": "Tur necunoscut"
+  },
+
+  "adminDashboard": {
+    "welcome": "Panou administrare",
+    "totalUsers": "Total utilizatori",
+    "totalRevenue": "Venituri totale",
+    "activeTours": "Tururi active",
+    "subtitle": "Prezentare generala a platformei de calatorie",
+    "administrator": "Administrator",
+    "topDestinations": "Destinatii de top",
+    "total": "total",
+    "viewReports": "Vezi rapoarte",
+    "bookingCount": "rezervare",
+    "bookingsCount": "rezervari"
+  },
+
+  "status": {
+    "pending": "In asteptare",
+    "confirmed": "Confirmat",
+    "cancelled": "Anulat",
+    "active": "Activ",
+    "inactive": "Inactiv"
+  },
+
+  "actions": {
+    "edit": "Editeaza",
+    "delete": "Sterge",
+    "cancel": "Anuleaza",
+    "view": "Vezi detalii",
+    "save": "Salveaza modificarile",
+    "create": "Creeaza",
+    "update": "Actualizeaza",
+    "back": "Inapoi",
+    "continue": "Continua",
+    "addUser": "Adauga utilizator",
+    "addDestination": "Adauga destinatie",
+    "addTour": "Adauga tur",
+    "createBooking": "Creeaza rezervare",
+    "exportCsv": "Exporta CSV",
+    "bulkConfirm": "Confirma selectate",
+    "bulkCancel": "Anuleaza selectate",
+    "viewAll": "Vezi toate"
+  },
+
+  "filters": {
+    "all": "Toate",
+    "filterByRole": "Filtreaza dupa rol",
+    "filterByStatus": "Filtreaza dupa status",
+    "filterByDestination": "Filtreaza dupa destinatie",
+    "sortBy": "Sorteaza dupa"
+  },
+
+  "modals": {
+    "editUser": "Editeaza utilizator",
+    "viewUser": "Detalii utilizator",
+    "editBooking": "Editeaza rezervare",
+    "viewBooking": "Detalii rezervare"
+  },
+
+  "confirm": {
+    "delete": "Esti sigur ca vrei sa stergi?",
+    "cancelBooking": "Esti sigur ca vrei sa anulezi aceasta rezervare?",
+    "deleteUser": "Stergi acest utilizator? Aceasta actiune nu poate fi anulata.",
+    "deleteDestination": "Stergi aceasta destinatie? Aceasta va afecta {{count}} tururi.",
+    "deleteTour": "Stergi acest tur? {{count}} rezervari refera acest tur."
+  },
+
+  "success": {
+    "login": "Autentificare reusita!",
+    "register": "Inregistrare reusita!",
+    "logout": "Deconectare reusita",
+    "profileUpdate": "Profil actualizat cu succes",
+    "bookingCreated": "Rezervare creata cu succes",
+    "bookingCancelled": "Rezervare anulata cu succes",
+    "bookingUpdated": "Rezervare actualizata cu succes",
+    "statusChanged": "Status actualizat cu succes",
+    "userCreated": "Utilizator creat cu succes",
+    "userUpdated": "Utilizator actualizat cu succes",
+    "userDeleted": "Utilizator sters cu succes",
+    "destinationCreated": "Destinatie creata cu succes",
+    "destinationUpdated": "Destinatie actualizata cu succes",
+    "destinationDeleted": "Destinatie stearsa cu succes",
+    "tourCreated": "Tur creat cu succes",
+    "tourUpdated": "Tur actualizat cu succes",
+    "tourDeleted": "Tur sters cu succes"
+  },
+
+  "error": {
+    "login": "Autentificare esuata. Verifica datele de conectare.",
+    "register": "Inregistrare esuata. Te rugam sa incerci din nou.",
+    "generic": "Ceva nu a functionat corect. Te rugam sa incerci din nou."
+  },
+
+  "loading": {
+    "default": "Se incarca...",
+    "login": "Se conecteaza...",
+    "register": "Se creeaza contul..."
+  },
+
+  "empty": {
+    "noResults": "Niciun rezultat gasit",
+    "noUsers": "Niciun utilizator gasit",
+    "noDestinations": "Nicio destinatie gasita",
+    "noTours": "Niciun tur gasit",
+    "noBookings": "Nicio rezervare inca",
+    "bookTrip": "Rezerva o calatorie pentru a o vedea aici!"
+  },
+
+  "roles": {
+    "admin": "Admin",
+    "user": "Utilizator"
+  },
+
+  "table": {
+    "user": "Utilizator",
+    "phone": "Telefon",
+    "country": "Tara",
+    "role": "Rol",
+    "joined": "Inregistrat",
+    "actions": "Actiuni",
+    "destination": "Destinatie",
+    "packages": "Pachete",
+    "priceRange": "Interval pret",
+    "tours": "Tururi",
+    "tour": "Tur",
+    "price": "Pret",
+    "days": "Zile",
+    "bookings": "Rezervari",
+    "status": "Status",
+    "guest": "Client",
+    "date": "Data",
+    "duration": "Durata",
+    "contact": "Contact",
+    "bookedOn": "Rezervat la",
+    "toursLinked": "tururi asociate"
+  },
+
+  "analytics": {
+    "title": "Analitice",
+    "bookingTrends": "Tendinte rezervari",
+    "popularDestinations": "Destinatii populare",
+    "revenueByDestination": "Venituri pe destinatie",
+    "statusDistribution": "Distributia statusurilor rezervarilor"
+  },
+
+  "bookingEdit": {
+    "bookingDate": "Data rezervarii",
+    "duration": "Durata"
+  },
+
+  "dateFilter": {
+    "from": "De la:",
+    "to": "Pana la:",
+    "selected": "selectate"
+  },
+
+  "pagination": {
+    "showing": "Se afiseaza",
+    "of": "din",
+    "results": "rezultate",
+    "perPage": "pe pagina"
+  },
+
+  "hero": {
+    "tagline": "Aventuri de neuitat te asteapta",
+    "title": "AVENTURA"
+  },
+
+  "home": {
+    "popularDestinations": "Destinatii populare",
+    "destinationsBackground": "Destinatii",
+    "packages": "pachete",
+    "showLess": "Arata mai putin",
+    "loadMore": "Incarca mai multe destinatii",
+    "escapeToParadise": "Evadeaza in paradis",
+    "escapeSubtitle": "Rezerva acum si economiseste 20% la calatoria ta magica",
+    "bookNow": "Rezerva acum",
+    "adventureAwaits": "Aventura te asteapta",
+    "adventureSubtitle": "Rezerva un tur azi si primesti o excursie GRATUITA!",
+    "startAdventure": "Incepe aventura",
+    "newsletterSubtitle": "Inscrie-te la newsletter si primeste oferte exclusive, sfaturi si inspiratie pentru calatorii direct in inbox.",
+    "emailPlaceholder": "Introdu adresa ta de email",
+    "subscribe": "Aboneaza-te",
+    "thankYou": "Multumim pentru abonare!"
+  },
+
+  "search": {
+    "destination": "Destinatie",
+    "checkIn": "Data check-in",
+    "checkOut": "Data check-out",
+    "priceRange": "Interval de pret",
+    "search": "Cauta"
+  },
+
+  "faq": {
+    "label": "Blog",
+    "title": "Intrebari frecvente",
+    "subtitle": "Ce intreaba de obicei clientii nostri despre serviciile si tururile noastre",
+    "q1": "Ce tipuri de pachete de calatorie ofera Voyago?",
+    "a1": "Voyago ofera o gama larga de pachete de calatorie, inclusiv tururi de aventura, retreat-uri de lux, explorari urbane, expeditii in natura si escapade sezoniere. Fiecare pachet este atent creat pentru a oferi cea mai buna experienta calatorilor nostri.",
+    "q2": "Cum rezerv o calatorie cu Voyago?",
+    "a2": "Rezervarea cu Voyago este simpla! Rasfoia destinatiile si tururile noastre, selecteaza pachetul preferat, completeaza datele personale in formularul de rezervare, alege datele si durata calatoriei si confirma rezervarea. De asemenea, poti contacta echipa noastra de suport pentru asistenta personalizata.",
+    "q3": "Care este procesul de plata la Voyago?",
+    "a3": "Acceptam carduri de credit majore, transferuri bancare si metode de plata digitale. Un avans de 30% este necesar pentru a confirma rezervarea, restul sumei fiind scadent cu 30 de zile inainte de calatorie. Rambursarile complete sunt disponibile pentru anularile facute cu peste 60 de zile inainte.",
+    "q4": "Cum anulez rezervarea la Voyago?",
+    "a4": "Poti anula rezervarea prin panoul contului tau sau contactand serviciul de relatii cu clientii. Politicile de anulare variaza in functie de pachet: anulare gratuita cu pana la 60 de zile inainte de plecare, rambursare 50% pentru 30-60 de zile si fara rambursare in ultimele 30 de zile."
+  },
+
+  "footer": {
+    "description": "Descopera lumea cu Voyago. Cream experienta de calatorie de neuitat, personalizate special pentru tine.",
+    "quickLinks": "Linkuri rapide",
+    "followUs": "Urmareste-ne",
+    "copyright": "\u00a9 2025 Voyago. Toate drepturile rezervate.",
+    "privacy": "Politica de confidentialitate",
+    "terms": "Termeni si conditii"
+  },
+
+  "destinations": {
+    "breadcrumb": "Acasa | Destinatii",
+    "title": "DESTINATII",
+    "popular": "Destinatii populare",
+    "noResults": "Nicio destinatie gasita conform criteriilor tale."
+  },
+
+  "tours": {
+    "breadcrumb": "Acasa | Tururi",
+    "title": "PACHETE TURURI",
+    "popular": "Pachetele noastre de tururi",
+    "noResults": "Niciun tur gasit conform criteriilor tale."
+  },
+
+  "tourDetails": {
+    "loading": "Se incarca detaliile turului...",
+    "notFound": "Tur negasit",
+    "backToTours": "Inapoi la tururi",
+    "aboutTour": "Despre acest tur",
+    "aboutDest": "Despre {{name}}",
+    "highlights": "Puncte de atractie",
+    "professionalGuide": "Ghid profesionist",
+    "hotelAccommodation": "Cazare la hotel",
+    "airportTransfers": "Transfer aeroport",
+    "breakfastIncluded": "Mic dejun inclus",
+    "perPerson": "pe persoana",
+    "duration": "Durata",
+    "days": "{{count}} zile",
+    "location": "Locatie",
+    "statusLabel": "Status",
+    "priceRangeLabel": "Interval de pret",
+    "bookNow": "Rezerva acum",
+    "freeCancellation": "Anulare gratuita cu pana la 30 de zile inainte de plecare"
+  },
+
+  "booking": {
+    "bookingFor": "Rezervare pentru:",
+    "steps": {
+      "destination": "Destinatie",
+      "duration": "Durata",
+      "dates": "Date",
+      "tourDetails": "Detalii Tur",
+      "preferences": "Preferinte",
+      "documents": "Documente",
+      "payment": "Plata",
+      "confirmation": "Confirmare"
+    },
+    "chooseDestination": "Alege destinatia",
+    "chooseDestinationSub": "Selecteaza destinatia dorita si numarul de calatori",
+    "contactInfo": "Datele tale de contact",
+    "name": "Nume:",
+    "email": "Email:",
+    "phone": "Telefon:",
+    "notFilled": "Necompletat",
+    "travelerCount": "Numar calatori",
+    "adults": "Adulti",
+    "children": "Copii (2-12 ani)",
+    "selected": "Selectat",
+    "continueWith": "Continua cu {{name}}",
+    "selectDestination": "Selecteaza o destinatie",
+    "back": "Inapoi",
+    "continueBtn": "Continua",
+    "availableTours": "Tururi disponibile in {{name}}",
+    "chooseDuration": "Alege durata care se potriveste cel mai bine nevoilor tale",
+    "daysLabel": "{{count}} zile",
+    "pricePerPerson": "Pret pe persoana:",
+    "selectionSummary": "Rezumatul selectiei:",
+    "destinationLabel": "Destinatie:",
+    "durationLabel": "Durata:",
+    "adultsLabel": "Adulti:",
+    "childrenLabel": "Copii:",
+    "selectDate": "Selecteaza data de plecare",
+    "toursAvailableFor": "Tururi disponibile catre {{name}}",
+    "chooseStartDate": "Alege o data de start",
+    "toursForDate": "Tururi disponibile pentru {{date}}",
+    "start": "Start:",
+    "end": "End:",
+    "availableSpots": "Locuri disponibile:",
+    "totalPrice": "Pret total:",
+    "selectTour": "Selecteaza tur",
+    "tourDetailsTitle": "Detalii Tur",
+    "startDate": "Data de start",
+    "endDate": "Data de final",
+    "spots": "{{count}} locuri",
+    "aboutDestination": "Despre {{name}}",
+    "tourDescription": "Descriere tur",
+    "includes": "Ce include",
+    "excludes": "Ce nu include",
+    "pointsOfInterest": "Puncte de interes",
+    "fullItinerary": "Itinerariu complet",
+    "dayLabel": "Ziua {{day}}: {{title}}",
+    "accommodation": "Cazare: {{value}} | Mese: {{meals}}",
+    "priceSummary": "Rezumatul pretului:",
+    "adultsPrice": "Adulti ({{count}}) x ${{price}}",
+    "childrenPrice": "Copii ({{count}}) x ${{price}} (30% reducere)",
+    "totalPriceLabel": "Pret total:",
+    "continueToPreferences": "Continua catre Preferinte",
+    "selectTourFirst": "Selecteaza un tur mai intai pentru a vedea detaliile",
+    "travelPreferences": "Preferinte calatorie",
+    "accommodationType": "Tip cazare",
+    "budget": "Budget",
+    "standard": "Standard",
+    "luxury": "Luxury",
+    "hotel3": "Hotel 3*",
+    "hotel4": "Hotel 4*",
+    "hotel5": "Hotel 5*",
+    "mealPlan": "Plan masa",
+    "breakfastOnly": "Doar micul dejun",
+    "halfBoard": "Demipensiune (mic dejun + cina)",
+    "fullBoard": "Pensiune completa (mic dejun + pranz + cina)",
+    "allInclusive": "All Inclusive",
+    "roomType": "Tip camera",
+    "single": "Single (1 persoana, pat single)",
+    "double": "Double (2 persoane, pat dublu)",
+    "twin": "Twin (2 persoane, 2 paturi separate)",
+    "family": "Family (3-4 persoane)",
+    "dietaryRestrictions": "Restrictii dietetice",
+    "vegetarian": "Vegetarian",
+    "vegan": "Vegan",
+    "glutenFree": "Fara gluten",
+    "dairyFree": "Fara lactate",
+    "halal": "Halal",
+    "kosher": "Kosher",
+    "specialRequests": "Cerinte speciale",
+    "highFloor": "Camera la etaj inalt",
+    "roomWithView": "Camera cu vedere",
+    "extraBed": "Pat suplimentar pentru copil",
+    "adjacentRoom": "Camera alaturata",
+    "earlyCheckIn": "Check-in devreme",
+    "lateCheckOut": "Check-out tarziu",
+    "medicalConditions": "Conditii medicale (optional)",
+    "medicalPlaceholder": "Va rugam sa mentionati orice conditii medicale relevante",
+    "travelInsurance": "Asigurare de calatorie (+29 $/persoana)",
+    "insuranceCovers": "Acopera: Cheltuieli medicale, Anulare calatorie, Bagaje pierdute, Repatriere",
+    "continueToDocuments": "Continua catre documente necesare",
+    "documentsTitle": "Documente necesare & Informatii importante",
+    "documentsSubtitle": "Informatii specifice pentru calatoria in {{name}}",
+    "requiredDocuments": "Documente necesare",
+    "passport": "Pasaport",
+    "passportDetails": ["Valabil minimum 6 luni de la data intoarcerii", "Minim 2 pagini libere pentru vize/stampile", "In stare buna (fara pagini rupte sau deteriorate)"],
+    "touristVisa": "Viza turistica - {{name}}",
+    "visaDetails": ["Necesara pentru calatoria in {{name}}", "Se poate obtine prin agentie (cost suplimentar $50)", "Procesare in 5-10 zile lucratoare", "Documentele necesare: pasaport, foto, formular completat"],
+    "vaccinationCert": "Certificat de vaccinare",
+    "vaccinationDetails": ["Vaccinare COVID-19 (recomandat)", "Alte vaccinari recomandate pentru {{name}}", "Certificatul trebuie sa fie in limba engleza"],
+    "medicalInsurance": "Asigurare medicala",
+    "insuranceDetails": ["Inclusa in pachetul turistic", "Acoperire minimum $30,000", "Valabila in {{name}}"],
+    "required": "Obligatoriu",
+    "optional": "Optional",
+    "agencyProvides": "Ce va oferim noi (agentia)",
+    "agencyItems": [
+      "Transfer aeroport - hotel - aeroport",
+      "Cazare conform pachetului selectat",
+      "Masa conform planului ales",
+      "Ghid turistic",
+      "Asistenta 24/7 pe toata durata sejurului",
+      "Rezolvare situatii neprevazute",
+      "Procesare reclamatii in max 48h"
+    ],
+    "clientExpected": "Ce asteptam de la dumneavoastra",
+    "clientItems": [
+      "Documente de identitate valabile",
+      "Respectarea programului stabilit",
+      "Plata la timp a serviciilor suplimentare",
+      "Respect fata de cultura locala",
+      "Grija fata de bunurile hotelului",
+      "Comunicarea oricaror probleme de sanatate"
+    ],
+    "importantInfo": "Informatii importante",
+    "infoItems": [
+      "Check-in hotel: dupa ora 14:00 | Check-out: pana la ora 12:00",
+      "Prezentati-va la aeroport cu 3 ore inainte de decolare",
+      "Bagaj de cala inclus: 20kg | Bagaj de mana: 8kg",
+      "Anulare gratuita pana cu 30 zile inainte de plecare",
+      "Pentru anulari sub 30 zile se percep penalitati conform contractului"
+    ],
+    "understoodContinue": "Am inteles, continua catre plata",
+    "finalizePayment": "Finalizare plata",
+    "orderSummary": "Sumar Comanda",
+    "tourLabel": "Tur:",
+    "periodLabel": "Perioada:",
+    "childrenDiscount": "Copii (reducere 30%):",
+    "preferencesLabel": "Preferinte:",
+    "accommodationLabel": "Cazare:",
+    "mealPlanLabel": "Plan masa:",
+    "roomLabel": "Camera:",
+    "total": "Total:",
+    "paymentMethod": "Metoda de plata",
+    "fullCardPayment": "Plata integrala cu cardul - ${{amount}}",
+    "installments": "Plata in rate: Avans 30% (${{deposit}}) + Rest la sosire (${{remaining}})",
+    "bankTransfer": "Transfer bancar (procesare in 1-2 zile lucratoare)",
+    "cardDetails": "Detalii card",
+    "cardNumber": "Numar card",
+    "cardHolder": "Nume titular",
+    "expiryDate": "Data expirare",
+    "cvv": "CVV",
+    "bankInstructions": "Instructiuni transfer bancar",
+    "bankInstructionsText": "Va rugam sa efectuati transferul la urmatoarele coordonate:",
+    "beneficiary": "Beneficiar: VOYAGO TRAVEL SRL",
+    "bank": "Banca: BCR",
+    "amount": "Suma: ${{amount}}",
+    "reference": "Referinta: {{ref}}",
+    "termsAccept": "Accept",
+    "termsLink": "termenii si conditiile",
+    "and": "si",
+    "privacyLink": "politica de confidentialitate",
+    "confirmAndPay": "Confirma si plateste ${{amount}}",
+    "verifyingCard": "Se verifica datele cardului...",
+    "processingPayment": "Se proceseaza plata...",
+    "generatingRef": "Se genereaza referinta...",
+    "paymentSecure": "Plata este securizata prin SSL. Datele dvs. sunt protejate.",
+    "noTourSelected": "Nu a fost selectat niciun tur.",
+    "bookingConfirmed": "Rezervare confirmata!",
+    "paymentProcessed": "Plata a fost procesata cu succes",
+    "bookingDetails": "Detalii rezervare",
+    "bookingRef": "Cod rezervare:",
+    "travelerData": "Datele calatorului",
+    "selectedPreferences": "Preferintele selectate",
+    "downloadVoucher": "Descarca voucher",
+    "addToCalendar": "Adauga in calendar",
+    "sendByEmail": "Trimite pe email",
+    "nextSteps": "Pasii urmatori",
+    "step1": "Veti primi un email de confirmare cu toate detaliile rezervarii in max 5 minute",
+    "step2": "Va vom contacta telefonic in urmatoarele 24h pentru confirmarea finala",
+    "step3": "Cu 7 zile inainte de plecare veti primi voucherul final si instructiuni detaliate",
+    "step4": "Cu 48h inainte va vom trimite reminder si detalii despre transfer",
+    "emergencyContact": "Contact pentru urgente (24/7)",
+    "emergencyPhone": "Telefon: +40 21 XXX XXXX | Email: urgente@voyago.com",
+    "backToHome": "Inapoi la pagina principala",
+    "downloadingVoucher": "Se descarca voucherul...",
+    "calendarAdded": "Eveniment adaugat in calendar!",
+    "travelers": "Calatori:",
+    "adultsAndChildren": "{{adults}} adulti, {{children}} copii",
+    "totalPaid": "Total platit:"
+  },
+
+  "profile": {
+    "title": "Profilul meu"
+  },
+
+  "userBookings": {
+    "title": "Rezervarile mele"
+  },
+
+  "bookingNotes": {
+    "label": "Cerinte speciale / Note",
+    "placeholder": "Cerinte dietetice, nevoi de accesibilitate, etc."
+  },
+
+  "itinerary": {
+    "arrivalDay": "Ziua de sosire",
+    "departureDay": "Ziua de plecare",
+    "dayTitle": "Ziua {{day}} - {{name}}",
+    "arrivalDesc": "Sosire in {{location}}. Transfer de la aeroport la hotel, cazare si timp liber.",
+    "departureDesc": "Check-out din hotel, ultimele cumparaturi, transfer catre aeroport.",
+    "exploreDesc": "Explorare {{location}}. {{description}}",
+    "breakfast": "Micul dejun",
+    "hotel4Star": "Hotel 4* in {{location}}",
+    "na": "N/A",
+    "guidedTour": "Tur ghidat",
+    "visitAttractions": "Vizita obiective in {{location}}",
+    "freeTime": "Timp liber",
+    "airportTransfer": "Transfer aeroport",
+    "hotelCheckIn": "Check-in hotel",
+    "checkOut": "Check-out"
+  },
+
+  "includes": {
+    "roundTripFlight": "Zbor dus-intors",
+    "hotel4Star": "Cazare hotel 4* in {{location}}",
+    "breakfastIncluded": "Micul dejun inclus",
+    "airportTransfer": "Transfer aeroport-hotel",
+    "touristGuide": "Ghid turistic",
+    "travelInsurance": "Asigurare medicala de calatorie"
+  },
+
+  "excludes": {
+    "museumFees": "Taxe de intrare la muzee/obiective",
+    "lunchDinner": "Pranz si cina",
+    "personalExpenses": "Cheltuieli personale",
+    "tips": "Bacsisuri"
+  }
+}
