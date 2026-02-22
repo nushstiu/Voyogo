@@ -1,4 +1,4 @@
-import { UI_TEXT } from '../../constants/text';
+import { useTranslation } from 'react-i18next';
 
 interface StatusBadgeProps {
   status: string;
@@ -15,24 +15,28 @@ const STYLES: Record<string, string> = {
   user: 'bg-cyan-100 text-cyan-700',
 };
 
-const LABELS: Record<string, string> = {
-  confirmed: UI_TEXT.STATUS_CONFIRMED,
-  pending: UI_TEXT.STATUS_PENDING,
-  cancelled: UI_TEXT.STATUS_CANCELLED,
-  active: 'Active',
-  inactive: 'Inactive',
-  admin: 'Admin',
-  user: 'User',
+const LABEL_KEYS: Record<string, string> = {
+  confirmed: 'status.confirmed',
+  pending: 'status.pending',
+  cancelled: 'status.cancelled',
+  active: 'status.active',
+  inactive: 'status.inactive',
+  admin: 'roles.admin',
+  user: 'roles.user',
 };
 
 export default function StatusBadge({ status, className = '' }: StatusBadgeProps) {
+  const { t } = useTranslation();
+
+  const label = LABEL_KEYS[status] ? t(LABEL_KEYS[status]) : status;
+
   return (
     <span
       className={`inline-flex px-2.5 py-1 rounded-full text-xs font-semibold ${
         STYLES[status] || 'bg-gray-100 text-gray-600'
       } ${className}`}
     >
-      {LABELS[status] || status}
+      {label}
     </span>
   );
 }
