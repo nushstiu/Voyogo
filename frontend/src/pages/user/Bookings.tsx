@@ -7,8 +7,9 @@ import {
   faMapMarkerAlt,
   faClock,
 } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
-import { UI_TEXT, API_ENDPOINTS } from '../../constants';
+import { API_ENDPOINTS } from '../../constants';
 import { useDebounce } from '../../hooks/useDebounce';
 import { useFilters } from '../../hooks/useFilters';
 import { usePagination } from '../../hooks/usePagination';
@@ -27,14 +28,15 @@ import toast from 'react-hot-toast';
 import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
 
-const STATUS_OPTIONS = [
-  { label: 'Pending', value: 'pending' },
-  { label: 'Confirmed', value: 'confirmed' },
-  { label: 'Cancelled', value: 'cancelled' },
-];
-
 export default function UserBookings() {
   const { user } = useAuth();
+  const { t } = useTranslation();
+
+  const STATUS_OPTIONS = [
+    { label: t('status.pending'), value: 'pending' },
+    { label: t('status.confirmed'), value: 'confirmed' },
+    { label: t('status.cancelled'), value: 'cancelled' },
+  ];
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const { filters, setFilter } = useFilters({ keys: ['search', 'status'] });
@@ -66,7 +68,7 @@ export default function UserBookings() {
 
   const handleCancel = async (booking: Booking) => {
     await fetch(API_ENDPOINTS.BOOKING_CANCEL(booking.id), { method: 'PATCH' });
-    toast.success(UI_TEXT.SUCCESS_BOOKING_CANCELLED);
+    toast.success(t('success.bookingCancelled'));
     fetchBookings();
   };
 
@@ -77,7 +79,7 @@ export default function UserBookings() {
         <div className="w-full px-6 md:px-16 py-12">
           <Breadcrumb />
 
-          <h1 className="text-3xl font-bold text-gray-800 mb-6">{UI_TEXT.USER_MY_BOOKINGS}</h1>
+          <h1 className="text-3xl font-bold text-gray-800 mb-6">{t('userBookings.title')}</h1>
 
           <div className="flex flex-col sm:flex-row gap-3 mb-6">
             <SearchInput
@@ -89,7 +91,7 @@ export default function UserBookings() {
               value={filters.status || 'all'}
               onChange={(v) => setFilter('status', v)}
               options={STATUS_OPTIONS}
-              allLabel={UI_TEXT.FILTER_STATUS}
+              allLabel={t('filters.filterByStatus')}
             />
           </div>
 
@@ -98,7 +100,7 @@ export default function UserBookings() {
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-400" />
             </div>
           ) : paginated.length === 0 ? (
-            <EmptyState title={UI_TEXT.NO_BOOKINGS} description="Book a trip to see it here!" />
+            <EmptyState title={t('empty.noBookings')} description={t('empty.bookTrip')} />
           ) : (
             <div className="space-y-4">
               {paginated.map((b) => (
@@ -110,7 +112,7 @@ export default function UserBookings() {
                       </div>
                       <div>
                         <p className="font-bold text-gray-800">{b.destination}</p>
-                        <p className="text-sm text-gray-500">{b.tour_name || 'Custom Trip'}</p>
+                        <p className="text-sm text-gray-500">{b.tour_name || t('userDashboard.customTrip')}</p>
                       </div>
                     </div>
 
@@ -127,7 +129,7 @@ export default function UserBookings() {
                       <button
                         onClick={() => viewModal.open(b)}
                         className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500"
-                        title={UI_TEXT.ACTION_VIEW}
+                        title={t('actions.view')}
                       >
                         <FontAwesomeIcon icon={faEye} className="text-sm" />
                       </button>
@@ -136,14 +138,14 @@ export default function UserBookings() {
                           <button
                             onClick={() => editModal.open(b)}
                             className="p-2 hover:bg-blue-50 rounded-lg transition-colors text-blue-500"
-                            title={UI_TEXT.ACTION_EDIT}
+                            title={t('actions.edit')}
                           >
                             <FontAwesomeIcon icon={faEdit} className="text-sm" />
                           </button>
                           <button
                             onClick={() => cancelConfirm.open(b)}
                             className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-500 hover:text-red-600"
-                            title={UI_TEXT.ACTION_CANCEL}
+                            title={t('actions.cancel')}
                           >
                             <FontAwesomeIcon icon={faBan} className="text-sm" />
                           </button>
@@ -182,8 +184,8 @@ export default function UserBookings() {
           isOpen={cancelConfirm.isOpen}
           onClose={cancelConfirm.close}
           onConfirm={() => cancelConfirm.data && handleCancel(cancelConfirm.data)}
-          title={UI_TEXT.ACTION_CANCEL}
-          message={UI_TEXT.CONFIRM_CANCEL_BOOKING}
+          title={t('actions.cancel')}
+          message={t('confirm.cancelBooking')}
           variant="warning"
         />
       </main>
