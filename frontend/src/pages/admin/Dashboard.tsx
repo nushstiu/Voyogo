@@ -14,8 +14,8 @@ import {
   faShieldAlt,
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
-import { UI_TEXT } from '../../constants/text';
 import { ROUTES } from '../../constants';
 import { userService } from '../../services/user.service';
 import { bookingService } from '../../services/booking.service';
@@ -29,6 +29,7 @@ import type { Booking } from '../../types';
 export default function AdminDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     totalUsers: 0,
@@ -99,7 +100,7 @@ export default function AdminDashboard() {
     {
       icon: faUsers,
       value: stats.totalUsers,
-      label: UI_TEXT.STAT_TOTAL_USERS,
+      label: t('adminDashboard.totalUsers'),
       bg: 'bg-cyan-100',
       color: 'text-cyan-400',
       to: ROUTES.ADMIN_USERS,
@@ -107,7 +108,7 @@ export default function AdminDashboard() {
     {
       icon: faCalendarCheck,
       value: stats.totalBookings,
-      label: UI_TEXT.STAT_TOTAL_BOOKINGS,
+      label: t('userDashboard.totalBookings'),
       bg: 'bg-blue-100',
       color: 'text-blue-500',
       to: ROUTES.ADMIN_BOOKINGS,
@@ -115,7 +116,7 @@ export default function AdminDashboard() {
     {
       icon: faDollarSign,
       value: `$${stats.totalRevenue.toLocaleString()}`,
-      label: UI_TEXT.STAT_TOTAL_REVENUE,
+      label: t('adminDashboard.totalRevenue'),
       bg: 'bg-green-100',
       color: 'text-green-500',
       to: ROUTES.ADMIN_ANALYTICS,
@@ -123,7 +124,7 @@ export default function AdminDashboard() {
     {
       icon: faRoute,
       value: stats.activeTours,
-      label: UI_TEXT.STAT_ACTIVE_TOURS,
+      label: t('adminDashboard.activeTours'),
       bg: 'bg-amber-100',
       color: 'text-amber-500',
       to: ROUTES.ADMIN_TOURS,
@@ -137,15 +138,15 @@ export default function AdminDashboard() {
         <div className="w-full px-6 md:px-16 py-12">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
             <div>
-              <h1 className="text-3xl font-bold text-gray-800">{UI_TEXT.ADMIN_WELCOME}</h1>
-              <p className="text-gray-500 mt-1">Overview of your travel platform</p>
+              <h1 className="text-3xl font-bold text-gray-800">{t('adminDashboard.welcome')}</h1>
+              <p className="text-gray-500 mt-1">{t('adminDashboard.subtitle')}</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl shadow-lg">
                 <FontAwesomeIcon icon={faShieldAlt} className="text-cyan-400 text-lg" />
                 <div className="text-sm">
                   <p className="font-semibold text-gray-800">{user?.username}</p>
-                  <p className="text-gray-400 text-xs">Administrator</p>
+                  <p className="text-gray-400 text-xs">{t('adminDashboard.administrator')}</p>
                 </div>
               </div>
               <button
@@ -153,7 +154,7 @@ export default function AdminDashboard() {
                 className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-500 hover:bg-red-100 rounded-lg transition-colors"
               >
                 <FontAwesomeIcon icon={faSignOutAlt} />
-                {UI_TEXT.LOGOUT_BUTTON}
+                {t('nav.logout')}
               </button>
             </div>
           </div>
@@ -185,12 +186,12 @@ export default function AdminDashboard() {
             {/* Recent Bookings */}
             <div className="lg:col-span-2 bg-white rounded-2xl shadow-lg overflow-hidden">
               <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
-                <h2 className="text-lg font-bold text-gray-800">{UI_TEXT.RECENT_BOOKINGS}</h2>
+                <h2 className="text-lg font-bold text-gray-800">{t('userDashboard.recentBookings')}</h2>
                 <Link
                   to={ROUTES.ADMIN_BOOKINGS}
                   className="text-sm text-blue-500 hover:underline font-medium"
                 >
-                  View all
+                  {t('actions.viewAll')}
                 </Link>
               </div>
 
@@ -230,12 +231,12 @@ export default function AdminDashboard() {
             {/* Popular Destinations */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
               <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
-                <h2 className="text-lg font-bold text-gray-800">Top Destinations</h2>
+                <h2 className="text-lg font-bold text-gray-800">{t('adminDashboard.topDestinations')}</h2>
                 <Link
                   to={ROUTES.ADMIN_DESTINATIONS}
                   className="text-sm text-blue-500 hover:underline font-medium"
                 >
-                  View all
+                  {t('actions.viewAll')}
                 </Link>
               </div>
 
@@ -249,7 +250,7 @@ export default function AdminDashboard() {
                       <span className="font-medium text-gray-800 text-sm">{name}</span>
                     </div>
                     <span className="text-gray-500 text-sm font-semibold">
-                      {count} booking{count !== 1 ? 's' : ''}
+                      {count} {count !== 1 ? t('adminDashboard.bookingsCount') : t('adminDashboard.bookingCount')}
                     </span>
                   </div>
                 ))}
@@ -264,8 +265,8 @@ export default function AdminDashboard() {
                 <FontAwesomeIcon icon={faUsers} className="text-cyan-400 text-sm" />
               </div>
               <div>
-                <p className="font-semibold text-gray-800 text-sm">Users</p>
-                <p className="text-xs text-gray-500">{counts.users} total</p>
+                <p className="font-semibold text-gray-800 text-sm">{t('nav.users')}</p>
+                <p className="text-xs text-gray-500">{counts.users} {t('adminDashboard.total')}</p>
               </div>
             </Link>
 
@@ -274,8 +275,8 @@ export default function AdminDashboard() {
                 <FontAwesomeIcon icon={faGlobe} className="text-blue-500 text-sm" />
               </div>
               <div>
-                <p className="font-semibold text-gray-800 text-sm">Destinations</p>
-                <p className="text-xs text-gray-500">{counts.destinations} total</p>
+                <p className="font-semibold text-gray-800 text-sm">{t('nav.destinations')}</p>
+                <p className="text-xs text-gray-500">{counts.destinations} {t('adminDashboard.total')}</p>
               </div>
             </Link>
 
@@ -284,8 +285,8 @@ export default function AdminDashboard() {
                 <FontAwesomeIcon icon={faRoute} className="text-amber-500 text-sm" />
               </div>
               <div>
-                <p className="font-semibold text-gray-800 text-sm">Tours</p>
-                <p className="text-xs text-gray-500">{counts.tours} total</p>
+                <p className="font-semibold text-gray-800 text-sm">{t('nav.tours')}</p>
+                <p className="text-xs text-gray-500">{counts.tours} {t('adminDashboard.total')}</p>
               </div>
             </Link>
 
@@ -294,8 +295,8 @@ export default function AdminDashboard() {
                 <FontAwesomeIcon icon={faChartBar} className="text-green-500 text-sm" />
               </div>
               <div>
-                <p className="font-semibold text-gray-800 text-sm">Analytics</p>
-                <p className="text-xs text-gray-500">View reports</p>
+                <p className="font-semibold text-gray-800 text-sm">{t('nav.analytics')}</p>
+                <p className="text-xs text-gray-500">{t('adminDashboard.viewReports')}</p>
               </div>
             </Link>
           </div>
