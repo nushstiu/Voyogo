@@ -10,9 +10,9 @@ import {
   faSignOutAlt,
   faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { ROUTES } from '../../constants';
-import { UI_TEXT } from '../../constants/text';
 import { bookingService } from '../../services/booking.service';
 import { tourService } from '../../services/tour.service';
 import type { Booking } from '../../types';
@@ -22,6 +22,7 @@ import Footer from '../../components/layout/Footer';
 export default function UserDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [allTours, setAllTours] = useState<{ id: string; name: string }[]>([]);
   const [loading, setLoading] = useState(true);
@@ -32,7 +33,7 @@ export default function UserDashboard() {
         bookingService.getAll(),
         tourService.getAll(),
       ]);
-      setAllTours(tours.map(t => ({ id: t.id, name: t.name })));
+      setAllTours(tours.map(tour => ({ id: tour.id, name: tour.name })));
       const userBookings = allBookings.filter((b) => b.user_id === user?.id);
       setBookings(userBookings.length > 0 ? userBookings : allBookings.slice(0, 3));
       setLoading(false);
@@ -54,8 +55,8 @@ export default function UserDashboard() {
   ).length;
 
   const getTourName = (tourId?: string) => {
-    if (!tourId) return 'Custom Trip';
-    return allTours.find((t) => t.id === tourId)?.name || 'Unknown Tour';
+    if (!tourId) return t('userDashboard.customTrip');
+    return allTours.find((tour) => tour.id === tourId)?.name || t('userDashboard.unknownTour');
   };
 
   const statusColor = (status: string) => {
@@ -68,12 +69,9 @@ export default function UserDashboard() {
   };
 
   const statusLabel = (status: string) => {
-    switch (status) {
-      case 'confirmed': return UI_TEXT.STATUS_CONFIRMED;
-      case 'pending':   return UI_TEXT.STATUS_PENDING;
-      case 'cancelled': return UI_TEXT.STATUS_CANCELLED;
-      default:          return status;
-    }
+    const key = `status.${status}`;
+    const translated = t(key);
+    return translated !== key ? translated : status;
   };
 
   if (loading) {
@@ -99,9 +97,9 @@ export default function UserDashboard() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4">
             <div>
               <h1 className="text-3xl font-bold text-gray-800">
-                {UI_TEXT.USER_WELCOME(user?.username || 'Traveler')}
+                {t('userDashboard.welcome', { name: user?.username || 'Traveler' })}
               </h1>
-              <p className="text-gray-500 mt-1">{UI_TEXT.USER_SUBTITLE}</p>
+              <p className="text-gray-500 mt-1">{t('userDashboard.subtitle')}</p>
             </div>
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-2xl shadow-lg">
@@ -116,7 +114,7 @@ export default function UserDashboard() {
                 className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
               >
                 <FontAwesomeIcon icon={faSignOutAlt} />
-                {UI_TEXT.LOGOUT_BUTTON}
+                {t('nav.logout')}
               </button>
             </div>
           </div>
@@ -129,7 +127,7 @@ export default function UserDashboard() {
               </div>
               <div>
                 <p className="text-2xl font-bold text-gray-800">{bookings.length}</p>
-                <p className="text-gray-500 text-sm">{UI_TEXT.STAT_TOTAL_BOOKINGS}</p>
+                <p className="text-gray-500 text-sm">{t('userDashboard.totalBookings')}</p>
               </div>
             </div>
 
@@ -139,7 +137,7 @@ export default function UserDashboard() {
               </div>
               <div>
                 <p className="text-2xl font-bold text-gray-800">{upcomingTrips}</p>
-                <p className="text-gray-500 text-sm">{UI_TEXT.STAT_UPCOMING_TRIPS}</p>
+                <p className="text-gray-500 text-sm">{t('userDashboard.upcomingTrips')}</p>
               </div>
             </div>
 
@@ -149,7 +147,7 @@ export default function UserDashboard() {
               </div>
               <div>
                 <p className="text-2xl font-bold text-gray-800">{completedTrips}</p>
-                <p className="text-gray-500 text-sm">{UI_TEXT.STAT_COMPLETED_TRIPS}</p>
+                <p className="text-gray-500 text-sm">{t('userDashboard.completedTrips')}</p>
               </div>
             </div>
           </div>
@@ -157,13 +155,13 @@ export default function UserDashboard() {
           {/* Recent Bookings */}
           <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
             <div className="px-6 py-5 border-b border-gray-100">
-              <h2 className="text-xl font-bold text-gray-800">{UI_TEXT.RECENT_BOOKINGS}</h2>
+              <h2 className="text-xl font-bold text-gray-800">{t('userDashboard.recentBookings')}</h2>
             </div>
 
             {bookings.length === 0 ? (
               <div className="p-12 text-center">
                 <FontAwesomeIcon icon={faCalendarCheck} className="text-gray-300 text-4xl mb-3" />
-                <p className="text-gray-500">{UI_TEXT.NO_BOOKINGS}</p>
+                <p className="text-gray-500">{t('empty.noBookings')}</p>
               </div>
             ) : (
               <div className="divide-y divide-gray-100">
