@@ -9,7 +9,8 @@ import {
   faCheckDouble,
   faBan,
 } from '@fortawesome/free-solid-svg-icons';
-import { UI_TEXT, API_ENDPOINTS } from '../../constants';
+import { useTranslation } from 'react-i18next';
+import { API_ENDPOINTS } from '../../constants';
 import { useDebounce } from '../../hooks/useDebounce';
 import { useFilters } from '../../hooks/useFilters';
 import { usePagination } from '../../hooks/usePagination';
@@ -26,13 +27,14 @@ import BookingDetailModal from '../../components/admin/modals/BookingDetailModal
 import type { Booking, Destination } from '../../types';
 import toast from 'react-hot-toast';
 
-const STATUS_OPTIONS = [
-  { label: 'Pending', value: 'pending' },
-  { label: 'Confirmed', value: 'confirmed' },
-  { label: 'Cancelled', value: 'cancelled' },
-];
-
 export default function AdminBookings() {
+  const { t } = useTranslation();
+
+  const STATUS_OPTIONS = [
+    { label: t('status.pending'), value: 'pending' },
+    { label: t('status.confirmed'), value: 'confirmed' },
+    { label: t('status.cancelled'), value: 'cancelled' },
+  ];
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [loading, setLoading] = useState(true);
@@ -98,18 +100,18 @@ export default function AdminBookings() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ids: Array.from(selectedIds), status }),
     });
-    toast.success(UI_TEXT.SUCCESS_STATUS_CHANGED);
+    toast.success(t('success.statusChanged'));
     fetchBookings();
   };
 
   const handleDelete = async (booking: Booking) => {
     await fetch(API_ENDPOINTS.BOOKING_BY_ID(booking.id), { method: 'DELETE' });
-    toast.success(UI_TEXT.SUCCESS_BOOKING_UPDATED);
+    toast.success(t('success.bookingUpdated'));
     fetchBookings();
   };
 
   const handleExportCSV = () => {
-    const headers = ['Name', 'Email', 'Destination', 'Tour', 'Date', 'Duration', 'Status'];
+    const headers = [t('form.firstName'), t('form.email'), t('table.destination'), t('table.tour'), t('table.date'), t('table.duration'), t('table.status')];
     const rows = bookings.map((b) => [
       `${b.name} ${b.surname}`,
       b.email,
@@ -134,21 +136,21 @@ export default function AdminBookings() {
       <Breadcrumb />
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
-        <h1 className="text-2xl font-bold text-text-primary">Bookings</h1>
+        <h1 className="text-2xl font-bold text-text-primary">{t('nav.bookings')}</h1>
         <div className="flex items-center gap-2">
           <button
             onClick={handleExportCSV}
             className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-text-secondary hover:bg-gray-100 rounded-lg transition-colors"
           >
             <FontAwesomeIcon icon={faFileExport} />
-            {UI_TEXT.ACTION_EXPORT_CSV}
+            {t('actions.exportCsv')}
           </button>
           <button
             onClick={() => createModal.open()}
             className="btn-primary flex items-center gap-2 px-4 py-2.5 text-sm"
           >
             <FontAwesomeIcon icon={faPlus} />
-            {UI_TEXT.ACTION_CREATE_BOOKING}
+            {t('actions.createBooking')}
           </button>
         </div>
       </div>
@@ -165,18 +167,18 @@ export default function AdminBookings() {
               value={filters.status || 'all'}
               onChange={(v) => setFilter('status', v)}
               options={STATUS_OPTIONS}
-              allLabel={UI_TEXT.FILTER_STATUS}
+              allLabel={t('filters.filterByStatus')}
             />
             <FilterDropdown
               value={filters.destination || 'all'}
               onChange={(v) => setFilter('destination', v)}
               options={destOptions}
-              allLabel={UI_TEXT.FILTER_DESTINATION}
+              allLabel={t('filters.filterByDestination')}
             />
           </div>
           <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
             <div className="flex items-center gap-2">
-              <label className="text-sm text-text-secondary">From:</label>
+              <label className="text-sm text-text-secondary">{t('dateFilter.from')}</label>
               <input
                 type="date"
                 value={filters.fromDate}
@@ -185,7 +187,7 @@ export default function AdminBookings() {
               />
             </div>
             <div className="flex items-center gap-2">
-              <label className="text-sm text-text-secondary">To:</label>
+              <label className="text-sm text-text-secondary">{t('dateFilter.to')}</label>
               <input
                 type="date"
                 value={filters.toDate}
@@ -199,7 +201,7 @@ export default function AdminBookings() {
         {selectedIds.size > 0 && (
           <div className="px-4 py-3 bg-primary-light flex items-center justify-between">
             <span className="text-sm text-primary font-medium">
-              {selectedIds.size} selected
+              {selectedIds.size} {t('dateFilter.selected')}
             </span>
             <div className="flex gap-2">
               <button
@@ -207,14 +209,14 @@ export default function AdminBookings() {
                 className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-accent text-white rounded-lg hover:bg-accent-hover transition-colors"
               >
                 <FontAwesomeIcon icon={faCheckDouble} />
-                {UI_TEXT.ACTION_BULK_CONFIRM}
+                {t('actions.bulkConfirm')}
               </button>
               <button
                 onClick={() => handleBulkUpdate('cancelled')}
                 className="flex items-center gap-1 px-3 py-1.5 text-xs font-medium bg-danger text-white rounded-lg hover:bg-danger-hover transition-colors"
               >
                 <FontAwesomeIcon icon={faBan} />
-                {UI_TEXT.ACTION_BULK_CANCEL}
+                {t('actions.bulkCancel')}
               </button>
             </div>
           </div>
@@ -225,7 +227,7 @@ export default function AdminBookings() {
             <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary" />
           </div>
         ) : paginated.length === 0 ? (
-          <EmptyState title={UI_TEXT.NO_BOOKINGS} />
+          <EmptyState title={t('empty.noBookings')} />
         ) : (
           <>
             <div className="overflow-x-auto">
@@ -240,13 +242,13 @@ export default function AdminBookings() {
                         className="rounded border-gray-300"
                       />
                     </th>
-                    <th className="px-6 py-3">Guest</th>
-                    <th className="px-6 py-3">Destination</th>
-                    <th className="px-6 py-3">Tour</th>
-                    <th className="px-6 py-3">Date</th>
-                    <th className="px-6 py-3">Duration</th>
-                    <th className="px-6 py-3">Status</th>
-                    <th className="px-6 py-3 text-right">Actions</th>
+                    <th className="px-6 py-3">{t('table.guest')}</th>
+                    <th className="px-6 py-3">{t('table.destination')}</th>
+                    <th className="px-6 py-3">{t('table.tour')}</th>
+                    <th className="px-6 py-3">{t('table.date')}</th>
+                    <th className="px-6 py-3">{t('table.duration')}</th>
+                    <th className="px-6 py-3">{t('table.status')}</th>
+                    <th className="px-6 py-3 text-right">{t('table.actions')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -280,21 +282,21 @@ export default function AdminBookings() {
                           <button
                             onClick={() => viewModal.open(b)}
                             className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-text-secondary"
-                            title={UI_TEXT.ACTION_VIEW}
+                            title={t('actions.view')}
                           >
                             <FontAwesomeIcon icon={faEye} className="text-sm" />
                           </button>
                           <button
                             onClick={() => editModal.open(b)}
                             className="p-2 hover:bg-primary-light rounded-lg transition-colors text-primary"
-                            title={UI_TEXT.ACTION_EDIT}
+                            title={t('actions.edit')}
                           >
                             <FontAwesomeIcon icon={faEdit} className="text-sm" />
                           </button>
                           <button
                             onClick={() => deleteConfirm.open(b)}
                             className="p-2 hover:bg-danger-light rounded-lg transition-colors text-danger"
-                            title={UI_TEXT.ACTION_DELETE}
+                            title={t('actions.delete')}
                           >
                             <FontAwesomeIcon icon={faTrash} className="text-sm" />
                           </button>
@@ -340,8 +342,8 @@ export default function AdminBookings() {
         isOpen={deleteConfirm.isOpen}
         onClose={deleteConfirm.close}
         onConfirm={() => deleteConfirm.data && handleDelete(deleteConfirm.data)}
-        title={UI_TEXT.ACTION_DELETE}
-        message={UI_TEXT.CONFIRM_DELETE}
+        title={t('actions.delete')}
+        message={t('confirm.delete')}
       />
     </div>
   );

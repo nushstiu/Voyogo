@@ -4,18 +4,17 @@ import { z } from 'zod/v4';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { UI_TEXT, API_ENDPOINTS } from '../../constants';
+import { useTranslation } from 'react-i18next';
+import { API_ENDPOINTS } from '../../constants';
 import type { Booking } from '../../types';
 import toast from 'react-hot-toast';
 
-const editSchema = z.object({
-  phone: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
-  booking_date: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
-  duration: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
-  notes: z.string().optional(),
-});
-
-type EditFormData = z.infer<typeof editSchema>;
+type EditFormData = {
+  phone: string;
+  booking_date: string;
+  duration: string;
+  notes?: string;
+};
 
 const DURATION_OPTIONS = ['1-2 Days', '3-5 Days', '5-7 Days', '7-14 Days', '14+ Days'];
 
@@ -27,6 +26,14 @@ interface BookingEditModalProps {
 }
 
 export default function BookingEditModal({ isOpen, onClose, booking, onSaved }: BookingEditModalProps) {
+  const { t } = useTranslation();
+
+  const editSchema = z.object({
+    phone: z.string().min(1, t('validation.required')),
+    booking_date: z.string().min(1, t('validation.required')),
+    duration: z.string().min(1, t('validation.required')),
+    notes: z.string().optional(),
+  });
   const overlayRef = useRef<HTMLDivElement>(null);
   const {
     register,
@@ -64,7 +71,7 @@ export default function BookingEditModal({ isOpen, onClose, booking, onSaved }: 
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    toast.success(UI_TEXT.SUCCESS_BOOKING_UPDATED);
+    toast.success(t('success.bookingUpdated'));
     onSaved();
     onClose();
   };
@@ -77,7 +84,7 @@ export default function BookingEditModal({ isOpen, onClose, booking, onSaved }: 
     >
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
         <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-800">{UI_TEXT.USER_EDIT_BOOKING}</h2>
+          <h2 className="text-xl font-bold text-gray-800">{t('modals.editBooking')}</h2>
           <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
             <FontAwesomeIcon icon={faTimes} className="text-gray-500" />
           </button>
@@ -93,7 +100,7 @@ export default function BookingEditModal({ isOpen, onClose, booking, onSaved }: 
         <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-              {UI_TEXT.LABEL_PHONE} <span className="text-blue-500">*</span>
+              {t('form.phone')} <span className="text-blue-500">*</span>
             </label>
             <input
               {...register('phone')}
@@ -104,7 +111,7 @@ export default function BookingEditModal({ isOpen, onClose, booking, onSaved }: 
 
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-              Booking Date <span className="text-blue-500">*</span>
+              {t('bookingEdit.bookingDate')} <span className="text-blue-500">*</span>
             </label>
             <input
               type="date"
@@ -118,7 +125,7 @@ export default function BookingEditModal({ isOpen, onClose, booking, onSaved }: 
 
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-              Duration <span className="text-blue-500">*</span>
+              {t('bookingEdit.duration')} <span className="text-blue-500">*</span>
             </label>
             <select {...register('duration')} className="p-4 rounded bg-gray-100 outline-none w-full">
               {DURATION_OPTIONS.map((d) => (
@@ -129,13 +136,13 @@ export default function BookingEditModal({ isOpen, onClose, booking, onSaved }: 
 
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-              {UI_TEXT.BOOKING_NOTES_LABEL}
+              {t('bookingNotes.label')}
             </label>
             <textarea
               {...register('notes')}
               rows={3}
               className="p-4 rounded bg-gray-100 outline-none w-full resize-none"
-              placeholder={UI_TEXT.BOOKING_NOTES_PLACEHOLDER}
+              placeholder={t('bookingNotes.placeholder')}
             />
           </div>
 
@@ -145,14 +152,14 @@ export default function BookingEditModal({ isOpen, onClose, booking, onSaved }: 
               onClick={onClose}
               className="bg-gray-100 text-gray-700 rounded-lg font-semibold hover:bg-gray-200 transition-colors px-6 py-3"
             >
-              {UI_TEXT.ACTION_CANCEL}
+              {t('actions.cancel')}
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
               className="bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors px-6 py-3 disabled:opacity-50"
             >
-              {isSubmitting ? UI_TEXT.LOADING : UI_TEXT.ACTION_SAVE}
+              {isSubmitting ? t('loading.default') : t('actions.save')}
             </button>
           </div>
         </form>
