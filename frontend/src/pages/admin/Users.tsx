@@ -7,7 +7,8 @@ import {
   faEye,
   faFileExport,
 } from '@fortawesome/free-solid-svg-icons';
-import { UI_TEXT, API_ENDPOINTS } from '../../constants';
+import { useTranslation } from 'react-i18next';
+import { API_ENDPOINTS } from '../../constants';
 import { useDebounce } from '../../hooks/useDebounce';
 import { useFilters } from '../../hooks/useFilters';
 import { usePagination } from '../../hooks/usePagination';
@@ -25,12 +26,13 @@ import Footer from '../../components/layout/Footer';
 import type { User } from '../../types';
 import toast from 'react-hot-toast';
 
-const ROLE_OPTIONS = [
-  { label: 'Admin', value: 'admin' },
-  { label: 'User', value: 'user' },
-];
-
 export default function AdminUsers() {
+  const { t } = useTranslation();
+
+  const ROLE_OPTIONS = [
+    { label: t('roles.admin'), value: 'admin' },
+    { label: t('roles.user'), value: 'user' },
+  ];
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const { filters, setFilter } = useFilters({ keys: ['search', 'role'] });
@@ -61,12 +63,12 @@ export default function AdminUsers() {
 
   const handleDelete = async (user: User) => {
     await fetch(API_ENDPOINTS.USER_BY_ID(user.id), { method: 'DELETE' });
-    toast.success(UI_TEXT.SUCCESS_USER_DELETED);
+    toast.success(t('success.userDeleted'));
     fetchUsers();
   };
 
   const handleExportCSV = () => {
-    const headers = ['Username', 'Email', 'Phone', 'Country', 'Role', 'Created'];
+    const headers = [t('form.username'), t('form.email'), t('form.phone'), t('form.country'), t('table.role'), t('table.joined')];
     const rows = users.map((u) => [
       u.username,
       u.email,
@@ -93,21 +95,21 @@ export default function AdminUsers() {
           <Breadcrumb />
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
-            <h1 className="text-3xl font-bold text-gray-800">Users</h1>
+            <h1 className="text-3xl font-bold text-gray-800">{t('nav.users')}</h1>
             <div className="flex items-center gap-2">
               <button
                 onClick={handleExportCSV}
                 className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 rounded-lg transition-colors"
               >
                 <FontAwesomeIcon icon={faFileExport} />
-                {UI_TEXT.ACTION_EXPORT_CSV}
+                {t('actions.exportCsv')}
               </button>
               <button
                 onClick={() => createModal.open()}
                 className="bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors flex items-center gap-2 px-4 py-2.5 text-sm"
               >
                 <FontAwesomeIcon icon={faPlus} />
-                {UI_TEXT.ACTION_ADD_USER}
+                {t('actions.addUser')}
               </button>
             </div>
           </div>
@@ -123,7 +125,7 @@ export default function AdminUsers() {
                 value={filters.role || 'all'}
                 onChange={(v) => setFilter('role', v)}
                 options={ROLE_OPTIONS}
-                allLabel={UI_TEXT.FILTER_ROLE}
+                allLabel={t('filters.filterByRole')}
               />
             </div>
 
@@ -132,19 +134,19 @@ export default function AdminUsers() {
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-400" />
               </div>
             ) : paginated.length === 0 ? (
-              <EmptyState title={UI_TEXT.NO_USERS} />
+              <EmptyState title={t('empty.noUsers')} />
             ) : (
               <>
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
                       <tr className="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        <th className="px-6 py-3">User</th>
-                        <th className="px-6 py-3">Phone</th>
-                        <th className="px-6 py-3">Country</th>
-                        <th className="px-6 py-3">Role</th>
-                        <th className="px-6 py-3">Joined</th>
-                        <th className="px-6 py-3 text-right">Actions</th>
+                        <th className="px-6 py-3">{t('table.user')}</th>
+                        <th className="px-6 py-3">{t('table.phone')}</th>
+                        <th className="px-6 py-3">{t('table.country')}</th>
+                        <th className="px-6 py-3">{t('table.role')}</th>
+                        <th className="px-6 py-3">{t('table.joined')}</th>
+                        <th className="px-6 py-3 text-right">{t('table.actions')}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
@@ -169,21 +171,21 @@ export default function AdminUsers() {
                               <button
                                 onClick={() => viewModal.open(u)}
                                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500"
-                                title={UI_TEXT.ACTION_VIEW}
+                                title={t('actions.view')}
                               >
                                 <FontAwesomeIcon icon={faEye} className="text-sm" />
                               </button>
                               <button
                                 onClick={() => editModal.open(u)}
                                 className="p-2 hover:bg-blue-100 rounded-lg transition-colors text-blue-500"
-                                title={UI_TEXT.ACTION_EDIT}
+                                title={t('actions.edit')}
                               >
                                 <FontAwesomeIcon icon={faEdit} className="text-sm" />
                               </button>
                               <button
                                 onClick={() => deleteConfirm.open(u)}
                                 className="p-2 hover:bg-red-100 rounded-lg transition-colors text-red-500"
-                                title={UI_TEXT.ACTION_DELETE}
+                                title={t('actions.delete')}
                               >
                                 <FontAwesomeIcon icon={faTrash} className="text-sm" />
                               </button>
@@ -231,8 +233,8 @@ export default function AdminUsers() {
             isOpen={deleteConfirm.isOpen}
             onClose={deleteConfirm.close}
             onConfirm={() => deleteConfirm.data && handleDelete(deleteConfirm.data)}
-            title={UI_TEXT.ACTION_DELETE}
-            message={UI_TEXT.CONFIRM_DELETE_USER}
+            title={t('actions.delete')}
+            message={t('confirm.deleteUser')}
           />
         </div>
       </main>
