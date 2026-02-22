@@ -88,16 +88,16 @@ export default function Register() {
           <div className="relative z-10 w-full max-w-md mx-4 mt-20 mb-10">
             <div className="bg-white rounded-2xl p-8 md:p-10 shadow-xl">
               <h2 className="text-3xl font-bold text-gray-800 text-center mb-2">
-                Create Account
+                {t('auth.registerTitle')}
               </h2>
               <p className="text-gray-500 text-center mb-8">
-                Start your adventure with us
+                {t('auth.registerSubtitle')}
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-                    Username <span className="text-blue-500">*</span>
+                    {t('form.username')} <span className="text-blue-500">*</span>
                   </label>
                   <div className="relative">
                     <FontAwesomeIcon
@@ -106,7 +106,7 @@ export default function Register() {
                     />
                     <input
                       type="text"
-                      placeholder="Username"
+                      placeholder={t('form.username')}
                       value={username}
                       onChange={(e) => { setUsername(e.target.value); clearError('username'); }}
                       className={`p-4 pl-11 rounded bg-gray-100 outline-none w-full ${
@@ -119,7 +119,7 @@ export default function Register() {
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-                    Email <span className="text-blue-500">*</span>
+                    {t('form.email')} <span className="text-blue-500">*</span>
                   </label>
                   <div className="relative">
                     <FontAwesomeIcon
@@ -141,7 +141,7 @@ export default function Register() {
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-                    Password <span className="text-blue-500">*</span>
+                    {t('form.password')} <span className="text-blue-500">*</span>
                   </label>
                   <div className="relative">
                     <FontAwesomeIcon
@@ -150,7 +150,7 @@ export default function Register() {
                     />
                     <input
                       type={showPassword ? 'text' : 'password'}
-                      placeholder="Password"
+                      placeholder={t('form.password')}
                       value={password}
                       onChange={(e) => { setPassword(e.target.value); clearError('password'); }}
                       className={`p-4 pl-11 pr-11 rounded bg-gray-100 outline-none w-full ${
@@ -170,7 +170,7 @@ export default function Register() {
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-                    Confirm Password <span className="text-blue-500">*</span>
+                    {t('form.confirmPassword')} <span className="text-blue-500">*</span>
                   </label>
                   <div className="relative">
                     <FontAwesomeIcon
@@ -179,7 +179,7 @@ export default function Register() {
                     />
                     <input
                       type={showConfirmPassword ? 'text' : 'password'}
-                      placeholder="Confirm Password"
+                      placeholder={t('form.confirmPassword')}
                       value={confirmPassword}
                       onChange={(e) => { setConfirmPassword(e.target.value); clearError('confirmPassword'); }}
                       className={`p-4 pl-11 pr-11 rounded bg-gray-100 outline-none w-full ${
@@ -202,14 +202,14 @@ export default function Register() {
                   disabled={loading}
                   className="w-full h-[55px] bg-blue-500 text-white rounded-lg font-semibold text-lg hover:bg-blue-600 transition-colors disabled:opacity-50"
                 >
-                  {loading ? 'Creating account...' : 'Create Account'}
+                  {loading ? t('auth.registerLoading') : t('auth.registerButton')}
                 </button>
               </form>
 
               <p className="text-center text-gray-500 mt-6">
-                Already have an account?{' '}
+                {t('auth.hasAccount')}{' '}
                 <Link to={ROUTES.LOGIN} className="text-cyan-400 font-semibold hover:text-cyan-500">
-                  Sign in
+                  {t('auth.signIn')}
                 </Link>
               </p>
             </div>
