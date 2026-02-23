@@ -14,8 +14,8 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
-import { API_ENDPOINTS, COLORS } from '../../constants';
-import { UI_TEXT } from '../../constants/text';
+import { useTranslation } from 'react-i18next';
+import { COLORS } from '../../constants';
 import Breadcrumb from '../../components/common/Breadcrumb';
 import type {
   AnalyticsOverview,
@@ -26,7 +26,38 @@ import type {
 
 const PIE_COLORS = [COLORS.accent, COLORS.warning, COLORS.danger];
 
+const MOCK_OVERVIEW: AnalyticsOverview = {
+  totalUsers: 156,
+  totalBookings: 89,
+  totalRevenue: 124500,
+  activeTours: 12,
+};
+
+const MOCK_TRENDS: BookingTrend[] = [
+  { month: 'Jan', count: 12 },
+  { month: 'Feb', count: 19 },
+  { month: 'Mar', count: 15 },
+  { month: 'Apr', count: 22 },
+  { month: 'May', count: 28 },
+  { month: 'Jun', count: 35 },
+];
+
+const MOCK_POPULAR: PopularDestination[] = [
+  { name: 'South-East Asia', bookings: 34 },
+  { name: 'Japan Explorer', bookings: 28 },
+  { name: 'Thailand Paradise', bookings: 21 },
+  { name: 'China Discovery', bookings: 15 },
+];
+
+const MOCK_REVENUE: RevenueData[] = [
+  { destination: 'South-East Asia', revenue: 45000 },
+  { destination: 'Japan Explorer', revenue: 38000 },
+  { destination: 'Thailand', revenue: 25000 },
+  { destination: 'China', revenue: 16500 },
+];
+
 export default function AdminAnalytics() {
+  const { t } = useTranslation();
   const [overview, setOverview] = useState<AnalyticsOverview | null>(null);
   const [trends, setTrends] = useState<BookingTrend[]>([]);
   const [popular, setPopular] = useState<PopularDestination[]>([]);
@@ -34,20 +65,14 @@ export default function AdminAnalytics() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchAll = async () => {
-      const [ovRes, trRes, popRes, revRes] = await Promise.all([
-        fetch(API_ENDPOINTS.ANALYTICS_OVERVIEW),
-        fetch(API_ENDPOINTS.ANALYTICS_BOOKING_TRENDS),
-        fetch(API_ENDPOINTS.ANALYTICS_POPULAR_DESTINATIONS),
-        fetch(API_ENDPOINTS.ANALYTICS_REVENUE),
-      ]);
-      setOverview(await ovRes.json());
-      setTrends(await trRes.json());
-      setPopular(await popRes.json());
-      setRevenue(await revRes.json());
+    const timer = setTimeout(() => {
+      setOverview(MOCK_OVERVIEW);
+      setTrends(MOCK_TRENDS);
+      setPopular(MOCK_POPULAR);
+      setRevenue(MOCK_REVENUE);
       setLoading(false);
-    };
-    fetchAll();
+    }, 400);
+    return () => clearTimeout(timer);
   }, []);
 
   if (loading) {
@@ -62,34 +87,34 @@ export default function AdminAnalytics() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <Breadcrumb />
 
-      <h1 className="text-2xl font-bold text-text-primary mb-6">Analytics</h1>
+      <h1 className="text-2xl font-bold text-text-primary mb-6">{t('analytics.title')}</h1>
 
       {overview && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className="card-default p-6">
             <p className="text-3xl font-bold text-text-primary">{overview.totalUsers}</p>
-            <p className="text-text-secondary text-sm mt-1">{UI_TEXT.STAT_TOTAL_USERS}</p>
+            <p className="text-text-secondary text-sm mt-1">{t('adminDashboard.totalUsers')}</p>
           </div>
           <div className="card-default p-6">
             <p className="text-3xl font-bold text-text-primary">{overview.totalBookings}</p>
-            <p className="text-text-secondary text-sm mt-1">{UI_TEXT.STAT_TOTAL_BOOKINGS}</p>
+            <p className="text-text-secondary text-sm mt-1">{t('userDashboard.totalBookings')}</p>
           </div>
           <div className="card-default p-6">
             <p className="text-3xl font-bold text-text-primary">
               ${overview.totalRevenue.toLocaleString()}
             </p>
-            <p className="text-text-secondary text-sm mt-1">{UI_TEXT.STAT_TOTAL_REVENUE}</p>
+            <p className="text-text-secondary text-sm mt-1">{t('adminDashboard.totalRevenue')}</p>
           </div>
           <div className="card-default p-6">
             <p className="text-3xl font-bold text-text-primary">{overview.activeTours}</p>
-            <p className="text-text-secondary text-sm mt-1">{UI_TEXT.STAT_ACTIVE_TOURS}</p>
+            <p className="text-text-secondary text-sm mt-1">{t('adminDashboard.activeTours')}</p>
           </div>
         </div>
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="card-default p-6">
-          <h2 className="text-lg font-bold text-text-primary mb-4">Booking Trends</h2>
+          <h2 className="text-lg font-bold text-text-primary mb-4">{t('analytics.bookingTrends')}</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={trends}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -108,7 +133,7 @@ export default function AdminAnalytics() {
         </div>
 
         <div className="card-default p-6">
-          <h2 className="text-lg font-bold text-text-primary mb-4">Popular Destinations</h2>
+          <h2 className="text-lg font-bold text-text-primary mb-4">{t('analytics.popularDestinations')}</h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={popular}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -123,33 +148,33 @@ export default function AdminAnalytics() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="card-default p-6">
-          <h2 className="text-lg font-bold text-text-primary mb-4">Revenue by Destination</h2>
+          <h2 className="text-lg font-bold text-text-primary mb-4">{t('analytics.revenueByDestination')}</h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={revenue} layout="vertical">
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
               <XAxis type="number" tick={{ fontSize: 12 }} />
               <YAxis dataKey="destination" type="category" width={100} tick={{ fontSize: 12 }} />
-              <Tooltip formatter={(value: number) => `$${value.toLocaleString()}`} />
+              <Tooltip formatter={(value) => `$${Number(value).toLocaleString()}`} />
               <Bar dataKey="revenue" fill={COLORS.accent} radius={[0, 4, 4, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
         <div className="card-default p-6">
-          <h2 className="text-lg font-bold text-text-primary mb-4">Booking Status Distribution</h2>
+          <h2 className="text-lg font-bold text-text-primary mb-4">{t('analytics.statusDistribution')}</h2>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
                 data={[
-                  { name: UI_TEXT.STATUS_CONFIRMED, value: overview?.totalBookings ? Math.round(overview.totalBookings * 0.5) : 0 },
-                  { name: UI_TEXT.STATUS_PENDING, value: overview?.totalBookings ? Math.round(overview.totalBookings * 0.33) : 0 },
-                  { name: UI_TEXT.STATUS_CANCELLED, value: overview?.totalBookings ? Math.round(overview.totalBookings * 0.17) : 0 },
+                  { name: t('status.confirmed'), value: overview?.totalBookings ? Math.round(overview.totalBookings * 0.5) : 0 },
+                  { name: t('status.pending'), value: overview?.totalBookings ? Math.round(overview.totalBookings * 0.33) : 0 },
+                  { name: t('status.cancelled'), value: overview?.totalBookings ? Math.round(overview.totalBookings * 0.17) : 0 },
                 ]}
                 cx="50%"
                 cy="50%"
                 outerRadius={100}
                 dataKey="value"
-                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}
               >
                 {PIE_COLORS.map((color, i) => (
                   <Cell key={i} fill={color} />
