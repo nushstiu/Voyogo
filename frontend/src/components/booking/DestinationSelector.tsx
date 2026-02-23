@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { MOCK_DESTINATIONS } from '../../data/destinations.data';
+import { useState, useEffect } from 'react';
+import { destinationService } from '../../services/destination.service';
 import type { Destination, User } from '../../types';
 import type { BookingData } from '../../types/booking';
 
@@ -23,6 +23,11 @@ export default function DestinationSelector({
     const [adults, setAdults] = useState(bookingData.travelers.adults);
     const [children, setChildren] = useState(bookingData.travelers.children);
     const [chosen, setChosen] = useState<Destination | null>(selectedDestination);
+    const [destinations, setDestinations] = useState<Destination[]>([]);
+
+    useEffect(() => {
+        destinationService.getAll().then(setDestinations);
+    }, []);
 
     const handleSelectDestination = (dest: Destination) => {
         setChosen(dest);
@@ -42,16 +47,16 @@ export default function DestinationSelector({
 
     return (
         <div className="bg-white rounded-lg shadow-md p-8">
-            <h2 className="text-2xl font-bold mb-2">Alege destinatia</h2>
-            <p className="text-gray-600 mb-6">Selecteaza destinatia dorita si numarul de calatori</p>
+            <h2 className="text-2xl font-bold mb-2">Choose Your Destination</h2>
+            <p className="text-gray-600 mb-6">Select your destination and number of travelers</p>
 
             {/* User profile info */}
             {user && (
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                    <h3 className="font-semibold text-blue-800 mb-2">Datele tale de contact</h3>
+                    <h3 className="font-semibold text-blue-800 mb-2">Contact Information</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
                         <div>
-                            <span className="text-gray-600">Nume:</span>
+                            <span className="text-gray-600">Name:</span>
                             <p className="font-semibold">{user.username}</p>
                         </div>
                         <div>
@@ -59,8 +64,8 @@ export default function DestinationSelector({
                             <p className="font-semibold">{user.email}</p>
                         </div>
                         <div>
-                            <span className="text-gray-600">Telefon:</span>
-                            <p className="font-semibold">{user.phone || 'Necompletat'}</p>
+                            <span className="text-gray-600">Phone:</span>
+                            <p className="font-semibold">{user.phone || 'Not provided'}</p>
                         </div>
                     </div>
                 </div>
@@ -68,10 +73,10 @@ export default function DestinationSelector({
 
             {/* Traveler count */}
             <div className="bg-gray-50 rounded-lg p-4 mb-6">
-                <h3 className="font-semibold mb-3">Numar calatori</h3>
+                <h3 className="font-semibold mb-3">Number of Travelers</h3>
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm text-gray-600 mb-1">Adulti</label>
+                        <label className="block text-sm text-gray-600 mb-1">Adults</label>
                         <div className="flex items-center gap-3">
                             <button
                                 onClick={() => setAdults(Math.max(1, adults - 1))}
@@ -85,7 +90,7 @@ export default function DestinationSelector({
                         </div>
                     </div>
                     <div>
-                        <label className="block text-sm text-gray-600 mb-1">Copii (2-12 ani)</label>
+                        <label className="block text-sm text-gray-600 mb-1">Children (2-12 years)</label>
                         <div className="flex items-center gap-3">
                             <button
                                 onClick={() => setChildren(Math.max(0, children - 1))}
@@ -103,7 +108,7 @@ export default function DestinationSelector({
 
             {/* Destination cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                {MOCK_DESTINATIONS.map(dest => (
+                {destinations.map(dest => (
                     <button
                         key={dest.id}
                         onClick={() => handleSelectDestination(dest)}
@@ -125,13 +130,13 @@ export default function DestinationSelector({
                         </div>
                         <div className="p-4">
                             <div className="flex justify-between items-center mb-2">
-                                <span className="text-sm text-gray-600">{dest.packages} pachete</span>
+                                <span className="text-sm text-gray-600">{dest.packages} packages</span>
                                 <span className="text-sm font-semibold text-green-600">{dest.price_range}</span>
                             </div>
                             <p className="text-xs text-gray-500 line-clamp-2">{dest.description}</p>
                             {chosen?.id === dest.id && (
                                 <div className="mt-2 text-blue-600 font-semibold text-sm">
-                                    &#10003; Selectat
+                                    &#10003; Selected
                                 </div>
                             )}
                         </div>
@@ -145,7 +150,7 @@ export default function DestinationSelector({
                 disabled={!chosen}
                 className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
             >
-                {chosen ? `Continua cu ${chosen.name}` : 'Selecteaza o destinatie'}
+                {chosen ? `Continue with ${chosen.name}` : 'Select a destination'}
             </button>
         </div>
     );
