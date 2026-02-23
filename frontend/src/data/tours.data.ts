@@ -1,4 +1,4 @@
-import type { Tour } from '../types';
+import { TourStatus, type Tour } from '../types';
 
 export const MOCK_TOURS: Tour[] = [
   {
@@ -10,7 +10,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'Start in Canggu and end in Ubud! With the Explorer tour Wanderlands Bali - 8 Days, you have a 8 days tour package taking you through Canggu, Indonesia and 4 other destinations in Indonesia.',
     image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800',
     destination_id: 1,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
   {
@@ -22,7 +22,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'Embark on an epic adventure to the islands of Komodo and Flores. Encounter Komodo dragons in their natural habitat and explore breathtaking landscapes.',
     image: 'https://images.unsplash.com/photo-1518183214770-9cffbec72538?w=800',
     destination_id: 1,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
   {
@@ -34,7 +34,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'Take a day tour around the Ubud area to check out some of Bali\'s most popular attractions including Tegalalang Rice Terrace, Sacred Monkey Forest, and Tirta Empul Temple.',
     image: 'https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=800',
     destination_id: 1,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
   {
@@ -46,7 +46,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'Welcome to Kyoto, the cultural capital of Japan! With thousands of Buddhist temples, mesmerising gardens, imperial palaces, and Shinto shrines.',
     image: 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?w=800',
     destination_id: 2,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
   {
@@ -58,7 +58,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'Experience the magic of Japan\'s cherry blossom season. Witness the iconic cherry trees in full bloom as you explore historic temples and picturesque gardens.',
     image: 'https://images.unsplash.com/photo-1522383225653-ed111181a951?w=800',
     destination_id: 2,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
   {
@@ -70,7 +70,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'Join us for the ultimate Tokyo Anime Adventure! Explore iconic landmarks, visit the Pok\u00e9mon Center, and enjoy Namjatown indoor theme park.',
     image: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800',
     destination_id: 2,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
   {
@@ -82,7 +82,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'This 8 days tour takes you to the ancient and modern capitals of China. Visit Beijing, Xi\'an and Shanghai and experience incredible history.',
     image: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800',
     destination_id: 4,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
   {
@@ -94,7 +94,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'Embark on a once-in-a-lifetime adventure to see China\'s beloved giant pandas in their natural habitat and learn about conservation efforts.',
     image: 'https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=800',
     destination_id: 4,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
   {
@@ -106,7 +106,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'Discover the breathtaking landscapes and rich cultural heritage of Yunnan, China\'s most diverse province.',
     image: 'https://images.unsplash.com/photo-1513415277900-a62401e19be4?w=800',
     destination_id: 4,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
   {
@@ -118,7 +118,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'Explore the best of Thailand in just 7 days! From the bustling streets of Bangkok to the serene landscapes of Chiang Mai.',
     image: 'https://images.unsplash.com/photo-1528181304800-259b08848526?w=800',
     destination_id: 3,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
   {
@@ -130,7 +130,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'Explore the stunning islands of western Thailand. From crystal-clear waters of Koh Phi Phi to lush jungles of Koh Lanta.',
     image: 'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800',
     destination_id: 3,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
   {
@@ -142,7 +142,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'Embark on an unforgettable journey through Northern Thailand\'s most iconic destinations from ancient temples to lush jungles.',
     image: 'https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?w=800',
     destination_id: 3,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
   {
@@ -154,7 +154,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'Embark on an exhilarating journey through the heart of South Korea! From vibrant Seoul to tranquil Jeju Island.',
     image: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=800',
     destination_id: 6,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
   {
@@ -166,7 +166,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'Immerse yourself in the rich history and vibrant culture of South Korea from ancient palaces to modern cities.',
     image: 'https://images.unsplash.com/photo-1538485399081-7191377e8241?w=800',
     destination_id: 6,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
   {
@@ -178,7 +178,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'Immerse yourself in the vibrant world of K-Pop with backstage tours, dance workshops, and meet-and-greets with K-Pop idols.',
     image: 'https://images.unsplash.com/photo-1601621915196-2621bfb0cd6e?w=800',
     destination_id: 6,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
   {
@@ -190,7 +190,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'Discover the breathtaking beauty of Palawan with pristine beaches, crystal-clear waters, and lush jungles.',
     image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=800',
     destination_id: 5,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
   {
@@ -202,7 +202,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'Embark on an unforgettable trekking adventure through breathtaking Ifugao villages with terraced rice fields and lush forests.',
     image: 'https://images.unsplash.com/photo-1573455494060-c5595004fb6c?w=800',
     destination_id: 5,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
   {
@@ -214,7 +214,7 @@ export const MOCK_TOURS: Tour[] = [
     description: 'Experience the beauty of the Philippines\' western islands from stunning beaches of Boracay to pristine reefs of Palawan.',
     image: 'https://images.unsplash.com/photo-1505881502353-a1986add3762?w=800',
     destination_id: 5,
-    status: 'active',
+    status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
   },
 ];
