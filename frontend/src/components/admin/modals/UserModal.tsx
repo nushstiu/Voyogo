@@ -4,8 +4,9 @@ import { z } from 'zod/v4';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { UI_TEXT, API_ENDPOINTS } from '../../../constants';
+import { UI_TEXT } from '../../../constants';
 import type { User } from '../../../types';
+import { userService } from '../../../services/user.service';
 import toast from 'react-hot-toast';
 
 const userSchema = z.object({
@@ -59,19 +60,8 @@ export default function UserModal({ isOpen, onClose, user, readOnly, onSaved }: 
 
   const onSubmit = async (data: UserFormData) => {
     if (user) {
-      await fetch(API_ENDPOINTS.USER_BY_ID(user.id), {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+      await userService.update(user.id, data);
       toast.success(UI_TEXT.SUCCESS_USER_UPDATED);
-    } else {
-      await fetch(API_ENDPOINTS.USERS, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      toast.success(UI_TEXT.SUCCESS_USER_CREATED);
     }
     onSaved();
     onClose();
