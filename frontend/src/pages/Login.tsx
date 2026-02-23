@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { ROUTES } from '../constants';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 
 export default function Login() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { login, loading } = useAuth();
@@ -21,14 +23,14 @@ export default function Login() {
   const validate = () => {
     const newErrors: { email?: string; password?: string } = {};
     if (!email.trim()) {
-      newErrors.email = 'This field is required';
+      newErrors.email = t('validation.required');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = 'Invalid email address';
+      newErrors.email = t('validation.invalidEmail');
     }
     if (!password) {
-      newErrors.password = 'This field is required';
+      newErrors.password = t('validation.required');
     } else if (password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = t('validation.passwordMin');
     }
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -77,16 +79,16 @@ export default function Login() {
           <div className="relative z-10 w-full max-w-md mx-4 mt-20">
             <div className="bg-white rounded-2xl p-8 md:p-10 shadow-xl">
               <h2 className="text-3xl font-bold text-gray-800 text-center mb-2">
-                Welcome Back
+                {t('auth.loginTitle')}
               </h2>
               <p className="text-gray-500 text-center mb-8">
-                Sign in to continue your journey
+                {t('auth.loginSubtitle')}
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-                    Email <span className="text-blue-500">*</span>
+                    {t('form.email')} <span className="text-blue-500">*</span>
                   </label>
                   <div className="relative">
                     <FontAwesomeIcon
@@ -113,7 +115,7 @@ export default function Login() {
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-                    Password <span className="text-blue-500">*</span>
+                    {t('form.password')} <span className="text-blue-500">*</span>
                   </label>
                   <div className="relative">
                     <FontAwesomeIcon
@@ -122,7 +124,7 @@ export default function Login() {
                     />
                     <input
                       type={showPassword ? 'text' : 'password'}
-                      placeholder="Password"
+                      placeholder={t('form.password')}
                       value={password}
                       onChange={(e) => {
                         setPassword(e.target.value);
@@ -150,14 +152,14 @@ export default function Login() {
                   disabled={loading}
                   className="w-full h-[55px] bg-blue-500 text-white rounded-lg font-semibold text-lg hover:bg-blue-600 transition-colors disabled:opacity-50"
                 >
-                  {loading ? 'Signing in...' : 'Sign In'}
+                  {loading ? t('auth.loginLoading') : t('auth.loginButton')}
                 </button>
               </form>
 
               {/* Demo Accounts */}
               <div className="mt-6 p-4 bg-gray-50 rounded-lg">
                 <p className="text-xs text-gray-400 mb-3 text-center uppercase tracking-widest font-semibold">
-                  Demo Accounts
+                  {t('auth.demoAccounts')}
                 </p>
                 <div className="flex gap-3">
                   <button
@@ -165,22 +167,22 @@ export default function Login() {
                     disabled={loading}
                     className="flex-1 text-sm py-2.5 px-3 border border-gray-200 rounded-lg hover:border-cyan-400 hover:text-cyan-400 transition-colors font-medium disabled:opacity-50"
                   >
-                    User Login
+                    {t('auth.userLogin')}
                   </button>
                   <button
                     onClick={() => handleDemoLogin('admin@voyogo.com')}
                     disabled={loading}
                     className="flex-1 text-sm py-2.5 px-3 border border-gray-200 rounded-lg hover:border-blue-500 hover:text-blue-500 transition-colors font-medium disabled:opacity-50"
                   >
-                    Admin Login
+                    {t('auth.adminLogin')}
                   </button>
                 </div>
               </div>
 
               <p className="text-center text-gray-500 mt-6">
-                Don't have an account?{' '}
+                {t('auth.noAccount')}{' '}
                 <Link to={ROUTES.REGISTER} className="text-cyan-400 font-semibold hover:text-cyan-500">
-                  Sign up
+                  {t('auth.signUp')}
                 </Link>
               </p>
             </div>
