@@ -7,7 +7,7 @@ import Footer from '../components/layout/Footer';
 import FilterButtons from '../components/destinations/FilterButtons';
 import DestinationCard from '../components/destinations/DestinationCard';
 import type { Destination } from '../types/destination';
-import destinationsData from '../data/destinations.json';
+import { PUBLIC_DESTINATIONS } from '../data';
 
 const categories = ['all', 'best-seller', 'nature', 'city', 'seasonal'];
 
@@ -17,7 +17,7 @@ export default function Destinations() {
   const [search, setSearch] = useState('');
 
   const filtered = useMemo(() => {
-    let result = destinationsData as Destination[];
+    let result: Destination[] = PUBLIC_DESTINATIONS;
     if (activeFilter !== 'all') {
       result = result.filter((d) => d.category === activeFilter);
     }
