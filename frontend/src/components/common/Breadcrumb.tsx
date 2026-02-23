@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faHome } from '@fortawesome/free-solid-svg-icons';
+import { ROUTES } from '../../constants/routes';
 
 const LABELS: Record<string, string> = {
   admin: 'Admin',
@@ -30,7 +31,7 @@ export default function Breadcrumb() {
 
   return (
     <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-      <Link to="/" className="hover:text-blue-500 transition-colors">
+      <Link to={ROUTES.HOME} className="hover:text-blue-500 transition-colors">
         <FontAwesomeIcon icon={faHome} className="text-xs" />
       </Link>
       {crumbs.map((crumb) => (
