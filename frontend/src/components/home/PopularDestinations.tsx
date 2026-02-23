@@ -2,22 +2,24 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faCircleChevronRight } from '@fortawesome/free-solid-svg-icons';
-import destinations from '../../data/destinations.json';
+import { PUBLIC_DESTINATIONS } from '../../data';
+import { useTranslation } from 'react-i18next';
 
 const INITIAL_COUNT = 4;
 
 export default function PopularDestinations() {
   const [showAll, setShowAll] = useState(false);
-  const visible = showAll ? destinations : destinations.slice(0, INITIAL_COUNT);
+  const { t } = useTranslation();
+  const visible = showAll ? PUBLIC_DESTINATIONS : PUBLIC_DESTINATIONS.slice(0, INITIAL_COUNT);
 
   return (
     <section className="pt-20 pb-12 px-4 md:px-16 relative">
       <div className="text-center mb-20 relative">
         <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-7xl md:text-8xl font-bold text-gray-300 opacity-40 select-none pointer-events-none">
-          Destinations
+          {t('home.destinationsBackground')}
         </span>
         <p className="text-cyan-400 tracking-widest font-semibold text-base uppercase relative z-10 top-2">
-          Popular Destinations
+          {t('home.popularDestinations')}
         </p>
       </div>
 
@@ -40,7 +42,7 @@ export default function PopularDestinations() {
               <h3 className="text-lg font-semibold text-gray-800">{dest.name}</h3>
               <p className="text-sm text-gray-600 mt-1">
                 <FontAwesomeIcon icon={faLocationDot} className="mr-1 text-cyan-400" />
-                {dest.packages} packages
+                {dest.packages} {t('home.packages')}
               </p>
               <FontAwesomeIcon
                 icon={faCircleChevronRight}
@@ -51,13 +53,13 @@ export default function PopularDestinations() {
         ))}
       </div>
 
-      {destinations.length > INITIAL_COUNT && (
+      {PUBLIC_DESTINATIONS.length > INITIAL_COUNT && (
         <div className="text-center mt-10">
           <button
             onClick={() => setShowAll(!showAll)}
             className="bg-white text-cyan-400 border border-cyan-400 px-6 py-2 rounded-lg hover:bg-cyan-400 hover:text-white transition-colors font-semibold"
           >
-            {showAll ? 'Show less' : 'Load more destinations'}
+            {showAll ? t('home.showLess') : t('home.loadMore')}
           </button>
         </div>
       )}
