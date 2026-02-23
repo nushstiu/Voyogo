@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import destinations from '../../data/destinations.json';
+import { PUBLIC_DESTINATIONS } from '../../data';
+import { useTranslation } from 'react-i18next';
 
 export default function SearchForm() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [destination, setDestination] = useState('');
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
@@ -31,8 +33,8 @@ export default function SearchForm() {
           className="flex-1 p-3 rounded bg-gray-100 text-gray-700 outline-none"
           aria-label="Select destination"
         >
-          <option value="">Destination</option>
-          {destinations.map((d) => (
+          <option value="">{t('search.destination')}</option>
+          {PUBLIC_DESTINATIONS.map((d) => (
             <option key={d.id} value={d.id}>
               {d.name}
             </option>
@@ -63,7 +65,7 @@ export default function SearchForm() {
           className="flex-1 p-3 rounded bg-gray-100 text-gray-700 outline-none"
           aria-label="Price range"
         >
-          <option value="">Price Range</option>
+          <option value="">{t('search.priceRange')}</option>
           <option value="500-1000">$500 - $1,000</option>
           <option value="1000-2000">$1,000 - $2,000</option>
           <option value="2000-5000">$2,000 - $5,000</option>
@@ -74,7 +76,7 @@ export default function SearchForm() {
           type="submit"
           className="bg-cyan-400 text-white font-semibold px-8 py-3 rounded hover:bg-cyan-500 transition-colors whitespace-nowrap"
         >
-          Search
+          {t('search.search')}
         </button>
       </div>
     </form>
