@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faCheck } from '@fortawesome/free-solid-svg-icons';
 import type { Package } from '../../types/booking';
-import packagesData from '../../data/packages.json';
+import { MOCK_PACKAGES } from '../../data';
 
 interface PackageSelectorProps {
   destination: string;
@@ -15,7 +15,7 @@ export default function PackageSelector({ destination, selectedPackages, onToggl
 
   useEffect(() => {
     if (destination) {
-      const filtered = (packagesData as Package[]).filter(
+      const filtered = MOCK_PACKAGES.filter(
         (p) => p.destination === destination
       );
       setPackages(filtered);
