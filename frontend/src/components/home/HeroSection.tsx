@@ -1,6 +1,8 @@
 import SearchForm from './SearchForm';
+import { useTranslation } from 'react-i18next';
 
 export default function HeroSection() {
+  const { t } = useTranslation();
   return (
     <section
       className="relative h-screen bg-cover bg-center flex flex-col items-center justify-center"
@@ -13,10 +15,10 @@ export default function HeroSection() {
 
       <div className="relative z-10 text-center px-4">
         <p className="text-white text-l tracking-[20px] mb-4 uppercase">
-          Unforgettable Travel Awaits The
+          {t('hero.tagline')}
         </p>
         <h1 className="text-white text-7xl md:text-9xl font-extrabold tracking-wider">
-          ADVENTURE
+          {t('hero.title')}
         </h1>
 
         <div className="mt-12">
