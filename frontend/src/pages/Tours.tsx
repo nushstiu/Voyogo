@@ -1,31 +1,33 @@
 import { useState, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import FilterButtons from '../components/destinations/FilterButtons';
 import TourItem from '../components/tours/TourItem';
 import type { Tour } from '../types/tour';
-import toursData from '../data/tours.json';
+import { PUBLIC_TOURS } from '../data';
 
 const categories = ['all', 'best-seller', 'nature', 'city', 'seasonal'];
 
 export default function Tours() {
+  const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState('all');
   const [search, setSearch] = useState('');
 
   const filtered = useMemo(() => {
-    let result = toursData as Tour[];
+    let result: Tour[] = PUBLIC_TOURS;
     if (activeFilter !== 'all') {
-      result = result.filter((t) => t.category === activeFilter);
+      result = result.filter((tour) => tour.category === activeFilter);
     }
     if (search.trim()) {
       const q = search.toLowerCase();
       result = result.filter(
-        (t) =>
-          t.name.toLowerCase().includes(q) ||
-          t.location.toLowerCase().includes(q) ||
-          t.description.toLowerCase().includes(q)
+        (tour) =>
+          tour.name.toLowerCase().includes(q) ||
+          tour.location.toLowerCase().includes(q) ||
+          tour.description.toLowerCase().includes(q)
       );
     }
     return result;
@@ -45,9 +47,9 @@ export default function Tours() {
         >
           <div className="absolute inset-0 bg-black/30" />
           <div className="relative z-10 h-3/4 flex flex-col items-center justify-center">
-            <p className="text-white text-xl">Home | Tours</p>
+            <p className="text-white text-xl">{t('tours.breadcrumb')}</p>
             <h1 className="text-white text-6xl md:text-8xl font-extrabold tracking-wider mt-4">
-              TOUR PACKAGES
+              {t('tours.title')}
             </h1>
           </div>
         </section>
@@ -55,15 +57,15 @@ export default function Tours() {
         {/* Filter & Search */}
         <div className="w-full px-6 md:px-16 mt-16">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <h2 className="text-3xl md:text-4xl font-bold">Our Tour Packages</h2>
+            <h2 className="text-3xl md:text-4xl font-bold">{t('tours.popular')}</h2>
             <div className="relative">
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search..."
+                placeholder={t('form.search')}
                 className="border-b border-gray-400 bg-transparent py-2 pr-8 pl-2 outline-none text-gray-700"
-                aria-label="Search tours"
+                aria-label={t('form.search')}
               />
               <FontAwesomeIcon
                 icon={faMagnifyingGlass}
@@ -88,7 +90,7 @@ export default function Tours() {
           ))}
           {filtered.length === 0 && (
             <p className="text-center text-gray-500 mt-10 text-lg">
-              No tours found matching your criteria.
+              {t('tours.noResults')}
             </p>
           )}
         </div>

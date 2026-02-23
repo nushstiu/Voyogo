@@ -4,9 +4,11 @@ import {
   faPlus,
   faEdit,
   faTrash,
-  faEye,
 } from '@fortawesome/free-solid-svg-icons';
-import { UI_TEXT, API_ENDPOINTS } from '../../constants';
+import { useTranslation } from 'react-i18next';
+import { tourService } from '../../services/tour.service';
+import { destinationService } from '../../services/destination.service';
+import { bookingService } from '../../services/booking.service';
 import { useDebounce } from '../../hooks/useDebounce';
 import { useFilters } from '../../hooks/useFilters';
 import { usePagination } from '../../hooks/usePagination';
@@ -24,12 +26,8 @@ import Footer from '../../components/layout/Footer';
 import type { Tour, Destination } from '../../types';
 import toast from 'react-hot-toast';
 
-const STATUS_OPTIONS = [
-  { label: 'Active', value: 'active' },
-  { label: 'Inactive', value: 'inactive' },
-];
-
 export default function AdminTours() {
+  const { t } = useTranslation();
   const [tours, setTours] = useState<Tour[]>([]);
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [bookings, setBookings] = useState<{ tour_id?: string }[]>([]);
@@ -37,25 +35,38 @@ export default function AdminTours() {
   const { filters, setFilter } = useFilters({ keys: ['search', 'status', 'destination_id'] });
   const debouncedSearch = useDebounce(filters.search, 300);
 
+  const STATUS_OPTIONS = [
+    { label: t('status.active'), value: 'active' },
+    { label: t('status.inactive'), value: 'inactive' },
+  ];
+
   const createModal = useModal<undefined>();
   const editModal = useModal<Tour>();
   const deleteConfirm = useModal<Tour>();
 
   const fetchTours = useCallback(async () => {
     setLoading(true);
-    const params = new URLSearchParams();
-    if (debouncedSearch) params.set('search', debouncedSearch);
-    if (filters.status) params.set('status', filters.status);
-    if (filters.destination_id) params.set('destination_id', filters.destination_id);
-
-    const [toursRes, destRes, bookingsRes] = await Promise.all([
-      fetch(`${API_ENDPOINTS.TOURS}?${params}`),
-      fetch(API_ENDPOINTS.DESTINATIONS),
-      fetch(API_ENDPOINTS.BOOKINGS),
-    ]);
-    setTours(await toursRes.json());
-    setDestinations(await destRes.json());
-    setBookings(await bookingsRes.json());
+    try {
+      const [allTours, allDests, allBookings] = await Promise.all([
+        tourService.getAll(),
+        destinationService.getAll(),
+        bookingService.getAll(),
+      ]);
+      let filtered = allTours;
+      if (debouncedSearch) {
+        const q = debouncedSearch.toLowerCase();
+        filtered = filtered.filter(t => t.name.toLowerCase().includes(q) || t.location.toLowerCase().includes(q));
+      }
+      if (filters.status) filtered = filtered.filter(t => t.status === filters.status);
+      if (filters.destination_id) filtered = filtered.filter(t => String(t.destination_id) === filters.destination_id);
+      setTours(filtered);
+      setDestinations(allDests);
+      setBookings(allBookings);
+    } catch {
+      setTours([]);
+      setDestinations([]);
+      setBookings([]);
+    }
     setLoading(false);
   }, [debouncedSearch, filters.status, filters.destination_id]);
 
@@ -70,8 +81,8 @@ export default function AdminTours() {
   const bookingCount = (tourId: string) => bookings.filter((b) => b.tour_id === tourId).length;
 
   const handleDelete = async (tour: Tour) => {
-    await fetch(API_ENDPOINTS.TOUR_BY_ID(tour.id), { method: 'DELETE' });
-    toast.success(UI_TEXT.SUCCESS_TOUR_DELETED);
+    await tourService.delete(tour.id);
+    toast.success(t('success.tourDeleted'));
     fetchTours();
   };
 
@@ -83,13 +94,13 @@ export default function AdminTours() {
           <Breadcrumb />
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
-            <h1 className="text-3xl font-bold text-gray-800">Tours</h1>
+            <h1 className="text-3xl font-bold text-gray-800">{t('nav.tours')}</h1>
             <button
               onClick={() => createModal.open()}
               className="bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors flex items-center gap-2 px-4 py-2.5 text-sm"
             >
               <FontAwesomeIcon icon={faPlus} />
-              {UI_TEXT.ACTION_ADD_TOUR}
+              {t('actions.addTour')}
             </button>
           </div>
 
@@ -104,13 +115,13 @@ export default function AdminTours() {
                 value={filters.status || 'all'}
                 onChange={(v) => setFilter('status', v)}
                 options={STATUS_OPTIONS}
-                allLabel={UI_TEXT.FILTER_STATUS}
+                allLabel={t('filters.filterByStatus')}
               />
               <FilterDropdown
                 value={filters.destination_id || 'all'}
                 onChange={(v) => setFilter('destination_id', v)}
                 options={destOptions}
-                allLabel={UI_TEXT.FILTER_DESTINATION}
+                allLabel={t('filters.filterByDestination')}
               />
             </div>
 
@@ -119,20 +130,20 @@ export default function AdminTours() {
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-400" />
               </div>
             ) : paginated.length === 0 ? (
-              <EmptyState title={UI_TEXT.NO_TOURS} />
+              <EmptyState title={t('empty.noTours')} />
             ) : (
               <>
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
                       <tr className="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                        <th className="px-6 py-3">Tour</th>
-                        <th className="px-6 py-3">Destination</th>
-                        <th className="px-6 py-3">Price</th>
-                        <th className="px-6 py-3">Days</th>
-                        <th className="px-6 py-3">Bookings</th>
-                        <th className="px-6 py-3">Status</th>
-                        <th className="px-6 py-3 text-right">Actions</th>
+                        <th className="px-6 py-3">{t('table.tour')}</th>
+                        <th className="px-6 py-3">{t('table.destination')}</th>
+                        <th className="px-6 py-3">{t('table.price')}</th>
+                        <th className="px-6 py-3">{t('table.days')}</th>
+                        <th className="px-6 py-3">{t('table.bookings')}</th>
+                        <th className="px-6 py-3">{t('table.status')}</th>
+                        <th className="px-6 py-3 text-right">{t('table.actions')}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
@@ -166,14 +177,14 @@ export default function AdminTours() {
                               <button
                                 onClick={() => editModal.open(tour)}
                                 className="p-2 hover:bg-blue-100 rounded-lg transition-colors text-blue-500"
-                                title={UI_TEXT.ACTION_EDIT}
+                                title={t('actions.edit')}
                               >
                                 <FontAwesomeIcon icon={faEdit} className="text-sm" />
                               </button>
                               <button
                                 onClick={() => deleteConfirm.open(tour)}
                                 className="p-2 hover:bg-red-100 rounded-lg transition-colors text-red-500"
-                                title={UI_TEXT.ACTION_DELETE}
+                                title={t('actions.delete')}
                               >
                                 <FontAwesomeIcon icon={faTrash} className="text-sm" />
                               </button>
@@ -215,10 +226,10 @@ export default function AdminTours() {
             isOpen={deleteConfirm.isOpen}
             onClose={deleteConfirm.close}
             onConfirm={() => deleteConfirm.data && handleDelete(deleteConfirm.data)}
-            title={UI_TEXT.ACTION_DELETE}
+            title={t('actions.delete')}
             message={
               deleteConfirm.data
-                ? UI_TEXT.CONFIRM_DELETE_TOUR(bookingCount(deleteConfirm.data.id))
+                ? t('confirm.deleteTour', { count: bookingCount(deleteConfirm.data.id) })
                 : ''
             }
           />
