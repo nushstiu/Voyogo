@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faTiktok, faInstagram } from '@fortawesome/free-brands-svg-icons';
+import { ROUTES } from '../../constants/routes';
+import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
+  const { t } = useTranslation();
   return (
     <footer className="bg-gray-800 text-white">
       <div className="w-full px-10 md:px-16 py-10">
@@ -10,34 +13,33 @@ export default function Footer() {
           <div>
             <span className="text-2xl font-extrabold tracking-wider">VOYAGO</span>
             <p className="mt-4 text-gray-400 text-sm">
-              Discover the world with Voyago. We create unforgettable travel experiences
-              tailored just for you.
+              {t('footer.description')}
             </p>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('footer.quickLinks')}</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/destinations" className="text-gray-400 hover:text-cyan-400 transition-colors">
-                  Destinations
+                <Link to={ROUTES.DESTINATIONS} className="text-gray-400 hover:text-cyan-400 transition-colors">
+                  {t('nav.destinations')}
                 </Link>
               </li>
               <li>
-                <Link to="/tours" className="text-gray-400 hover:text-cyan-400 transition-colors">
-                  Tours
+                <Link to={ROUTES.TOURS} className="text-gray-400 hover:text-cyan-400 transition-colors">
+                  {t('nav.tours')}
                 </Link>
               </li>
               <li>
-                <Link to="/booking" className="text-gray-400 hover:text-cyan-400 transition-colors">
-                  Book
+                <Link to={ROUTES.BOOKING} className="text-gray-400 hover:text-cyan-400 transition-colors">
+                  {t('nav.book')}
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('footer.followUs')}</h3>
             <div className="flex gap-4">
               <a
                 href="#"
@@ -65,11 +67,11 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
-          <p>&copy; 2025 Voyago. All rights reserved.</p>
+          <p>{t('footer.copyright')}</p>
           <div className="flex gap-4 mt-4 md:mt-0">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-white transition-colors">{t('footer.privacy')}</a>
             <span>|</span>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            <a href="#" className="hover:text-white transition-colors">{t('footer.terms')}</a>
           </div>
         </div>
       </div>
