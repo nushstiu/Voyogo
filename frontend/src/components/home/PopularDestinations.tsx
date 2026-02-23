@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faCircleChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -8,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 const INITIAL_COUNT = 4;
 
 export default function PopularDestinations() {
+  const { t } = useTranslation();
   const [showAll, setShowAll] = useState(false);
   const { t } = useTranslation();
   const visible = showAll ? PUBLIC_DESTINATIONS : PUBLIC_DESTINATIONS.slice(0, INITIAL_COUNT);
