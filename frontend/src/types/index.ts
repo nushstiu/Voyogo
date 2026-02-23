@@ -16,7 +16,12 @@ export interface User {
   updated_at: string;
 }
 
-export type UserRole = 'admin' | 'user';
+export const UserRole = {
+  Admin: 'admin',
+  User: 'user',
+} as const;
+
+export type UserRole = (typeof UserRole)[keyof typeof UserRole];
 
 export interface LoginCredentials {
   email: string;
@@ -75,7 +80,12 @@ export interface Tour {
   created_at?: string;
 }
 
-export type TourStatus = 'active' | 'inactive';
+export const TourStatus = {
+  Active: 'active',
+  Inactive: 'inactive',
+} as const;
+
+export type TourStatus = (typeof TourStatus)[keyof typeof TourStatus];
 
 export interface CreateTourData {
   location: string;
@@ -108,7 +118,13 @@ export interface Booking {
   updated_at?: string;
 }
 
-export type BookingStatus = 'pending' | 'confirmed' | 'cancelled';
+export const BookingStatus = {
+  Pending: 'pending',
+  Confirmed: 'confirmed',
+  Cancelled: 'cancelled',
+} as const;
+
+export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus];
 
 export interface CreateBookingData {
   name: string;
@@ -119,7 +135,10 @@ export interface CreateBookingData {
   tour_id?: string;
   booking_date: string;
   duration: string;
+  status?: BookingStatus;
   notes?: string;
+  admin_notes?: string;
+  user_id?: string;
 }
 
 // Analytics Types
