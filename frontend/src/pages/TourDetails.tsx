@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { ROUTES } from '../constants/routes';
 import { tourService } from '../services/tour.service';
 import { destinationService } from '../services/destination.service';
 import Header from '../components/layout/Header';
@@ -9,6 +11,7 @@ import Button from '../components/common/Button';
 import type { Tour, Destination } from '../types';
 
 export default function TourDetails() {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [tour, setTour] = useState<Tour | null>(null);
@@ -35,7 +38,7 @@ export default function TourDetails() {
       <>
         <Header transparent />
         <div className="pt-20">
-          <LoadingSpinner fullScreen message="Loading tour details..." />
+          <LoadingSpinner fullScreen message={t('tourDetails.loading')} />
         </div>
         <Footer />
       </>
@@ -47,15 +50,14 @@ export default function TourDetails() {
       <>
         <Header transparent />
         <div className="pt-20 min-h-screen flex flex-col items-center justify-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Tour not found</h2>
-          <Button onClick={() => navigate('/tours')}>Back to Tours</Button>
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('tourDetails.notFound')}</h2>
+          <Button onClick={() => navigate(ROUTES.TOURS)}>{t('tourDetails.backToTours')}</Button>
         </div>
         <Footer />
       </>
     );
   }
 
-  const priceNum = parseFloat(tour.price.replace(/[$,]/g, ''));
   const days = parseInt(tour.days, 10);
 
   return (
@@ -82,35 +84,35 @@ export default function TourDetails() {
             {/* Main content */}
             <div className="lg:col-span-2 space-y-8">
               <div>
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">About this tour</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('tourDetails.aboutTour')}</h2>
                 <p className="text-gray-600 leading-relaxed">{tour.description}</p>
               </div>
 
               {destination && (
                 <div className="bg-blue-50 rounded-xl p-6">
-                  <h3 className="text-lg font-bold text-blue-800 mb-3">About {destination.name}</h3>
+                  <h3 className="text-lg font-bold text-blue-800 mb-3">{t('tourDetails.aboutDest', { name: destination.name })}</h3>
                   <p className="text-gray-700">{destination.description}</p>
                 </div>
               )}
 
               <div>
-                <h3 className="text-xl font-bold text-gray-800 mb-4">Tour Highlights</h3>
+                <h3 className="text-xl font-bold text-gray-800 mb-4">{t('tourDetails.highlights')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div className="flex items-center gap-2 p-3 bg-green-50 rounded-lg">
                     <span className="text-green-600 font-bold">&#10003;</span>
-                    <span>Professional guide</span>
+                    <span>{t('tourDetails.professionalGuide')}</span>
                   </div>
                   <div className="flex items-center gap-2 p-3 bg-green-50 rounded-lg">
                     <span className="text-green-600 font-bold">&#10003;</span>
-                    <span>Hotel accommodation</span>
+                    <span>{t('tourDetails.hotelAccommodation')}</span>
                   </div>
                   <div className="flex items-center gap-2 p-3 bg-green-50 rounded-lg">
                     <span className="text-green-600 font-bold">&#10003;</span>
-                    <span>Airport transfers</span>
+                    <span>{t('tourDetails.airportTransfers')}</span>
                   </div>
                   <div className="flex items-center gap-2 p-3 bg-green-50 rounded-lg">
                     <span className="text-green-600 font-bold">&#10003;</span>
-                    <span>Breakfast included</span>
+                    <span>{t('tourDetails.breakfastIncluded')}</span>
                   </div>
                 </div>
               </div>
@@ -121,27 +123,27 @@ export default function TourDetails() {
               <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-24">
                 <div className="text-center mb-6">
                   <p className="text-3xl font-bold text-green-600">{tour.price}</p>
-                  <p className="text-gray-500 text-sm">per person</p>
+                  <p className="text-gray-500 text-sm">{t('tourDetails.perPerson')}</p>
                 </div>
 
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Duration</span>
-                    <span className="font-semibold">{days} days</span>
+                    <span className="text-gray-600">{t('tourDetails.duration')}</span>
+                    <span className="font-semibold">{t('tourDetails.days', { count: days })}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Location</span>
+                    <span className="text-gray-600">{t('tourDetails.location')}</span>
                     <span className="font-semibold">{tour.location}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Status</span>
+                    <span className="text-gray-600">{t('tourDetails.statusLabel')}</span>
                     <span className={`font-semibold ${tour.status === 'active' ? 'text-green-600' : 'text-red-600'}`}>
                       {tour.status}
                     </span>
                   </div>
                   {destination && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Price range</span>
+                      <span className="text-gray-600">{t('tourDetails.priceRange')}</span>
                       <span className="font-semibold">{destination.price_range}</span>
                     </div>
                   )}
@@ -151,13 +153,13 @@ export default function TourDetails() {
                   variant="primary"
                   size="lg"
                   className="w-full"
-                  onClick={() => navigate('/booking')}
+                  onClick={() => navigate(ROUTES.BOOKING)}
                 >
-                  Book Now
+                  {t('tourDetails.bookNow')}
                 </Button>
 
                 <p className="text-xs text-gray-400 text-center mt-3">
-                  Free cancellation up to 30 days before departure
+                  {t('tourDetails.freeCancellation')}
                 </p>
               </div>
             </div>
