@@ -310,6 +310,24 @@
     "noResults": "Niciun tur gasit conform criteriilor tale."
   },
 
+  "destinationDetails": {
+    "thailandTagline": "Tara Zambetelor \u2013 Unde templele antice intalnesc paradisul tropical",
+    "overview": "Prezentare generala",
+    "discoverThailand": "Descopera Thailanda",
+    "thailandDesc1": "Thailanda este o bijuterie a Asiei de Sud-Est care imbina armonios traditiile antice cu vibratia moderna. De la strazile aglomerate ale Bangkok-ului, impodobite cu temple ornamentate si piete plutitoare, pana la plajele senine ale insulelor sudice, Thailanda ofera o experienta unica.",
+    "thailandDesc2": "Fie ca explorezi junglele luxuriante din Chiang Mai, te scufunzi in apele cristalice ale Marii Andaman sau savurezi bucataria thailandeza renumita mondial la un stand local de strada, fiecare moment in Thailanda este o sarbatoare a simturilor.",
+    "keyFacts": "Informatii cheie",
+    "gallery": "Galerie",
+    "galleryTitle": "Exploreaza Thailanda in imagini",
+    "whyVisit": "De ce sa vizitezi",
+    "whyVisitTitle": "De ce Thailanda ar trebui sa fie urmatoarea ta destinatie",
+    "tourPackages": "Pachete turistice",
+    "availableTours": "Pachete turistice disponibile",
+    "ctaTitle": "Pregatit sa explorezi Thailanda?",
+    "ctaDesc": "Rezerva aventura ta de vis in Thailanda si experimenteaza magia Tarii Zambetelor.",
+    "planTrip": "Planifica-ti calatoria"
+  },
+
   "tourDetails": {
     "loading": "Se incarca detaliile turului...",
     "notFound": "Tur negasit",

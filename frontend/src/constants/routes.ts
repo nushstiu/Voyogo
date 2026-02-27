@@ -21,6 +21,7 @@ export const ROUTES = {
   DESTINATIONS: '/destinations',
   TOURS: '/tours',
   TOUR_DETAILS: '/tours/:id',
+  DESTINATION_DETAILS: '/destinations/:id',
   BOOKING: '/booking',
 
   // Error Pages

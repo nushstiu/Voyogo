@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import Destinations from './pages/Destinations';
 import Tours from './pages/Tours';
 import TourDetails from './pages/TourDetails';
+import DestinationDetails from './pages/DestinationDetails';
 import Booking from './pages/Booking';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -37,6 +38,7 @@ function AppRoutes() {
       <Route path={ROUTES.DESTINATIONS} element={<Destinations />} />
       <Route path={ROUTES.TOURS} element={<Tours />} />
       <Route path={ROUTES.TOUR_DETAILS} element={<TourDetails />} />
+      <Route path={ROUTES.DESTINATION_DETAILS} element={<DestinationDetails />} />
       <Route path={ROUTES.BOOKING} element={<Booking />} />
       <Route path={ROUTES.LOGIN} element={<Login />} />
       <Route path={ROUTES.REGISTER} element={<Register />} />
