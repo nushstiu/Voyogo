@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faBars, faXmark, faSignOutAlt, faShieldAlt, faGlobe } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faBars, faXmark, faSignOutAlt, faShieldAlt } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../context/AuthContext';
 import { ROUTES } from '../../constants';
 import { UserRole } from '../../types';
 import { useTranslation } from 'react-i18next';
+import LanguageDropdown from '../common/LanguageDropdown';
 
 interface HeaderProps {
   transparent?: boolean;
@@ -16,11 +17,7 @@ export default function Header({ transparent = false }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
-
-  const toggleLanguage = () => {
-    i18n.changeLanguage(i18n.language === 'en' ? 'ro' : 'en');
-  };
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!transparent) return;
@@ -89,14 +86,7 @@ export default function Header({ transparent = false }: HeaderProps) {
             </Link>
           ))}
 
-          <button
-            onClick={toggleLanguage}
-            className={`text-lg hover:text-cyan-400 transition-colors ${textClass}`}
-            aria-label="Toggle language"
-          >
-            <FontAwesomeIcon icon={faGlobe} className="mr-1" />
-            {i18n.language === 'en' ? 'RO' : 'EN'}
-          </button>
+          <LanguageDropdown textClass={textClass} />
 
           {user ? (
             <div className="flex items-center gap-3">
@@ -147,13 +137,7 @@ export default function Header({ transparent = false }: HeaderProps) {
             </Link>
           ))}
 
-          <button
-            onClick={toggleLanguage}
-            className="text-lg font-semibold text-gray-800 hover:text-cyan-400 text-left"
-          >
-            <FontAwesomeIcon icon={faGlobe} className="mr-2" />
-            {i18n.language === 'en' ? 'Romana' : 'English'}
-          </button>
+          <LanguageDropdown />
 
           {user ? (
             <button

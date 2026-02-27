@@ -1,0 +1,79 @@
+{
+  "app": {
+    "name": "Voyago",
+    "tagline": "Unvergessliche Abenteuer warten auf Sie"
+  },
+  "nav": {
+    "destinations": "Reiseziele",
+    "tours": "Touren",
+    "book": "Buchen",
+    "dashboard": "Dashboard",
+    "myBookings": "Meine Buchungen",
+    "profile": "Profil",
+    "users": "Benutzer",
+    "bookings": "Buchungen",
+    "analytics": "Analytik",
+    "login": "Anmelden",
+    "logout": "Abmelden"
+  },
+  "auth": {
+    "loginTitle": "Willkommen zurück",
+    "loginSubtitle": "Melden Sie sich an, um Ihre Reise fortzusetzen",
+    "registerTitle": "Konto erstellen",
+    "registerSubtitle": "Starten Sie Ihr Abenteuer mit uns",
+    "loginButton": "Anmelden",
+    "loginLoading": "Anmeldung läuft...",
+    "registerButton": "Konto erstellen",
+    "registerLoading": "Konto wird erstellt...",
+    "demoAccounts": "Demo-Konten",
+    "userLogin": "Benutzer-Login",
+    "adminLogin": "Admin-Login",
+    "noAccount": "Kein Konto?",
+    "signUp": "Registrieren",
+    "hasAccount": "Bereits ein Konto?",
+    "signIn": "Anmelden",
+    "googleLogin": "Weiter mit Google",
+    "facebookLogin": "Weiter mit Facebook",
+    "orDivider": "Oder weiter mit E-Mail"
+  },
+  "form": {
+    "username": "Benutzername",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "phone": "Telefon",
+    "country": "Land",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "search": "Suchen..."
+  },
+  "hero": {
+    "tagline": "Unvergessliche Abenteuer warten auf Sie",
+    "title": "ABENTEUER"
+  },
+  "home": {
+    "popularDestinations": "Beliebte Reiseziele",
+    "bookNow": "Jetzt buchen",
+    "subscribe": "Abonnieren",
+    "thankYou": "Danke für Ihr Abonnement!"
+  },
+  "footer": {
+    "quickLinks": "Schnelllinks",
+    "followUs": "Folgen Sie uns",
+    "copyright": "\u00a9 2025 Voyago. Alle Rechte vorbehalten.",
+    "privacy": "Datenschutzrichtlinie",
+    "terms": "Allgemeine Geschäftsbedingungen"
+  },
+  "actions": {
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "back": "Zurück",
+    "continue": "Weiter",
+    "viewAll": "Alle anzeigen"
+  },
+  "loading": {
+    "default": "Laden..."
+  }
+}
