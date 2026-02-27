@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next';
 import SearchForm from './SearchForm';
-import { useTranslation } from 'react-i18next';
 
 export default function HeroSection() {
   const { t } = useTranslation();

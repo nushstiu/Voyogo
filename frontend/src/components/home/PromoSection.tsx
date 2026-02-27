@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../constants/routes';
-import { useTranslation } from 'react-i18next';
 
 export default function PromoSection() {
   const { t } = useTranslation();

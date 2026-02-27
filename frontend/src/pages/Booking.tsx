@@ -18,7 +18,6 @@ export default function Booking() {
     const { t } = useTranslation();
     const { user } = useAuth();
     const navigate = useNavigate();
-    const { t } = useTranslation();
     const [currentStep, setCurrentStep] = useState(1);
     const [bookingData, setBookingData] = useState<BookingData>({
         duration: 7,
