@@ -1,12 +1,13 @@
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { useTranslation } from 'react-i18next';
+import { faMagnifyingGlass, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import FilterButtons from '../components/destinations/FilterButtons';
 import TourItem from '../components/tours/TourItem';
+import { ROUTES } from '../constants/routes';
 import type { Tour } from '../types/tour';
 import { PUBLIC_TOURS } from '../data';
 
@@ -47,9 +48,15 @@ export default function Tours() {
           }}
         >
           <div className="absolute inset-0 bg-black/30" />
-          <div className="relative z-10 h-3/4 flex flex-col items-center justify-center">
-            <p className="text-white text-xl">{t('tours.breadcrumb')}</p>
-            <h1 className="text-white text-6xl md:text-8xl font-extrabold tracking-wider mt-4">
+          <div className="relative z-10 h-3/4 flex flex-col items-center justify-center text-center px-4">
+            <div className="flex items-center gap-2 text-white/80 text-sm mb-4">
+              <Link to={ROUTES.HOME} className="hover:text-white transition-colors">
+                {t('app.name')}
+              </Link>
+              <FontAwesomeIcon icon={faChevronRight} className="text-xs" />
+              <span className="text-white">{t('nav.tours')}</span>
+            </div>
+            <h1 className="text-white text-7xl md:text-9xl font-extrabold tracking-wider">
               {t('tours.title')}
             </h1>
           </div>

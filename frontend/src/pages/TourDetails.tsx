@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { ROUTES } from '../constants/routes';
 import { tourService } from '../services/tour.service';
 import { destinationService } from '../services/destination.service';
@@ -66,13 +68,23 @@ export default function TourDetails() {
       <main>
         {/* Hero */}
         <section
-          className="relative h-[60vh] bg-cover bg-center"
+          className="relative h-screen bg-cover bg-center"
           style={{ backgroundImage: `url(${tour.image})` }}
         >
-          <div className="absolute inset-0 bg-black/40" />
-          <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
-            <p className="text-white text-lg mb-2">{tour.location}</p>
-            <h1 className="text-white text-4xl md:text-6xl font-extrabold tracking-wider">
+          <div className="absolute inset-0 bg-black/30" />
+          <div className="relative z-10 h-3/4 flex flex-col items-center justify-center text-center px-4">
+            <div className="flex items-center gap-2 text-white/80 text-sm mb-4">
+              <Link to={ROUTES.HOME} className="hover:text-white transition-colors">
+                {t('app.name')}
+              </Link>
+              <FontAwesomeIcon icon={faChevronRight} className="text-xs" />
+              <Link to={ROUTES.TOURS} className="hover:text-white transition-colors">
+                {t('nav.tours')}
+              </Link>
+              <FontAwesomeIcon icon={faChevronRight} className="text-xs" />
+              <span className="text-white">{tour.name}</span>
+            </div>
+            <h1 className="text-white text-7xl md:text-9xl font-extrabold tracking-wider uppercase">
               {tour.name}
             </h1>
           </div>
