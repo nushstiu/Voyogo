@@ -78,6 +78,11 @@ export interface Tour {
   destination_id: number;
   status: TourStatus;
   created_at?: string;
+  itinerary?: { title: string; description: string }[];
+  included?: string[];
+  notIncluded?: string[];
+  reviews?: { name: string; avatar: string; text: string }[];
+  gallery?: string[];
 }
 
 export const TourStatus = {
