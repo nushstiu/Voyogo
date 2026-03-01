@@ -24,10 +24,10 @@ export default function NewsletterSection() {
       <div className="absolute inset-0 bg-black/50" />
 
       <div className="relative z-10 text-center px-6 max-w-2xl">
-        <h2 className="text-4xl md:text-5xl font-bold text-white">
+        <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white">
           {t('home.startAdventure')}
         </h2>
-        <p className="text-white/80 mt-4">
+        <p className="text-white/80 mt-3 sm:mt-4 text-sm sm:text-base">
           {t('home.newsletterSubtitle')}
         </p>
 
