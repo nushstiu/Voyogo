@@ -97,3 +97,14 @@ knip.jsonc
 *.cache
 private_key.pem
 public_key.pem
+# .NET build artifacts
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Node
+node_modules/
+
+# Rider
+.idea/
