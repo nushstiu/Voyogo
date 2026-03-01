@@ -165,7 +165,7 @@ export default function DestinationDetails() {
                   src={img}
                   alt={`Thailand ${i + 1}`}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                  style={{ minHeight: i === 0 ? '400px' : '200px' }}
+                  style={{ minHeight: i === 0 ? '250px' : '150px' }}
                   loading="lazy"
                 />
               </div>

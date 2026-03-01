@@ -125,7 +125,7 @@ function RichTourLayout({ tour, destination }: { tour: Tour; destination: Destin
               <section>
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('tourDetails.overview')}</h2>
                 <p className="text-gray-600 leading-relaxed mb-6">{tour.description}</p>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                   <InfoPill icon={faLocationDot} label={t('tourDetails.location')} value={tour.location} />
                   <InfoPill icon={faClock} label={t('tourDetails.duration')} value={t('tourDetails.days', { count: days })} />
                   <InfoPill icon={faUsers} label={t('tourDetails.groupSize')} value={t('tourDetails.groupSizeValue')} />
@@ -492,14 +492,14 @@ function ClassicTourLayout({ tour, destination }: { tour: Tour; destination: Des
               <FontAwesomeIcon icon={faChevronRight} className="text-xs" />
               <span className="text-white">{tour.name}</span>
             </div>
-            <h1 className="text-white text-7xl md:text-9xl font-extrabold tracking-wider uppercase">
+            <h1 className="text-white text-4xl sm:text-7xl md:text-9xl font-extrabold tracking-wider uppercase">
               {tour.name}
             </h1>
           </div>
         </section>
 
         {/* Content */}
-        <div className="w-full px-6 md:px-16 py-12">
+        <div className="w-full px-4 sm:px-6 md:px-16 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main content */}
             <div className="lg:col-span-2 space-y-8">

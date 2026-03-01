@@ -121,7 +121,7 @@ export default function UserBookings() {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-wrap items-center gap-3 sm:gap-4">
                       <div className="flex items-center gap-2 text-gray-500 text-sm">
                         <FontAwesomeIcon icon={faClock} className="text-gray-400" />
                         <span>{b.booking_date}</span>
