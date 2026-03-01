@@ -356,6 +356,13 @@ export const MOCK_TOURS: Tour[] = [
       { name: 'Anna Mueller', avatar: 'https://randomuser.me/api/portraits/women/55.jpg', text: 'The trek through Doi Inthanon was challenging but so rewarding. Pai was the perfect way to end the trip — such a charming little town.' },
       { name: 'Tom Richards', avatar: 'https://randomuser.me/api/portraits/men/18.jpg', text: 'Incredible tour from start to finish. The Golden Triangle boat ride was a unique experience. Highly recommend this tour!' },
     ],
+    gallery: [
+      'https://images.unsplash.com/photo-1598935898639-81586f7d2129?w=800',
+      'https://images.unsplash.com/photo-1569793092590-2c7e0881af68?w=800',
+      'https://images.unsplash.com/photo-1512553433722-bc47cf69b571?w=800',
+      'https://images.unsplash.com/photo-1551610186-f3684e05e44a?w=800',
+      'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=800',
+    ],
   },
   {
     id: '550e8400-e29b-41d4-a716-446655440501',

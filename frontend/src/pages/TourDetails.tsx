@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChevronRight,
+  faChevronLeft,
   faChevronDown,
   faChevronUp,
   faLocationDot,
@@ -109,6 +110,11 @@ function RichTourLayout({ tour, destination }: { tour: Tour; destination: Destin
             </h1>
           </div>
         </section>
+
+        {/* Gallery Carousel */}
+        {tour.gallery && tour.gallery.length > 0 && (
+          <GalleryCarousel images={tour.gallery} />
+        )}
 
         {/* Two-column content */}
         <div className="w-full px-6 md:px-16 py-16">
@@ -359,6 +365,85 @@ function RichTourLayout({ tour, destination }: { tour: Tour; destination: Destin
       </main>
       <Footer />
     </>
+  );
+}
+
+/* ─── Gallery Carousel ─── */
+
+function GalleryCarousel({ images }: { images: string[] }) {
+  const [current, setCurrent] = useState(0);
+
+  const prev = () => setCurrent((c) => (c === 0 ? images.length - 1 : c - 1));
+  const next = () => setCurrent((c) => (c === images.length - 1 ? 0 : c + 1));
+
+  const getIndex = (offset: number) =>
+    (current + offset + images.length) % images.length;
+
+  return (
+    <section className="w-full py-8 overflow-hidden">
+      <div className="relative flex items-center justify-center gap-4 px-4">
+        {/* Far left (partially visible) */}
+        <div className="hidden lg:block flex-shrink-0 w-[10%] h-48 rounded-xl overflow-hidden opacity-60">
+          <img
+            src={images[getIndex(-2)]}
+            alt=""
+            className="w-full h-full object-cover grayscale"
+          />
+        </div>
+
+        {/* Left image */}
+        <button
+          onClick={prev}
+          className="relative flex-shrink-0 w-[18%] md:w-[15%] h-48 rounded-xl overflow-hidden cursor-pointer"
+        >
+          <img
+            src={images[getIndex(-1)]}
+            alt=""
+            className="w-full h-full object-cover grayscale"
+          />
+          <div className="absolute inset-0 flex items-center justify-center bg-black/10 hover:bg-black/20 transition-colors">
+            <FontAwesomeIcon icon={faChevronLeft} className="text-gray-700 text-2xl" />
+          </div>
+        </button>
+
+        {/* Center active image */}
+        <div className="relative flex-shrink-0 w-[50%] md:w-[40%] h-56 md:h-64 rounded-xl overflow-hidden shadow-lg">
+          <img
+            src={images[current]}
+            alt={`Gallery ${current + 1}`}
+            className="w-full h-full object-cover"
+          />
+          {/* Dot indicator */}
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2">
+            <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: '#00d3f3' }} />
+          </div>
+        </div>
+
+        {/* Right image */}
+        <button
+          onClick={next}
+          className="relative flex-shrink-0 w-[18%] md:w-[15%] h-48 rounded-xl overflow-hidden cursor-pointer"
+        >
+          <img
+            src={images[getIndex(1)]}
+            alt=""
+            className="w-full h-full object-cover grayscale"
+          />
+          <div className="absolute inset-0 flex items-center justify-center bg-black/10 hover:bg-black/20 transition-colors">
+            <FontAwesomeIcon icon={faChevronRight} className="text-gray-700 text-2xl" />
+          </div>
+        </button>
+
+        {/* Far right (partially visible) */}
+        <div className="hidden lg:block flex-shrink-0 w-[10%] h-48 rounded-xl overflow-hidden opacity-60">
+          <img
+            src={images[getIndex(2)]}
+            alt=""
+            className="w-full h-full object-cover grayscale"
+          />
+        </div>
+      </div>
+    </section>
   );
 }
 
