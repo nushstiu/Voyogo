@@ -8,7 +8,7 @@ export default function Footer() {
   const { t } = useTranslation();
   return (
     <footer className="bg-gray-800 text-white">
-      <div className="w-full px-10 md:px-16 py-10">
+      <div className="w-full px-4 sm:px-10 md:px-16 py-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <span className="text-2xl font-extrabold tracking-wider">VOYAGO</span>

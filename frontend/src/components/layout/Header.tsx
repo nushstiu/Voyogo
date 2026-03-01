@@ -68,7 +68,7 @@ export default function Header({ transparent = false }: HeaderProps) {
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${bgClass}`}>
-      <div className="w-full px-10 md:px-16 py-4 flex items-center justify-between">
+      <div className="w-full px-4 sm:px-10 md:px-16 py-4 flex items-center justify-between">
         <Link to={ROUTES.HOME} className="flex items-center">
           <span className={`text-2xl font-extrabold tracking-wider ${textClass}`}>
             VOYAGO
