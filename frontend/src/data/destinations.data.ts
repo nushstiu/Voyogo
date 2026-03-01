@@ -1,4 +1,78 @@
 import type { Destination } from '../types';
+import type { Destination as PublicDestination } from '../types/destination';
+
+export const PUBLIC_DESTINATIONS: PublicDestination[] = [
+  {
+    id: 'indonesia',
+    name: 'Indonesia',
+    image: 'https://images.pexels.com/photos/891407/pexels-photo-891407.jpeg?auto=compress&cs=tinysrgb&w=800',
+    packages: 3,
+    priceRange: '$680 - $1,047',
+    description: 'Welcome to Indonesia, an enchanting archipelago where adventure meets tranquility.',
+    category: 'nature',
+    link: '/tours?destination=indonesia',
+  },
+  {
+    id: 'japan',
+    name: 'Japan',
+    image: 'https://images.pexels.com/photos/1654748/pexels-photo-1654748.jpeg?auto=compress&cs=tinysrgb&w=800',
+    packages: 3,
+    priceRange: '$209 - $5,555',
+    description: 'Explore the perfect blend of ultra-modern technology and traditional temples. From Shibuya Crossing to Mount Fuji, Japan offers endless wonders.',
+    category: 'city',
+    link: '/tours?destination=japan',
+  },
+  {
+    id: 'thailand',
+    name: 'Thailand',
+    image: 'https://images.unsplash.com/photo-1528181304800-259b08848526?w=800',
+    packages: 3,
+    priceRange: '$593 - $765',
+    description: 'Experience the vibrant tapestry of Thailand. From bustling Bangkok to pristine islands, golden temples to world-class street food.',
+    category: 'nature',
+    link: '/destinations/thailand',
+  },
+  {
+    id: 'china',
+    name: 'China',
+    image: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800',
+    packages: 3,
+    priceRange: '$1,239 - $2,000',
+    description: 'Immerse yourself in the vibrant tapestry of culture, history, and modernity that is China. From the Great Wall to modern Shanghai.',
+    category: 'city',
+    link: '/tours?destination=china',
+  },
+  {
+    id: 'philippines',
+    name: 'Philippines',
+    image: 'https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=800',
+    packages: 3,
+    priceRange: '$206 - $1,495',
+    description: 'Discover the vibrant culture influenced by indigenous traditions and Spanish heritage. Over 7,000 islands of paradise await.',
+    category: 'nature',
+    link: '/tours?destination=philippines',
+  },
+  {
+    id: 'south-korea',
+    name: 'South Korea',
+    image: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=800',
+    packages: 3,
+    priceRange: '$1,310 - $4,709',
+    description: 'Experience the dynamic fusion of ancient tradition and cutting-edge modernity in South Korea. K-pop culture meets historic palaces.',
+    category: 'city',
+    link: '/tours?destination=south-korea',
+  },
+  {
+    id: 'cojușna',
+    name: 'Cojușna',
+    image: 'https://storage.moldova1.md/images/5208fcbf-3348-4859-a9db-d4578f76a8e8.jpg',
+    packages: 1,
+    priceRange: '$50 - $150',
+    description: 'Discover the hidden charm of Cojusna, a picturesque village in the heart of Moldova with rolling hills, vineyards, and authentic rural traditions.',
+    category: 'nature',
+    link: '/tours?destination=cojusna',
+  },
+];
 
 export const MOCK_DESTINATIONS: Destination[] = [
   {

@@ -2,28 +2,29 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod/v4';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
-import { UI_TEXT } from '../../constants/text';
 import Breadcrumb from '../../components/common/Breadcrumb';
 import toast from 'react-hot-toast';
 import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
 
-const profileSchema = z.object({
-  username: z.string().min(5, UI_TEXT.ERROR_USERNAME_MIN).max(15, UI_TEXT.ERROR_USERNAME_MAX),
-  phone: z.string().optional(),
-  country: z.string().optional(),
-  date_of_birth: z.string().optional(),
-  address: z.string().optional(),
-  preferred_language: z.string().optional(),
-  emergency_contact_name: z.string().optional(),
-  emergency_contact_phone: z.string().optional(),
-});
-
-type ProfileFormData = z.infer<typeof profileSchema>;
-
 export default function UserProfile() {
+  const { t } = useTranslation();
   const { user } = useAuth();
+
+  const profileSchema = z.object({
+    username: z.string().min(5, t('validation.usernameMin')).max(15, t('validation.usernameMax')),
+    phone: z.string().optional(),
+    country: z.string().optional(),
+    date_of_birth: z.string().optional(),
+    address: z.string().optional(),
+    preferred_language: z.string().optional(),
+    emergency_contact_name: z.string().optional(),
+    emergency_contact_phone: z.string().optional(),
+  });
+
+  type ProfileFormData = z.infer<typeof profileSchema>;
 
   const {
     register,
@@ -53,7 +54,7 @@ export default function UserProfile() {
     await new Promise((r) => setTimeout(r, 500));
     const updated = { ...user!, ...data, updated_at: new Date().toISOString() };
     localStorage.setItem('voyogo_user', JSON.stringify(updated));
-    toast.success(UI_TEXT.SUCCESS_PROFILE_UPDATE);
+    toast.success(t('success.profileUpdate'));
   };
 
   return (
@@ -63,14 +64,14 @@ export default function UserProfile() {
         <div className="w-full px-6 md:px-16 py-12 max-w-4xl mx-auto">
           <Breadcrumb />
 
-          <h1 className="text-3xl font-bold text-gray-800 mb-6">{UI_TEXT.USER_PROFILE}</h1>
+          <h1 className="text-3xl font-bold text-gray-800 mb-6">{t('profile.title')}</h1>
 
           <div className="bg-white rounded-2xl shadow-lg p-6">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-                    {UI_TEXT.LABEL_USERNAME} <span className="text-blue-500">*</span>
+                    {t('form.username')} <span className="text-blue-500">*</span>
                   </label>
                   <input
                     {...register('username')}
@@ -83,7 +84,7 @@ export default function UserProfile() {
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-                    {UI_TEXT.LABEL_EMAIL}
+                    {t('form.email')}
                   </label>
                   <input
                     value={user?.email || ''}
@@ -96,7 +97,7 @@ export default function UserProfile() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-                    {UI_TEXT.LABEL_PHONE}
+                    {t('form.phone')}
                   </label>
                   <input
                     {...register('phone')}
@@ -107,12 +108,12 @@ export default function UserProfile() {
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-                    {UI_TEXT.LABEL_COUNTRY}
+                    {t('form.country')}
                   </label>
                   <input
                     {...register('country')}
                     className="p-4 rounded bg-gray-100 outline-none w-full"
-                    placeholder="Country"
+                    placeholder={t('form.country')}
                   />
                 </div>
               </div>
@@ -120,7 +121,7 @@ export default function UserProfile() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-                    Date of Birth
+                    {t('form.dateOfBirth')}
                   </label>
                   <input
                     type="date"
@@ -131,7 +132,7 @@ export default function UserProfile() {
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-                    Preferred Language
+                    {t('form.preferredLanguage')}
                   </label>
                   <input
                     {...register('preferred_language')}
@@ -143,7 +144,7 @@ export default function UserProfile() {
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-                  Address
+                  {t('form.address')}
                 </label>
                 <input
                   {...register('address')}
@@ -153,21 +154,21 @@ export default function UserProfile() {
               </div>
 
               <div className="border-t border-gray-200 pt-5">
-                <h3 className="text-lg font-bold text-gray-800 mb-3">Emergency Contact</h3>
+                <h3 className="text-lg font-bold text-gray-800 mb-3">{t('form.emergencyContact')}</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-                      Contact Name
+                      {t('form.contactName')}
                     </label>
                     <input
                       {...register('emergency_contact_name')}
                       className="p-4 rounded bg-gray-100 outline-none w-full"
-                      placeholder="Full name"
+                      placeholder={t('form.contactName')}
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
-                      Contact Phone
+                      {t('form.contactPhone')}
                     </label>
                     <input
                       {...register('emergency_contact_phone')}
@@ -184,7 +185,7 @@ export default function UserProfile() {
                   disabled={isSubmitting || !isDirty}
                   className="bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors px-8 py-3 disabled:opacity-50"
                 >
-                  {isSubmitting ? UI_TEXT.LOADING : UI_TEXT.ACTION_SAVE}
+                  {isSubmitting ? t('loading.default') : t('actions.save')}
                 </button>
               </div>
             </form>

@@ -4,6 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBars, faXmark, faSignOutAlt, faShieldAlt } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../context/AuthContext';
 import { ROUTES } from '../../constants';
+import { UserRole } from '../../types';
+import { useTranslation } from 'react-i18next';
+import LanguageDropdown from '../common/LanguageDropdown';
 
 interface HeaderProps {
   transparent?: boolean;
@@ -14,6 +17,7 @@ export default function Header({ transparent = false }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!transparent) return;
@@ -32,46 +36,46 @@ export default function Header({ transparent = false }: HeaderProps) {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate(ROUTES.HOME);
   };
 
   const publicLinks = [
-    { to: '/destinations', label: 'Destinations' },
-    { to: '/tours', label: 'Tours' },
-    { to: '/booking', label: 'Book' },
+    { to: ROUTES.DESTINATIONS, label: t('nav.destinations') },
+    { to: ROUTES.TOURS, label: t('nav.tours') },
+    { to: ROUTES.BOOKING, label: t('nav.book') },
   ];
 
   const userLinks = [
-    { to: ROUTES.USER_DASHBOARD, label: 'Dashboard' },
-    { to: ROUTES.USER_BOOKINGS, label: 'My Bookings' },
-    { to: ROUTES.USER_PROFILE, label: 'Profile' },
+    { to: ROUTES.USER_DASHBOARD, label: t('nav.dashboard') },
+    { to: ROUTES.USER_BOOKINGS, label: t('nav.myBookings') },
+    { to: ROUTES.USER_PROFILE, label: t('nav.profile') },
   ];
 
   const adminLinks = [
-    { to: ROUTES.ADMIN_DASHBOARD, label: 'Dashboard' },
-    { to: ROUTES.ADMIN_USERS, label: 'Users' },
-    { to: ROUTES.ADMIN_DESTINATIONS, label: 'Destinations' },
-    { to: ROUTES.ADMIN_TOURS, label: 'Tours' },
-    { to: ROUTES.ADMIN_BOOKINGS, label: 'Bookings' },
-    { to: ROUTES.ADMIN_ANALYTICS, label: 'Analytics' },
+    { to: ROUTES.ADMIN_DASHBOARD, label: t('nav.dashboard') },
+    { to: ROUTES.ADMIN_USERS, label: t('nav.users') },
+    { to: ROUTES.ADMIN_DESTINATIONS, label: t('nav.destinations') },
+    { to: ROUTES.ADMIN_TOURS, label: t('nav.tours') },
+    { to: ROUTES.ADMIN_BOOKINGS, label: t('nav.bookings') },
+    { to: ROUTES.ADMIN_ANALYTICS, label: t('nav.analytics') },
   ];
 
   const navLinks = user
-    ? user.role === 'admin'
+    ? user.role === UserRole.Admin
       ? adminLinks
       : [...publicLinks, ...userLinks]
     : publicLinks;
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${bgClass}`}>
-      <div className="w-full px-10 md:px-16 py-4 flex items-center justify-between">
-        <Link to="/" className="flex items-center">
+      <div className="w-full px-4 sm:px-10 md:px-16 py-4 flex items-center justify-between">
+        <Link to={ROUTES.HOME} className="flex items-center">
           <span className={`text-2xl font-extrabold tracking-wider ${textClass}`}>
             VOYAGO
           </span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
             <Link
               key={link.to}
@@ -82,10 +86,12 @@ export default function Header({ transparent = false }: HeaderProps) {
             </Link>
           ))}
 
+          <LanguageDropdown textClass={textClass} />
+
           {user ? (
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <span className={`text-sm font-medium ${textClass}`}>
-                {user.role === 'admin' && (
+                {user.role === UserRole.Admin && (
                   <FontAwesomeIcon icon={faShieldAlt} className="mr-1 text-cyan-400" />
                 )}
                 {user.username}
@@ -100,7 +106,7 @@ export default function Header({ transparent = false }: HeaderProps) {
             </div>
           ) : (
             <Link
-              to="/login"
+              to={ROUTES.LOGIN}
               className={`text-xl hover:text-cyan-400 transition-colors ${textClass}`}
               aria-label="Login"
             >
@@ -130,22 +136,25 @@ export default function Header({ transparent = false }: HeaderProps) {
               {link.label}
             </Link>
           ))}
+
+          <LanguageDropdown />
+
           {user ? (
             <button
               onClick={() => { handleLogout(); setMobileOpen(false); }}
               className="text-lg font-semibold text-red-500 hover:text-red-600 text-left"
             >
               <FontAwesomeIcon icon={faSignOutAlt} className="mr-2" />
-              Logout
+              {t('nav.logout')}
             </button>
           ) : (
             <Link
-              to="/login"
+              to={ROUTES.LOGIN}
               className="text-lg font-semibold text-gray-800 hover:text-cyan-400"
               onClick={() => setMobileOpen(false)}
             >
               <FontAwesomeIcon icon={faUser} className="mr-2" />
-              Login
+              {t('nav.login')}
             </Link>
           )}
         </nav>

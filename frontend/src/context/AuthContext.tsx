@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import { UI_TEXT } from '../constants/text';
-import { MOCK_USERS } from '../data';
+import { authService } from '../services/auth.service';
 import type { User } from '../types';
 import toast from 'react-hot-toast';
 
@@ -9,8 +9,6 @@ interface AuthContextType {
   loading: boolean;
   login: (email: string, password: string) => Promise<User>;
   register: (username: string, email: string, password: string) => Promise<User>;
-  loginWithGoogle: () => Promise<void>;
-  loginWithFacebook: () => Promise<void>;
   logout: () => void;
 }
 
@@ -31,19 +29,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(false);
   }, []);
 
-  const login = async (email: string, _password: string): Promise<User> => {
+  const login = async (email: string, password: string): Promise<User> => {
     setLoading(true);
     try {
-      const foundUser = MOCK_USERS.find(
-        (u) => u.email.toLowerCase() === email.toLowerCase()
-      );
-
-      if (!foundUser) {
-        throw new Error(UI_TEXT.ERROR_LOGIN);
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 600));
-
+      const foundUser = await authService.login(email, password);
       setUser(foundUser);
       localStorage.setItem('voyogo_user', JSON.stringify(foundUser));
       toast.success(UI_TEXT.SUCCESS_LOGIN);
@@ -56,28 +45,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const register = async (username: string, email: string, _password: string): Promise<User> => {
+  const register = async (username: string, email: string, password: string): Promise<User> => {
     setLoading(true);
     try {
-      const exists = MOCK_USERS.find(
-        (u) => u.email.toLowerCase() === email.toLowerCase()
-      );
-      if (exists) {
-        throw new Error('Email already registered');
-      }
-
-      await new Promise((resolve) => setTimeout(resolve, 600));
-
-      const newUser: User = {
-        id: crypto.randomUUID(),
-        username,
-        email,
-        role: 'user',
-        profile_pic: null,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
-
+      const newUser = await authService.register(username, email, password);
       setUser(newUser);
       localStorage.setItem('voyogo_user', JSON.stringify(newUser));
       toast.success(UI_TEXT.SUCCESS_REGISTER);
@@ -91,14 +62,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const loginWithGoogle = async () => {
-    toast.error('Google login requires Firebase configuration. Use email login for demo.');
-  };
-
-  const loginWithFacebook = async () => {
-    toast.error('Facebook login requires Firebase configuration. Use email login for demo.');
-  };
-
   const logout = () => {
     setUser(null);
     localStorage.removeItem('voyogo_user');
@@ -107,7 +70,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, login, register, loginWithGoogle, loginWithFacebook, logout }}
+      value={{ user, loading, login, register, logout }}
     >
       {children}
     </AuthContext.Provider>

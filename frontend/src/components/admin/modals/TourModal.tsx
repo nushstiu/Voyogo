@@ -4,8 +4,9 @@ import { z } from 'zod/v4';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { UI_TEXT, API_ENDPOINTS } from '../../../constants';
+import { UI_TEXT } from '../../../constants';
 import type { Tour, Destination } from '../../../types';
+import { tourService } from '../../../services/tour.service';
 import toast from 'react-hot-toast';
 
 const tourSchema = z.object({
@@ -37,7 +38,7 @@ export default function TourModal({ isOpen, onClose, tour, destinations, onSaved
     reset,
     formState: { errors, isSubmitting },
   } = useForm<TourFormData>({
-    resolver: zodResolver(tourSchema),
+    resolver: zodResolver(tourSchema) as any,
   });
 
   useEffect(() => {
@@ -80,18 +81,10 @@ export default function TourModal({ isOpen, onClose, tour, destinations, onSaved
 
   const onSubmit = async (data: TourFormData) => {
     if (tour) {
-      await fetch(API_ENDPOINTS.TOUR_BY_ID(tour.id), {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+      await tourService.update(tour.id, data);
       toast.success(UI_TEXT.SUCCESS_TOUR_UPDATED);
     } else {
-      await fetch(API_ENDPOINTS.TOURS, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+      await tourService.create({ ...data, status: data.status as 'active' | 'inactive' });
       toast.success(UI_TEXT.SUCCESS_TOUR_CREATED);
     }
     onSaved();

@@ -4,8 +4,9 @@ import { z } from 'zod/v4';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { UI_TEXT, API_ENDPOINTS } from '../../constants';
+import { UI_TEXT } from '../../constants';
 import type { Booking } from '../../types';
+import { bookingService } from '../../services/booking.service';
 import toast from 'react-hot-toast';
 
 const editSchema = z.object({
@@ -59,11 +60,7 @@ export default function BookingEditModal({ isOpen, onClose, booking, onSaved }: 
   if (!isOpen || !booking) return null;
 
   const onSubmit = async (data: EditFormData) => {
-    await fetch(API_ENDPOINTS.BOOKING_BY_ID(booking.id), {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
+    await bookingService.update(booking.id, data);
     toast.success(UI_TEXT.SUCCESS_BOOKING_UPDATED);
     onSaved();
     onClose();

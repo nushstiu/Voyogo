@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import type { BookingData, AvailableTour } from '../types/booking';
 import type { Destination } from '../types';
 import { useAuth } from '../context/AuthContext';
+import { ROUTES } from '../constants/routes';
 import DestinationSelector from '../components/booking/DestinationSelector';
 import DurationSelector from '../components/booking/DurationSelector';
 import DateSelector from '../components/booking/DateSelector';
@@ -13,6 +15,7 @@ import PaymentMock from '../components/booking/PaymentMock';
 import BookingConfirmation from '../components/booking/BookingConfirmation';
 
 export default function Booking() {
+    const { t } = useTranslation();
     const { user } = useAuth();
     const navigate = useNavigate();
     const [currentStep, setCurrentStep] = useState(1);
@@ -28,7 +31,7 @@ export default function Booking() {
 
     useEffect(() => {
         if (!user) {
-            navigate('/login?redirect=booking');
+            navigate(`${ROUTES.LOGIN}?redirect=booking`);
         }
     }, [user, navigate]);
 
@@ -37,14 +40,14 @@ export default function Booking() {
     }
 
     const steps = [
-        { number: 1, title: 'Destinatie' },
-        { number: 2, title: 'Durata' },
-        { number: 3, title: 'Date' },
-        { number: 4, title: 'Detalii Tur' },
-        { number: 5, title: 'Preferinte' },
-        { number: 6, title: 'Documente' },
-        { number: 7, title: 'Plata' },
-        { number: 8, title: 'Confirmare' }
+        { number: 1, title: t('booking.steps.destination') },
+        { number: 2, title: t('booking.steps.duration') },
+        { number: 3, title: t('booking.steps.dates') },
+        { number: 4, title: t('booking.steps.tourDetails') },
+        { number: 5, title: t('booking.steps.preferences') },
+        { number: 6, title: t('booking.steps.documents') },
+        { number: 7, title: t('booking.steps.payment') },
+        { number: 8, title: t('booking.steps.confirmation') }
     ];
 
     const renderStep = () => {
@@ -135,17 +138,40 @@ export default function Booking() {
         <div className="min-h-screen bg-gray-50 py-12">
             <div className="max-w-4xl mx-auto px-4">
                 {/* User info header */}
-                <div className="bg-white rounded-lg shadow-sm p-4 mb-6 flex items-center justify-between">
-                    <div className="text-sm text-gray-600">
-                        Rezervare pentru: <span className="font-semibold text-gray-800">{user.username}</span>
-                        {' | '}{user.email}
-                        {user.phone && <> {' | '}{user.phone}</>}
+                <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+                    <div className="text-sm text-gray-600 flex flex-wrap gap-1">
+                        <span>{t('booking.reservationFor')}: <span className="font-semibold text-gray-800">{user.username}</span></span>
+                        <span className="hidden sm:inline"> | </span>
+                        <span>{user.email}</span>
+                        {user.phone && <>
+                            <span className="hidden sm:inline"> | </span>
+                            <span>{user.phone}</span>
+                        </>}
                     </div>
                 </div>
 
                 {/* Step indicator */}
-                <div className="mb-8 overflow-x-auto">
-                    <div className="flex justify-between items-center gap-1 min-w-[600px]">
+                {/* Step indicator - compact on mobile, full on desktop */}
+                <div className="mb-8">
+                    {/* Mobile: show current step */}
+                    <div className="flex sm:hidden items-center justify-center gap-2 mb-4">
+                        <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold text-sm">
+                            {currentStep}
+                        </div>
+                        <span className="text-sm font-medium text-gray-800">
+                            {steps.find(s => s.number === currentStep)?.title}
+                        </span>
+                        <span className="text-xs text-gray-400">({currentStep}/{steps.length})</span>
+                    </div>
+                    {/* Mobile: progress bar */}
+                    <div className="sm:hidden w-full bg-gray-200 rounded-full h-2">
+                        <div
+                            className="bg-blue-600 h-2 rounded-full transition-all"
+                            style={{ width: `${(currentStep / steps.length) * 100}%` }}
+                        />
+                    </div>
+                    {/* Desktop: full step indicator */}
+                    <div className="hidden sm:flex justify-between items-center gap-1">
                         {steps.map((step, index) => (
                             <div key={step.number} className="flex items-center flex-1">
                                 <div

@@ -1,4 +1,4 @@
-import type { Booking } from '../types';
+import { BookingStatus, type Booking } from '../types';
 
 export const MOCK_BOOKINGS: Booking[] = [
   {
@@ -12,7 +12,7 @@ export const MOCK_BOOKINGS: Booking[] = [
     tour_id: '550e8400-e29b-41d4-a716-446655440101',
     booking_date: '2025-03-15',
     duration: '7-14 Days',
-    status: 'confirmed',
+    status: BookingStatus.Confirmed,
     created_at: '2025-02-01T10:00:00.000Z',
   },
   {
@@ -26,7 +26,7 @@ export const MOCK_BOOKINGS: Booking[] = [
     tour_id: '550e8400-e29b-41d4-a716-446655440201',
     booking_date: '2025-04-20',
     duration: '1-2 Days',
-    status: 'pending',
+    status: BookingStatus.Pending,
     created_at: '2025-02-05T14:30:00.000Z',
   },
   {
@@ -40,7 +40,7 @@ export const MOCK_BOOKINGS: Booking[] = [
     tour_id: '550e8400-e29b-41d4-a716-446655440301',
     booking_date: '2025-05-10',
     duration: '5-7 Days',
-    status: 'cancelled',
+    status: BookingStatus.Cancelled,
     created_at: '2025-01-20T09:15:00.000Z',
   },
   {
@@ -54,7 +54,7 @@ export const MOCK_BOOKINGS: Booking[] = [
     tour_id: '550e8400-e29b-41d4-a716-446655440401',
     booking_date: '2025-06-01',
     duration: '5-7 Days',
-    status: 'confirmed',
+    status: BookingStatus.Confirmed,
     created_at: '2025-02-03T11:20:00.000Z',
   },
   {
@@ -68,7 +68,7 @@ export const MOCK_BOOKINGS: Booking[] = [
     tour_id: '550e8400-e29b-41d4-a716-446655440501',
     booking_date: '2025-07-15',
     duration: '5-7 Days',
-    status: 'pending',
+    status: BookingStatus.Pending,
     created_at: '2025-02-06T15:45:00.000Z',
   },
   {
@@ -82,7 +82,7 @@ export const MOCK_BOOKINGS: Booking[] = [
     tour_id: '550e8400-e29b-41d4-a716-446655440601',
     booking_date: '2025-08-20',
     duration: '5-7 Days',
-    status: 'confirmed',
+    status: BookingStatus.Confirmed,
     created_at: '2025-02-07T09:00:00.000Z',
   },
 ];

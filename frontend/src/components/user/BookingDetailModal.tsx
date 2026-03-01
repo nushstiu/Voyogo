@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { UI_TEXT } from '../../constants';
+import { useTranslation } from 'react-i18next';
 import StatusBadge from '../common/StatusBadge';
 import type { Booking } from '../../types';
 
@@ -13,6 +13,7 @@ interface BookingDetailModalProps {
 
 export default function BookingDetailModal({ isOpen, onClose, booking }: BookingDetailModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -32,7 +33,7 @@ export default function BookingDetailModal({ isOpen, onClose, booking }: Booking
     >
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
         <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-800">{UI_TEXT.USER_BOOKING_DETAILS}</h2>
+          <h2 className="text-xl font-bold text-gray-800">{t('modals.viewBooking')}</h2>
           <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
             <FontAwesomeIcon icon={faTimes} className="text-gray-500" />
           </button>
@@ -50,19 +51,19 @@ export default function BookingDetailModal({ isOpen, onClose, booking }: Booking
 
           <div className="grid grid-cols-2 gap-3 pt-3 border-t border-gray-200">
             <div>
-              <p className="text-xs text-gray-500 font-semibold uppercase">Date</p>
+              <p className="text-xs text-gray-500 font-semibold uppercase">{t('table.date')}</p>
               <p className="text-sm text-gray-800">{booking.booking_date}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-500 font-semibold uppercase">Duration</p>
+              <p className="text-xs text-gray-500 font-semibold uppercase">{t('table.duration')}</p>
               <p className="text-sm text-gray-800">{booking.duration}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-500 font-semibold uppercase">Contact</p>
+              <p className="text-xs text-gray-500 font-semibold uppercase">{t('table.contact')}</p>
               <p className="text-sm text-gray-800">{booking.phone}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-500 font-semibold uppercase">Booked on</p>
+              <p className="text-xs text-gray-500 font-semibold uppercase">{t('table.bookedOn')}</p>
               <p className="text-sm text-gray-800">
                 {new Date(booking.created_at).toLocaleDateString()}
               </p>
@@ -72,7 +73,7 @@ export default function BookingDetailModal({ isOpen, onClose, booking }: Booking
           {booking.notes && (
             <div className="pt-3 border-t border-gray-200">
               <p className="text-xs text-gray-500 font-semibold uppercase mb-1">
-                {UI_TEXT.BOOKING_NOTES_LABEL}
+                {t('bookingNotes.label')}
               </p>
               <p className="text-sm text-gray-600">{booking.notes}</p>
             </div>

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot, faClock, faDollarSign } from '@fortawesome/free-solid-svg-icons';
+import { ROUTES } from '../../constants/routes';
 import type { Tour } from '../../types/tour';
 
 interface TourItemProps {
@@ -43,13 +44,13 @@ export default function TourItem({ tour }: TourItemProps) {
 
           <div className="flex flex-wrap gap-3">
             <Link
-              to={`/tours/${tour.id}`}
+              to={ROUTES.TOUR_DETAILS.replace(':id', tour.id)}
               className="bg-blue-500 text-white px-5 py-2 rounded font-medium hover:bg-blue-600 transition-colors"
             >
               Book now
             </Link>
             <Link
-              to={`/tours/${tour.id}`}
+              to={ROUTES.TOUR_DETAILS.replace(':id', tour.id)}
               className="border border-blue-500 text-blue-500 px-5 py-2 rounded font-medium hover:bg-blue-500 hover:text-white transition-colors"
             >
               Learn more

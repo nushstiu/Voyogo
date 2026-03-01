@@ -4,8 +4,9 @@ import { z } from 'zod/v4';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { UI_TEXT, API_ENDPOINTS } from '../../../constants';
+import { UI_TEXT } from '../../../constants';
 import type { Destination } from '../../../types';
+import { destinationService } from '../../../services/destination.service';
 import toast from 'react-hot-toast';
 
 const destinationSchema = z.object({
@@ -33,7 +34,7 @@ export default function DestinationModal({ isOpen, onClose, destination, onSaved
     reset,
     formState: { errors, isSubmitting },
   } = useForm<DestinationFormData>({
-    resolver: zodResolver(destinationSchema),
+    resolver: zodResolver(destinationSchema) as any,
   });
 
   useEffect(() => {
@@ -64,18 +65,10 @@ export default function DestinationModal({ isOpen, onClose, destination, onSaved
 
   const onSubmit = async (data: DestinationFormData) => {
     if (destination) {
-      await fetch(API_ENDPOINTS.DESTINATION_BY_ID(destination.id), {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+      await destinationService.update(destination.id, data);
       toast.success(UI_TEXT.SUCCESS_DESTINATION_UPDATED);
     } else {
-      await fetch(API_ENDPOINTS.DESTINATIONS, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+      await destinationService.create(data);
       toast.success(UI_TEXT.SUCCESS_DESTINATION_CREATED);
     }
     onSaved();

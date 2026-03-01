@@ -1,5 +1,5 @@
 import type { BookingFormData } from '../../types/booking';
-import destinations from '../../data/destinations.json';
+import { PUBLIC_DESTINATIONS } from '../../data';
 
 interface PersonalInfoFormProps {
   formData: BookingFormData;
@@ -174,7 +174,7 @@ export default function PersonalInfoForm({ formData, onChange }: PersonalInfoFor
             aria-label="Destination"
           >
             <option value="">Select destination</option>
-            {destinations.map((d) => (
+            {PUBLIC_DESTINATIONS.map((d) => (
               <option key={d.id} value={d.id}>
                 {d.name}
               </option>
