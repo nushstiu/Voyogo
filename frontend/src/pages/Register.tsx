@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { ROUTES } from '../constants';
 import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
 
 export default function Register() {
   const { t } = useTranslation();
@@ -216,7 +215,6 @@ export default function Register() {
           </div>
         </section>
       </main>
-      <Footer />
     </>
   );
 }

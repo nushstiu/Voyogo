@@ -6,7 +6,6 @@ import { faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-s
 import { useAuth } from '../context/AuthContext';
 import { ROUTES } from '../constants';
 import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
 
 export default function Login() {
   const { t } = useTranslation();
@@ -189,7 +188,6 @@ export default function Login() {
           </div>
         </section>
       </main>
-      <Footer />
     </>
   );
 }

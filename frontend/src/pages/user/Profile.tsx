@@ -7,7 +7,6 @@ import { useAuth } from '../../context/AuthContext';
 import Breadcrumb from '../../components/common/Breadcrumb';
 import toast from 'react-hot-toast';
 import Header from '../../components/layout/Header';
-import Footer from '../../components/layout/Footer';
 
 export default function UserProfile() {
   const { t } = useTranslation();
@@ -192,7 +191,6 @@ export default function UserProfile() {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 }
