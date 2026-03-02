@@ -21,11 +21,13 @@ import {
   faUmbrellaBeach,
   faSpa,
 } from '@fortawesome/free-solid-svg-icons';
+
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import { ROUTES } from '../constants/routes';
 import { MOCK_TOURS } from '../data/tours.data';
 
+// ---------- THAILAND ----------
 const THAILAND_GALLERY = [
   'https://images.unsplash.com/photo-1528181304800-259b08848526?w=800',
   'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800',
@@ -36,12 +38,36 @@ const THAILAND_GALLERY = [
 ];
 
 const THAILAND_HIGHLIGHTS = [
-  { icon: faLandmark, title: 'Ancient Temples', desc: 'Over 40,000 Buddhist temples including the famous Wat Phra Kaew and Wat Arun' },
-  { icon: faUtensils, title: 'World-Class Cuisine', desc: 'From Pad Thai to Tom Yum, experience the bold flavors of Thai street food and fine dining' },
-  { icon: faWater, title: 'Pristine Beaches', desc: 'Crystal-clear waters and white sand beaches across Phuket, Koh Phi Phi, and Koh Samui' },
-  { icon: faMountainSun, title: 'Lush Jungles', desc: 'Trek through northern highlands, visit elephant sanctuaries, and explore national parks' },
-  { icon: faHeart, title: 'Warm Hospitality', desc: 'Known as the "Land of Smiles" for its welcoming culture and friendly locals' },
-  { icon: faGlobe, title: 'Rich Culture', desc: 'Floating markets, traditional dance, Muay Thai, and vibrant night markets' },
+  {
+    icon: faLandmark,
+    title: 'Ancient Temples',
+    desc: 'Over 40,000 Buddhist temples including the famous Wat Phra Kaew and Wat Arun',
+  },
+  {
+    icon: faUtensils,
+    title: 'World-Class Cuisine',
+    desc: 'From Pad Thai to Tom Yum, experience the bold flavors of Thai street food and fine dining',
+  },
+  {
+    icon: faWater,
+    title: 'Pristine Beaches',
+    desc: 'Crystal-clear waters and white sand beaches across Phuket, Koh Phi Phi, and Koh Samui',
+  },
+  {
+    icon: faMountainSun,
+    title: 'Lush Jungles',
+    desc: 'Trek through northern highlands, visit elephant sanctuaries, and explore national parks',
+  },
+  {
+    icon: faHeart,
+    title: 'Warm Hospitality',
+    desc: 'Known as the "Land of Smiles" for its welcoming culture and friendly locals',
+  },
+  {
+    icon: faGlobe,
+    title: 'Rich Culture',
+    desc: 'Floating markets, traditional dance, Muay Thai, and vibrant night markets',
+  },
 ];
 
 const THAILAND_FACTS = [
@@ -53,7 +79,7 @@ const THAILAND_FACTS = [
   { icon: faGlobe, label: 'Time Zone', value: 'GMT+7' },
 ];
 
-// ---------- INDONESIA (NEW) ----------
+// ---------- INDONESIA ----------
 const INDONESIA_GALLERY = [
   'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800',
   'https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=800',
@@ -64,12 +90,36 @@ const INDONESIA_GALLERY = [
 ];
 
 const INDONESIA_HIGHLIGHTS = [
-  { icon: faUmbrellaBeach, title: 'Island Paradise', desc: 'Explore Indonesia’s stunning islands — Bali, Lombok, Gili, and hidden beach coves.' },
-  { icon: faVolcano, title: 'Volcano Adventures', desc: 'Chase sunrise at Mount Bromo, hike Mount Rinjani, and witness volcanic landscapes.' },
-  { icon: faTree, title: 'Tropical Nature', desc: 'Rice terraces, waterfalls, jungle trails, and unique wildlife across the archipelago.' },
-  { icon: faLandmark, title: 'Sacred Temples', desc: 'Discover iconic temples like Tanah Lot and Uluwatu, plus cultural villages in Ubud.' },
-  { icon: faSpa, title: 'Wellness & Relax', desc: 'World-famous spa culture, yoga retreats, and slow living in the heart of Bali.' },
-  { icon: faPersonHiking, title: 'Culture & Local Life', desc: 'Traditional ceremonies, crafts, night markets, and warm local hospitality.' },
+  {
+    icon: faUmbrellaBeach,
+    title: 'Island Paradise',
+    desc: 'Explore Indonesia’s stunning islands — Bali, Lombok, Gili, and hidden beach coves.',
+  },
+  {
+    icon: faVolcano,
+    title: 'Volcano Adventures',
+    desc: 'Chase sunrise at Mount Bromo, hike Mount Rinjani, and witness volcanic landscapes.',
+  },
+  {
+    icon: faTree,
+    title: 'Tropical Nature',
+    desc: 'Rice terraces, waterfalls, jungle trails, and unique wildlife across the archipelago.',
+  },
+  {
+    icon: faLandmark,
+    title: 'Sacred Temples',
+    desc: 'Discover iconic temples like Tanah Lot and Uluwatu, plus cultural villages in Ubud.',
+  },
+  {
+    icon: faSpa,
+    title: 'Wellness & Relax',
+    desc: 'World-famous spa culture, yoga retreats, and slow living in the heart of Bali.',
+  },
+  {
+    icon: faPersonHiking,
+    title: 'Culture & Local Life',
+    desc: 'Traditional ceremonies, crafts, night markets, and warm local hospitality.',
+  },
 ];
 
 const INDONESIA_FACTS = [
@@ -83,16 +133,22 @@ const INDONESIA_FACTS = [
 
 type DestinationKey = 'thailand' | 'indonesia';
 
-const DESTINATION_CONFIG: Record<DestinationKey, {
-  title: string;
-  hero: string;
-  gallery: string[];
-  highlights: { icon: any; title: string; desc: string }[];
-  facts: { icon: any; label: string; value: string }[];
-  toursDestinationId: number;
-  desc1: string;
-  desc2: string;
-}> = {
+type Highlight = { icon: any; title: string; desc: string };
+type Fact = { icon: any; label: string; value: string };
+
+const DESTINATION_CONFIG: Record<
+    DestinationKey,
+    {
+      title: string;
+      hero: string;
+      gallery: string[];
+      highlights: Highlight[];
+      facts: Fact[];
+      toursDestinationId: number;
+      desc1: string;
+      desc2: string;
+    }
+> = {
   thailand: {
     title: 'Thailand',
     hero: 'https://images.unsplash.com/photo-1528181304800-259b08848526?w=1920&q=80',
@@ -111,11 +167,11 @@ const DESTINATION_CONFIG: Record<DestinationKey, {
     gallery: INDONESIA_GALLERY,
     highlights: INDONESIA_HIGHLIGHTS,
     facts: INDONESIA_FACTS,
-    toursDestinationId: 1, // ✅ corect după codul tău
+    toursDestinationId: 1,
     desc1:
-        'Indonesia is an archipelago of breathtaking diversity — a place where volcanic mountains, tropical beaches, and lush rice terraces create postcard-perfect landscapes.',
+        'Indonezia este un arhipelag spectaculos, unde vulcanii activi, plajele tropicale și terasele de orez creează peisaje de poveste.',
     desc2:
-        'From Bali’s spiritual culture and wellness lifestyle to Komodo’s raw adventure, Indonesia is ideal for travelers who want both relaxation and exploration in the same journey.',
+        'De la cultura și atmosfera spirituală din Bali, până la aventurile din Komodo, Indonezia este ideală pentru cei care vor și relaxare, și explorare.',
   },
 };
 
@@ -124,15 +180,21 @@ export default function DestinationDetails() {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const key = (id as DestinationKey) || 'thailand';
-  const destination = DESTINATION_CONFIG[key];
+
+  // ✅ verificăm sigur dacă există în config
+  const destination =
+      id && (id in DESTINATION_CONFIG)
+          ? DESTINATION_CONFIG[id as DestinationKey]
+          : null;
 
   if (!destination) {
     return (
         <>
           <Header transparent />
           <div className="pt-20 min-h-screen flex flex-col items-center justify-center">
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('destinations.noResults')}</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+              {t('destinations.noResults')}
+            </h2>
             <button
                 onClick={() => navigate(ROUTES.DESTINATIONS)}
                 className="bg-cyan-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-cyan-600 transition-colors"
@@ -145,13 +207,15 @@ export default function DestinationDetails() {
     );
   }
 
-  const destinationTours = MOCK_TOURS.filter((tour) => tour.destination_id === destination.toursDestinationId);
+  const destinationTours = MOCK_TOURS.filter(
+      (tour) => tour.destination_id === destination.toursDestinationId
+  );
 
   return (
       <>
         <Header transparent />
         <main>
-          {/* Hero Section */}
+          {/* Hero */}
           <section
               className="relative h-screen bg-cover bg-center"
               style={{ backgroundImage: `url(${destination.hero})` }}
@@ -163,7 +227,10 @@ export default function DestinationDetails() {
                   {t('app.name')}
                 </Link>
                 <FontAwesomeIcon icon={faChevronRight} className="text-xs" />
-                <Link to={ROUTES.DESTINATIONS} className="hover:text-white transition-colors">
+                <Link
+                    to={ROUTES.DESTINATIONS}
+                    className="hover:text-white transition-colors"
+                >
                   {t('nav.destinations')}
                 </Link>
                 <FontAwesomeIcon icon={faChevronRight} className="text-xs" />
@@ -176,19 +243,20 @@ export default function DestinationDetails() {
             </div>
           </section>
 
-          {/* Overview + Key Facts */}
+          {/* Overview + Facts */}
           <section className="w-full px-6 md:px-16 py-16">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-              {/* Overview */}
               <div className="lg:col-span-2">
                 <p className="text-cyan-500 tracking-widest font-semibold text-sm uppercase mb-2">
                   {t('destinationDetails.overview')}
                 </p>
+
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
                   {destination.title === 'Thailand'
                       ? t('destinationDetails.discoverThailand')
                       : 'Discover Indonesia'}
                 </h2>
+
                 <p className="text-gray-600 leading-relaxed text-lg mb-4">
                   {destination.desc1}
                 </p>
@@ -197,11 +265,11 @@ export default function DestinationDetails() {
                 </p>
               </div>
 
-              {/* Key Facts Card */}
               <div className="bg-white rounded-2xl shadow-lg p-6 h-fit">
                 <h3 className="text-xl font-bold text-gray-800 mb-5">
                   {t('destinationDetails.keyFacts')}
                 </h3>
+
                 <div className="space-y-4">
                   {destination.facts.map((fact) => (
                       <div key={fact.label} className="flex items-center gap-4">
@@ -209,31 +277,37 @@ export default function DestinationDetails() {
                           <FontAwesomeIcon icon={fact.icon} className="text-cyan-500" />
                         </div>
                         <div>
-                          <p className="text-xs text-gray-400 uppercase tracking-wider">{fact.label}</p>
+                          <p className="text-xs text-gray-400 uppercase tracking-wider">
+                            {fact.label}
+                          </p>
                           <p className="text-gray-800 font-semibold">{fact.value}</p>
                         </div>
                       </div>
                   ))}
                 </div>
               </div>
-
             </div>
           </section>
 
-          {/* Photo Gallery */}
+          {/* Gallery */}
           <section className="w-full px-6 md:px-16 pb-16">
             <p className="text-cyan-500 tracking-widest font-semibold text-sm uppercase mb-2">
               {t('destinationDetails.gallery')}
             </p>
+
             <h2 className="text-3xl font-bold text-gray-800 mb-8">
-              {t('destinationDetails.galleryTitle')}
+              {destination.title === 'Thailand'
+                  ? t('destinationDetails.galleryTitle')
+                  : 'Explorează Indonezia în imagini'}
             </h2>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {destination.gallery.map((img, i) => (
                   <div
                       key={i}
-                      className={`overflow-hidden rounded-2xl ${i === 0 ? 'md:col-span-2 md:row-span-2' : ''}`}
+                      className={`overflow-hidden rounded-2xl ${
+                          i === 0 ? 'md:col-span-2 md:row-span-2' : ''
+                      }`}
                   >
                     <img
                         src={img}
@@ -247,14 +321,16 @@ export default function DestinationDetails() {
             </div>
           </section>
 
-          {/* Highlights / Why Visit */}
+          {/* Highlights */}
           <section className="w-full px-6 md:px-16 pb-16">
             <div className="text-center mb-12">
               <p className="text-cyan-500 tracking-widest font-semibold text-sm uppercase mb-2">
                 {t('destinationDetails.whyVisit')}
               </p>
               <h2 className="text-3xl font-bold text-gray-800">
-                {t('destinationDetails.whyVisitTitle')}
+                {destination.title === 'Thailand'
+                    ? t('destinationDetails.whyVisitTitle')
+                    : 'De ce Indonezia ar trebui să fie următoarea ta destinație'}
               </h2>
             </div>
 
@@ -270,14 +346,18 @@ export default function DestinationDetails() {
                           className="text-cyan-500 text-xl group-hover:text-white transition-colors"
                       />
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-2">{item.title}</h3>
-                    <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
+                    <h3 className="text-lg font-bold text-gray-800 mb-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-gray-500 text-sm leading-relaxed">
+                      {item.desc}
+                    </p>
                   </div>
               ))}
             </div>
           </section>
 
-          {/* Available Tour Packages */}
+          {/* Tours */}
           <section className="w-full px-6 md:px-16 pb-16">
             <div className="text-center mb-12">
               <p className="text-cyan-500 tracking-widest font-semibold text-sm uppercase mb-2">
@@ -309,7 +389,9 @@ export default function DestinationDetails() {
                         <span>{tour.location}</span>
                       </div>
 
-                      <h3 className="text-xl font-bold text-gray-800 mb-2">{tour.name}</h3>
+                      <h3 className="text-xl font-bold text-gray-800 mb-2">
+                        {tour.name}
+                      </h3>
 
                       <p className="text-gray-500 text-sm leading-relaxed mb-4 line-clamp-2">
                         {tour.description}
@@ -322,6 +404,7 @@ export default function DestinationDetails() {
                         {tour.days} {t('table.days')}
                       </span>
                         </div>
+
                         <p className="text-xl font-bold text-cyan-600">{tour.price}</p>
                       </div>
 
@@ -352,21 +435,24 @@ export default function DestinationDetails() {
             )}
           </section>
 
-          {/* CTA Section */}
+          {/* CTA */}
           <section className="w-full px-6 md:px-16 pb-16">
             <div
                 className="relative rounded-3xl overflow-hidden bg-cover bg-center py-20 px-8"
-                style={{
-                  backgroundImage: `url(${destination.hero})`,
-                }}
+                style={{ backgroundImage: `url(${destination.hero})` }}
             >
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/90 to-blue-600/80" />
               <div className="relative z-10 text-center max-w-2xl mx-auto">
                 <h2 className="text-white text-3xl md:text-4xl font-bold mb-4">
-                  {t('destinationDetails.ctaTitle')}
+                  {destination.title === 'Thailand'
+                      ? t('destinationDetails.ctaTitle')
+                      : 'Pregătit să explorezi Indonezia?'}
                 </h2>
+
                 <p className="text-white/90 text-lg mb-8">
-                  {t('destinationDetails.ctaDesc')}
+                  {destination.title === 'Thailand'
+                      ? t('destinationDetails.ctaDesc')
+                      : 'Rezervă aventura ta de vis în Indonezia și descoperă mixul perfect dintre natură, cultură și relaxare.'}
                 </p>
                 <button
                     onClick={() => navigate(ROUTES.BOOKING)}
