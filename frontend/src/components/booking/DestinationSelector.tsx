@@ -9,6 +9,7 @@ interface Props {
     user: User | null;
     selectedDestination: Destination | null;
     setSelectedDestination: (dest: Destination | null) => void;
+    preselectedDestination?: Destination | null;
     onNext: () => void;
 }
 
@@ -18,6 +19,7 @@ export default function DestinationSelector({
     user,
     selectedDestination,
     setSelectedDestination,
+    preselectedDestination,
     onNext
 }: Props) {
     const [adults, setAdults] = useState(bookingData.travelers.adults);
@@ -28,6 +30,12 @@ export default function DestinationSelector({
     useEffect(() => {
         destinationService.getAll().then(setDestinations);
     }, []);
+
+    useEffect(() => {
+        if (preselectedDestination && !chosen) {
+            setChosen(preselectedDestination);
+        }
+    }, [preselectedDestination]);
 
     const handleSelectDestination = (dest: Destination) => {
         setChosen(dest);

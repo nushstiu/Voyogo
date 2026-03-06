@@ -44,7 +44,7 @@ export default function TourItem({ tour }: TourItemProps) {
 
           <div className="flex flex-wrap gap-3">
             <Link
-              to={ROUTES.TOUR_DETAILS.replace(':id', tour.id)}
+              to={`${ROUTES.BOOKING}?tour=${tour.id}`}
               className="bg-blue-500 text-white px-5 py-2 rounded font-medium hover:bg-blue-600 transition-colors"
             >
               Book now

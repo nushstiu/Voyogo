@@ -356,7 +356,7 @@ function RichTourLayout({ tour, destination }: { tour: Tour; destination: Destin
             <Button
               variant="primary"
               size="lg"
-              onClick={() => navigate(ROUTES.BOOKING)}
+              onClick={() => navigate(`${ROUTES.BOOKING}?tour=${tour.id}`)}
             >
               {t('tourDetails.bookNow')}
             </Button>
@@ -573,7 +573,7 @@ function ClassicTourLayout({ tour, destination }: { tour: Tour; destination: Des
                   variant="primary"
                   size="lg"
                   className="w-full"
-                  onClick={() => navigate(ROUTES.BOOKING)}
+                  onClick={() => navigate(`${ROUTES.BOOKING}?tour=${tour.id}`)}
                 >
                   {t('tourDetails.bookNow')}
                 </Button>

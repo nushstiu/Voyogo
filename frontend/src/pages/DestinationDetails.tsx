@@ -246,7 +246,7 @@ export default function DestinationDetails() {
                   </div>
                   <div className="flex gap-3">
                     <Link
-                      to={ROUTES.TOUR_DETAILS.replace(':id', tour.id)}
+                      to={`${ROUTES.BOOKING}?tour=${tour.id}`}
                       className="flex-1 text-center bg-cyan-500 text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-cyan-600 transition-colors"
                     >
                       {t('tourDetails.bookNow')}

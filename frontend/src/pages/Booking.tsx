@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import type { BookingData, AvailableTour } from '../types/booking';
 import type { Destination } from '../types';
 import { useAuth } from '../context/AuthContext';
 import { ROUTES } from '../constants/routes';
+import { tourService } from '../services/tour.service';
+import { destinationService } from '../services/destination.service';
 import DestinationSelector from '../components/booking/DestinationSelector';
 import DurationSelector from '../components/booking/DurationSelector';
 import DateSelector from '../components/booking/DateSelector';
@@ -18,6 +20,7 @@ export default function Booking() {
     const { t } = useTranslation();
     const { user } = useAuth();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const [currentStep, setCurrentStep] = useState(1);
     const [bookingData, setBookingData] = useState<BookingData>({
         duration: 7,
@@ -34,6 +37,21 @@ export default function Booking() {
             navigate(`${ROUTES.LOGIN}?redirect=booking`);
         }
     }, [user, navigate]);
+
+    // Pre-select destination when coming from a tour card
+    const [preselectedDestination, setPreselectedDestination] = useState<Destination | null>(null);
+    useEffect(() => {
+        const tourId = searchParams.get('tour');
+        if (!tourId) return;
+
+        tourService.getById(tourId).then(tour => {
+            if (!tour) return;
+            destinationService.getById(tour.destination_id).then(dest => {
+                if (!dest) return;
+                setPreselectedDestination(dest);
+            });
+        });
+    }, [searchParams]);
 
     if (!user) {
         return null;
@@ -60,6 +78,7 @@ export default function Booking() {
                         user={user}
                         selectedDestination={selectedDestination}
                         setSelectedDestination={setSelectedDestination}
+                        preselectedDestination={preselectedDestination}
                         onNext={() => setCurrentStep(2)}
                     />
                 );
