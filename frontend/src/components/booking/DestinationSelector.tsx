@@ -90,9 +90,22 @@ export default function DestinationSelector({
                                 onClick={() => setAdults(Math.max(1, adults - 1))}
                                 className="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center hover:bg-gray-100"
                             >-</button>
-                            <span className="text-lg font-semibold w-8 text-center">{adults}</span>
+                            <input
+                                type="text"
+                                inputMode="numeric"
+                                value={adults}
+                                onDoubleClick={(e) => (e.target as HTMLInputElement).select()}
+                                onChange={(e) => {
+                                    const val = e.target.value.replace(/\D/g, '');
+                                    if (val === '') { setAdults(0); return; }
+                                    const num = Math.min(30, parseInt(val, 10));
+                                    setAdults(num);
+                                }}
+                                onBlur={() => { if (adults < 1) setAdults(1); }}
+                                className="text-lg font-semibold w-10 text-center bg-transparent border-b-2 border-transparent hover:border-gray-300 focus:border-blue-500 focus:outline-none transition-colors"
+                            />
                             <button
-                                onClick={() => setAdults(Math.min(10, adults + 1))}
+                                onClick={() => setAdults(Math.min(30, adults + 1))}
                                 className="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center hover:bg-gray-100"
                             >+</button>
                         </div>
@@ -104,9 +117,21 @@ export default function DestinationSelector({
                                 onClick={() => setChildren(Math.max(0, children - 1))}
                                 className="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center hover:bg-gray-100"
                             >-</button>
-                            <span className="text-lg font-semibold w-8 text-center">{children}</span>
+                            <input
+                                type="text"
+                                inputMode="numeric"
+                                value={children}
+                                onDoubleClick={(e) => (e.target as HTMLInputElement).select()}
+                                onChange={(e) => {
+                                    const val = e.target.value.replace(/\D/g, '');
+                                    if (val === '') { setChildren(0); return; }
+                                    const num = Math.min(30, parseInt(val, 10));
+                                    setChildren(num);
+                                }}
+                                className="text-lg font-semibold w-10 text-center bg-transparent border-b-2 border-transparent hover:border-gray-300 focus:border-blue-500 focus:outline-none transition-colors"
+                            />
                             <button
-                                onClick={() => setChildren(Math.min(8, children + 1))}
+                                onClick={() => setChildren(Math.min(30, children + 1))}
                                 className="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center hover:bg-gray-100"
                             >+</button>
                         </div>
