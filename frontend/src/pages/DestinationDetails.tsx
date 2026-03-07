@@ -187,12 +187,12 @@ const JAPAN_FACTS = [
 // ---------- CHINA ----------
 
 const CHINA_GALLERY = [
-  'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800',
-  'https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=800',
-  'https://images.unsplash.com/photo-1533850595620-7b1711221751?w=800',
-  'https://images.unsplash.com/photo-1529516544813-9c3f3b9d0f9c?w=800',
-  'https://images.unsplash.com/photo-1577705998148-6da4f3963bc8?w=800',
-  'https://images.unsplash.com/photo-1549692520-acc6669e2f0c?w=800',
+  'https://images.pexels.com/photos/3204950/pexels-photo-3204950.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/213399/pexels-photo-213399.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/4900977/pexels-photo-4900977.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/247599/pexels-photo-247599.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/19872/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/2187662/pexels-photo-2187662.jpeg?auto=compress&cs=tinysrgb&w=800',
 ];
 
 const CHINA_HIGHLIGHTS = [
@@ -236,7 +236,58 @@ const CHINA_FACTS = [
   { icon: faTemperatureHigh, label: 'Climate', value: 'Varies by region' },
   { icon: faGlobe, label: 'Time Zone', value: 'GMT+8' },
 ];
+// ---------- PHILIPPINES ----------
 
+const PHILIPPINES_GALLERY = [
+  'https://images.pexels.com/photos/753626/pexels-photo-753626.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/1487585/pexels-photo-1487585.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/2474690/pexels-photo-2474690.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/574542/pexels-photo-574542.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=800'
+];
+
+const PHILIPPINES_HIGHLIGHTS = [
+  {
+    icon: faUmbrellaBeach,
+    title: 'Tropical Beaches',
+    desc: 'Discover world-famous white sand beaches and crystal-clear waters in islands like Palawan and Boracay.',
+  },
+  {
+    icon: faWater,
+    title: 'Island Hopping',
+    desc: 'Explore thousands of islands, hidden lagoons, and breathtaking coastal landscapes.',
+  },
+  {
+    icon: faMountainSun,
+    title: 'Natural Wonders',
+    desc: 'Visit incredible places like Chocolate Hills and underground rivers.',
+  },
+  {
+    icon: faTree,
+    title: 'Rich Biodiversity',
+    desc: 'Experience diverse marine life, coral reefs, and tropical jungles.',
+  },
+  {
+    icon: faUtensils,
+    title: 'Unique Cuisine',
+    desc: 'Taste Filipino dishes that blend Asian, Spanish, and local flavors.',
+  },
+  {
+    icon: faHeart,
+    title: 'Warm Hospitality',
+    desc: 'Filipino culture is known worldwide for its friendliness and welcoming spirit.',
+  },
+];
+
+const PHILIPPINES_FACTS = [
+  { icon: faLocationDot, label: 'Capital', value: 'Manila' },
+  { icon: faLanguage, label: 'Language', value: 'Filipino & English' },
+  { icon: faCoins, label: 'Currency', value: 'Philippine Peso (PHP)' },
+  { icon: faCalendarDays, label: 'Best Time', value: 'Dec - May' },
+  { icon: faTemperatureHigh, label: 'Climate', value: 'Tropical, 25-32°C' },
+  { icon: faGlobe, label: 'Time Zone', value: 'GMT+8' },
+];
 type DestinationKey =
     | 'indonesia'
     | 'japan'
