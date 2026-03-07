@@ -29,7 +29,7 @@ import { MOCK_TOURS } from '../data/tours.data';
 
 // ---------- THAILAND ----------
 const THAILAND_GALLERY = [
-  'https://images.unsplash.com/photo-1528181304800-259b08848526?w=400',
+  'https://images.pexels.com/photos/4318366/pexels-photo-4318366.jpeg?auto=compress&cs=tinysrgb&w=1600',
   'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800',
   'https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?w=800',
   'https://images.unsplash.com/photo-1504214208698-ea1916a2195a?w=800',
@@ -133,12 +133,12 @@ const INDONESIA_FACTS = [
 // ---------- JAPAN ----------
 
 const JAPAN_GALLERY = [
-  'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800',
-  'https://images.unsplash.com/photo-1549692520-acc6669e2f0c?w=800',
+  'https://images.pexels.com/photos/3917809/pexels-photo-3917809.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  'https://images.pexels.com/photos/1310788/pexels-photo-1310788.jpeg?auto=compress&cs=tinysrgb&w=1600',
   'https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?w=800',
   'https://images.unsplash.com/photo-1505069446780-4ef442b5207f?w=800',
+  'https://images.pexels.com/photos/5473010/pexels-photo-5473010.jpeg?auto=compress&cs=tinysrgb&w=1600',
   'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800',
-  'https://images.unsplash.com/photo-1504788363733-507549153474?w=800',
 ];
 
 const JAPAN_HIGHLIGHTS = [
