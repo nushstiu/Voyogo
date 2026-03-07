@@ -232,6 +232,18 @@ const DESTINATION_CONFIG: Record<
     desc2:
         'De la cultura și atmosfera spirituală din Bali, până la aventurile din Komodo, Indonezia este ideală pentru cei care vor și relaxare, și explorare.',
   },
+  japan: {
+    title: 'Japan',
+    hero: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=1920&q=80',
+    gallery: JAPAN_GALLERY,
+    highlights: JAPAN_HIGHLIGHTS,
+    facts: JAPAN_FACTS,
+    toursDestinationId: 2,
+    desc1:
+        'Japan is a fascinating destination where ancient traditions blend seamlessly with modern innovation. From the neon-lit streets of Tokyo to the peaceful temples of Kyoto, every region offers a unique experience.',
+    desc2:
+        'Travelers can explore historic shrines, breathtaking landscapes, and world-renowned cuisine while discovering a culture deeply rooted in respect, harmony, and beauty.',
+  },
 };
 
 export default function DestinationDetails() {
