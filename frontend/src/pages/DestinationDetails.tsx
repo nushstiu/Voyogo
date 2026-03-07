@@ -239,12 +239,13 @@ const CHINA_FACTS = [
 // ---------- PHILIPPINES ----------
 
 const PHILIPPINES_GALLERY = [
-  'https://images.pexels.com/photos/753626/pexels-photo-753626.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/1487585/pexels-photo-1487585.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/2383840/pexels-photo-2383840.jpeg?auto=compress&cs=tinysrgb&w=800',
   'https://images.pexels.com/photos/2474690/pexels-photo-2474690.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/574542/pexels-photo-574542.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&w=800'
+  'https://images.pexels.com/photos/672358/pexels-photo-672358.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/753626/pexels-photo-753626.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/6490680/pexels-photo-6490680.jpeg?auto=compress&cs=tinysrgb&w=800',
+
 ];
 
 const PHILIPPINES_HIGHLIGHTS = [
@@ -288,6 +289,59 @@ const PHILIPPINES_FACTS = [
   { icon: faTemperatureHigh, label: 'Climate', value: 'Tropical, 25-32°C' },
   { icon: faGlobe, label: 'Time Zone', value: 'GMT+8' },
 ];
+// ---------- SOUTH KOREA ----------
+
+const SOUTH_KOREA_GALLERY = [
+  'https://images.pexels.com/photos/237211/pexels-photo-237211.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/301614/pexels-photo-301614.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/162240/seoul-south-korea-cityscape-162240.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/355465/pexels-photo-355465.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/1619317/pexels-photo-1619317.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/672358/pexels-photo-672358.jpeg?auto=compress&cs=tinysrgb&w=800'
+];
+
+const SOUTH_KOREA_HIGHLIGHTS = [
+  {
+    icon: faLandmark,
+    title: 'Historic Palaces',
+    desc: 'Visit iconic landmarks like Gyeongbokgung Palace and explore Korea’s royal history.',
+  },
+  {
+    icon: faGlobe,
+    title: 'Modern Cities',
+    desc: 'Discover Seoul’s futuristic skyline, vibrant districts, and innovative architecture.',
+  },
+  {
+    icon: faUtensils,
+    title: 'Korean Cuisine',
+    desc: 'Taste famous dishes such as kimchi, bibimbap, and Korean BBQ.',
+  },
+  {
+    icon: faTree,
+    title: 'Beautiful Nature',
+    desc: 'Explore mountains, national parks, and scenic landscapes across the country.',
+  },
+  {
+    icon: faHeart,
+    title: 'K-Culture',
+    desc: 'Experience the global influence of K-pop, Korean dramas, and fashion.',
+  },
+  {
+    icon: faSpa,
+    title: 'Wellness & Spas',
+    desc: 'Relax in traditional Korean spas and wellness centers.',
+  },
+];
+
+const SOUTH_KOREA_FACTS = [
+  { icon: faLocationDot, label: 'Capital', value: 'Seoul' },
+  { icon: faLanguage, label: 'Language', value: 'Korean' },
+  { icon: faCoins, label: 'Currency', value: 'South Korean Won (KRW)' },
+  { icon: faCalendarDays, label: 'Best Time', value: 'Apr - Jun / Sep - Nov' },
+  { icon: faTemperatureHigh, label: 'Climate', value: 'Temperate, 5-30°C' },
+  { icon: faGlobe, label: 'Time Zone', value: 'GMT+9' },
+];
+
 type DestinationKey =
     | 'indonesia'
     | 'japan'
@@ -385,7 +439,7 @@ const DESTINATION_CONFIG: Partial<Record<
   },
   philippines: {
     title: 'Philippines',
-    hero: 'https://images.pexels.com/photos/1487585/pexels-photo-1487585.jpeg?auto=compress&cs=tinysrgb&w=1920',
+    hero: 'https://images.pexels.com/photos/161212/rio-de-janeiro-olympics-2016-niteroi-brazil-161212.jpeg?auto=compress&cs=tinysrgb&w=800',
     gallery: PHILIPPINES_GALLERY,
     highlights: PHILIPPINES_HIGHLIGHTS,
     facts: PHILIPPINES_FACTS,
