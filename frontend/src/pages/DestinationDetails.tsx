@@ -383,6 +383,24 @@ const DESTINATION_CONFIG: Partial<Record<
     ctaDesc:
         'Book your dream adventure in China and discover the perfect mix of history, culture, nature, and modern innovation.',
   },
+  philippines: {
+    title: 'Philippines',
+    hero: 'https://images.pexels.com/photos/1487585/pexels-photo-1487585.jpeg?auto=compress&cs=tinysrgb&w=1920',
+    gallery: PHILIPPINES_GALLERY,
+    highlights: PHILIPPINES_HIGHLIGHTS,
+    facts: PHILIPPINES_FACTS,
+    toursDestinationId: 5,
+    desc1:
+        'The Philippines is a tropical paradise made up of more than 7,000 islands, famous for turquoise waters, white sand beaches, and breathtaking natural scenery.',
+    desc2:
+        'Travelers can enjoy island hopping, diving in coral reefs, exploring lush jungles, and experiencing a vibrant culture influenced by both Asian and Spanish traditions.',
+
+    overviewTitle: 'Discover Philippines',
+    highlightsTitle: 'Why Philippines should be your next destination',
+    ctaTitle: 'Ready to explore the Philippines?',
+    ctaDesc:
+        'Plan your dream island adventure and discover tropical beaches, crystal-clear lagoons, and unforgettable island landscapes.',
+  },
 };
 
 export default function DestinationDetails() {
