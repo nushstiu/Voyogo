@@ -130,6 +130,59 @@ const INDONESIA_FACTS = [
   { icon: faGlobe, label: 'Fus orar', value: 'GMT+7 până la GMT+9' },
 ];
 
+// ---------- JAPAN ----------
+
+const JAPAN_GALLERY = [
+  'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=800',
+  'https://images.unsplash.com/photo-1549692520-acc6669e2f0c?w=800',
+  'https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?w=800',
+  'https://images.unsplash.com/photo-1505069446780-4ef442b5207f?w=800',
+  'https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800',
+  'https://images.unsplash.com/photo-1504788363733-507549153474?w=800',
+];
+
+const JAPAN_HIGHLIGHTS = [
+  {
+    icon: faLandmark,
+    title: 'Ancient Temples',
+    desc: 'Explore historic temples and shrines such as Kyoto’s Fushimi Inari and Kinkaku-ji.',
+  },
+  {
+    icon: faGlobe,
+    title: 'Modern Cities',
+    desc: 'Experience Tokyo and Osaka, cities where cutting-edge technology meets vibrant culture.',
+  },
+  {
+    icon: faMountainSun,
+    title: 'Mount Fuji',
+    desc: 'Witness Japan’s iconic mountain and explore the beautiful landscapes around it.',
+  },
+  {
+    icon: faUtensils,
+    title: 'Japanese Cuisine',
+    desc: 'Enjoy sushi, ramen, tempura and world-famous culinary traditions.',
+  },
+  {
+    icon: faTree,
+    title: 'Cherry Blossoms',
+    desc: 'Experience the magical Sakura season when Japan turns pink with blooming cherry trees.',
+  },
+  {
+    icon: faHeart,
+    title: 'Rich Traditions',
+    desc: 'From tea ceremonies to samurai heritage, Japan preserves centuries-old traditions.',
+  },
+];
+
+const JAPAN_FACTS = [
+  { icon: faLocationDot, label: 'Capital', value: 'Tokyo' },
+  { icon: faLanguage, label: 'Language', value: 'Japanese' },
+  { icon: faCoins, label: 'Currency', value: 'Japanese Yen (JPY)' },
+  { icon: faCalendarDays, label: 'Best Time', value: 'Mar - May / Sep - Nov' },
+  { icon: faTemperatureHigh, label: 'Climate', value: 'Temperate, 10-30°C' },
+  { icon: faGlobe, label: 'Time Zone', value: 'GMT+9' },
+];
+
 type DestinationKey =
     | 'indonesia'
     | 'japan'
