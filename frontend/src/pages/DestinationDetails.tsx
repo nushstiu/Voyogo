@@ -249,7 +249,7 @@ type DestinationKey =
 type Highlight = { icon: any; title: string; desc: string };
 type Fact = { icon: any; label: string; value: string };
 
-const DESTINATION_CONFIG: Record<
+const DESTINATION_CONFIG: Partial<Record<
     DestinationKey,
     {
       title: string;
@@ -265,7 +265,7 @@ const DESTINATION_CONFIG: Record<
       ctaTitle: string;
       ctaDesc: string;
     }
-> = {
+>> = {
   thailand: {
     title: 'Thailand',
     hero: 'https://images.unsplash.com/photo-1528181304800-259b08848526?w=1920&q=80',
@@ -325,6 +325,12 @@ const DESTINATION_CONFIG: Record<
         'China is a vast and fascinating country where ancient civilization meets modern innovation. From imperial palaces and temples to futuristic skylines, the diversity of experiences is extraordinary.',
     desc2:
         'Travelers can walk along the Great Wall, explore vibrant cities like Shanghai and Beijing, and discover landscapes that have inspired poets and artists for centuries.',
+
+    overviewTitle: 'Discover China',
+    highlightsTitle: 'Why China should be your next destination',
+    ctaTitle: 'Ready to explore China?',
+    ctaDesc:
+        'Book your dream adventure in China and discover the perfect mix of history, culture, nature, and modern innovation.',
   },
 };
 
