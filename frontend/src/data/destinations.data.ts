@@ -131,7 +131,7 @@ export const MOCK_DESTINATIONS: Destination[] = [
   },
   {
     id: 7,
-    name: 'Cojușna',
+    name: 'Cojusna',
     packages: 20,
     price_range: '$50 - $150',
     image: 'https://storage.moldova1.md/images/5208fcbf-3348-4859-a9db-d4578f76a8e8.jpg',
