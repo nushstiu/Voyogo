@@ -206,6 +206,10 @@ const DESTINATION_CONFIG: Record<
       toursDestinationId: number;
       desc1: string;
       desc2: string;
+      overviewTitle: string;
+      highlightsTitle: string;
+      ctaTitle: string;
+      ctaDesc: string;
     }
 > = {
   thailand: {
@@ -219,6 +223,10 @@ const DESTINATION_CONFIG: Record<
         'Thailand is a vibrant destination where ancient traditions meet modern energy. From Bangkok’s temples and street food to the calm mountains of Chiang Mai, every region offers a different story.',
     desc2:
         'Whether you want beaches, nightlife, culture, or adventure, Thailand delivers an unforgettable experience with warm hospitality and rich local life.',
+    overviewTitle: 'Discover Thailand',
+    highlightsTitle: 'Why Thailand should be your next destination',
+    ctaTitle: 'Ready to explore Thailand?',
+    ctaDesc: 'Book your dream trip to Thailand and experience tropical beaches, cultural treasures, and unforgettable adventures.',
   },
   indonesia: {
     title: 'Indonesia',
@@ -231,6 +239,10 @@ const DESTINATION_CONFIG: Record<
         'Indonezia este un arhipelag spectaculos, unde vulcanii activi, plajele tropicale și terasele de orez creează peisaje de poveste.',
     desc2:
         'De la cultura și atmosfera spirituală din Bali, până la aventurile din Komodo, Indonezia este ideală pentru cei care vor și relaxare, și explorare.',
+    overviewTitle: 'Discover Indonesia',
+    highlightsTitle: 'Why Indonesia should be your next destination',
+    ctaTitle: 'Ready to explore Indonesia?',
+    ctaDesc: 'Book your dream adventure in Indonesia and discover the perfect mix of nature, culture, and relaxation.',
   },
   japan: {
     title: 'Japan',
@@ -243,6 +255,10 @@ const DESTINATION_CONFIG: Record<
         'Japan is a fascinating destination where ancient traditions blend seamlessly with modern innovation. From the neon-lit streets of Tokyo to the peaceful temples of Kyoto, every region offers a unique experience.',
     desc2:
         'Travelers can explore historic shrines, breathtaking landscapes, and world-renowned cuisine while discovering a culture deeply rooted in respect, harmony, and beauty.',
+    overviewTitle: 'Discover Japan',
+    highlightsTitle: 'Why Japan should be your next destination',
+    ctaTitle: 'Ready to explore Japan?',
+    ctaDesc: 'Book your dream adventure in Japan and discover the perfect mix of culture, tradition, nature, and innovation.',
   },
 };
 
@@ -323,9 +339,7 @@ export default function DestinationDetails() {
                 </p>
 
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
-                  {destination.title === 'Thailand'
-                      ? t('destinationDetails.discoverThailand')
-                      : 'Descoperă Indonesia'}
+                  {destination.overviewTitle}
                 </h2>
 
                 <p className="text-gray-600 leading-relaxed text-lg mb-4">
@@ -399,9 +413,7 @@ export default function DestinationDetails() {
                 {t('destinationDetails.whyVisit')}
               </p>
               <h2 className="text-3xl font-bold text-gray-800">
-                {destination.title === 'Thailand'
-                    ? t('destinationDetails.whyVisitTitle')
-                    : 'De ce Indonezia ar trebui să fie următoarea ta destinație'}
+                {destination.highlightsTitle}
               </h2>
             </div>
 
@@ -515,15 +527,11 @@ export default function DestinationDetails() {
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/90 to-blue-600/80" />
               <div className="relative z-10 text-center max-w-2xl mx-auto">
                 <h2 className="text-white text-3xl md:text-4xl font-bold mb-4">
-                  {destination.title === 'Thailand'
-                      ? t('destinationDetails.ctaTitle')
-                      : 'Pregătit să explorezi Indonezia?'}
+                  {destination.ctaTitle}
                 </h2>
 
                 <p className="text-white/90 text-lg mb-8">
-                  {destination.title === 'Thailand'
-                      ? t('destinationDetails.ctaDesc')
-                      : 'Rezervă aventura ta de vis în Indonezia și descoperă mixul perfect dintre natură, cultură și relaxare.'}
+                  {destination.ctaDesc}
                 </p>
                 <button
                     onClick={() => navigate(ROUTES.BOOKING)}
