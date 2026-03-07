@@ -292,12 +292,12 @@ const PHILIPPINES_FACTS = [
 // ---------- SOUTH KOREA ----------
 
 const SOUTH_KOREA_GALLERY = [
-  'https://images.pexels.com/photos/237211/pexels-photo-237211.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/301614/pexels-photo-301614.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/162240/seoul-south-korea-cityscape-162240.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/355465/pexels-photo-355465.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/1619317/pexels-photo-1619317.jpeg?auto=compress&cs=tinysrgb&w=800',
-  'https://images.pexels.com/photos/672358/pexels-photo-672358.jpeg?auto=compress&cs=tinysrgb&w=800'
+  'https://images.pexels.com/photos/2848492/pexels-photo-2848492.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/13679334/pexels-photo-13679334.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/5168604/pexels-photo-5168604.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/2376712/pexels-photo-2376712.jpeg?auto=compress&cs=tinysrgb&fit=crop&w=800&h=700&crop=bottom',
+  'https://images.pexels.com/photos/1637792/pexels-photo-1637792.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.pexels.com/photos/4098988/pexels-photo-4098988.jpeg?auto=compress&cs=tinysrgb&w=800'
 ];
 
 const SOUTH_KOREA_HIGHLIGHTS = [
@@ -349,7 +349,7 @@ type DestinationKey =
     | 'china'
     | 'philippines'
     | 'south-korea'
-    | 'cojusna';
+    ;
 
 type Highlight = { icon: any; title: string; desc: string };
 type Fact = { icon: any; label: string; value: string };
@@ -389,7 +389,7 @@ const DESTINATION_CONFIG: Partial<Record<
   },
   indonesia: {
     title: 'Indonesia',
-    hero:   'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
+    hero:   'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=2000',
     gallery: INDONESIA_GALLERY,
     highlights: INDONESIA_HIGHLIGHTS,
     facts: INDONESIA_FACTS,
@@ -439,7 +439,7 @@ const DESTINATION_CONFIG: Partial<Record<
   },
   philippines: {
     title: 'Philippines',
-    hero: 'https://images.pexels.com/photos/161212/rio-de-janeiro-olympics-2016-niteroi-brazil-161212.jpeg?auto=compress&cs=tinysrgb&w=800',
+    hero: 'https://images.pexels.com/photos/161212/rio-de-janeiro-olympics-2016-niteroi-brazil-161212.jpeg?auto=compress&cs=tinysrgb&w=2000',
     gallery: PHILIPPINES_GALLERY,
     highlights: PHILIPPINES_HIGHLIGHTS,
     facts: PHILIPPINES_FACTS,
@@ -454,6 +454,25 @@ const DESTINATION_CONFIG: Partial<Record<
     ctaTitle: 'Ready to explore the Philippines?',
     ctaDesc:
         'Plan your dream island adventure and discover tropical beaches, crystal-clear lagoons, and unforgettable island landscapes.',
+  },
+  'south-korea': {
+    title: 'South Korea',
+    hero:  'https://images.pexels.com/photos/11720347/pexels-photo-11720347.jpeg?auto=compress&cs=tinysrgb&w=2000',
+
+    gallery: SOUTH_KOREA_GALLERY,
+    highlights: SOUTH_KOREA_HIGHLIGHTS,
+    facts: SOUTH_KOREA_FACTS,
+    toursDestinationId: 6,
+    desc1:
+        'South Korea is a dynamic destination where centuries-old traditions blend with cutting-edge modern culture.',
+    desc2:
+        'From historic palaces and tranquil temples to neon-lit city streets and vibrant K-pop culture, the country offers a unique and exciting travel experience.',
+
+    overviewTitle: 'Discover South Korea',
+    highlightsTitle: 'Why South Korea should be your next destination',
+    ctaTitle: 'Ready to explore South Korea?',
+    ctaDesc:
+        'Plan your journey to South Korea and discover a perfect mix of tradition, modern culture, cuisine, and stunning landscapes.',
   },
 };
 
