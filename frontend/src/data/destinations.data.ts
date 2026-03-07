@@ -129,4 +129,13 @@ export const MOCK_DESTINATIONS: Destination[] = [
     description: 'Experience the dynamic fusion of ancient tradition and cutting-edge modernity in South Korea. K-pop culture meets historic palaces.',
     created_at: '2024-01-01T00:00:00.000Z',
   },
+  {
+    id: 7,
+    name: 'Cojușna',
+    packages: 20,
+    price_range: '$50 - $150',
+    image: 'https://storage.moldova1.md/images/5208fcbf-3348-4859-a9db-d4578f76a8e8.jpg',
+    description: 'Discover the charm of Cojușna, a peaceful Moldovan destination known for vineyards, authentic traditions, and a relaxing countryside atmosphere.',
+    created_at: '2024-01-01T00:00:00.000Z',
+  }
 ];
