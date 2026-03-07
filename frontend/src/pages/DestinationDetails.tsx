@@ -314,6 +314,18 @@ const DESTINATION_CONFIG: Record<
     ctaTitle: 'Ready to explore Japan?',
     ctaDesc: 'Book your dream adventure in Japan and discover the perfect mix of culture, tradition, nature, and innovation.',
   },
+  china: {
+    title: 'China',
+    hero: 'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=1920&q=80',
+    gallery: CHINA_GALLERY,
+    highlights: CHINA_HIGHLIGHTS,
+    facts: CHINA_FACTS,
+    toursDestinationId: 4,
+    desc1:
+        'China is a vast and fascinating country where ancient civilization meets modern innovation. From imperial palaces and temples to futuristic skylines, the diversity of experiences is extraordinary.',
+    desc2:
+        'Travelers can walk along the Great Wall, explore vibrant cities like Shanghai and Beijing, and discover landscapes that have inspired poets and artists for centuries.',
+  },
 };
 
 export default function DestinationDetails() {
