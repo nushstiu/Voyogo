@@ -29,7 +29,7 @@ import { MOCK_TOURS } from '../data/tours.data';
 
 // ---------- THAILAND ----------
 const THAILAND_GALLERY = [
-  'https://images.unsplash.com/photo-1528181304800-259b08848526?w=800',
+  'https://images.unsplash.com/photo-1528181304800-259b08848526?w=400',
   'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800',
   'https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?w=800',
   'https://images.unsplash.com/photo-1504214208698-ea1916a2195a?w=800',
@@ -79,14 +79,13 @@ const THAILAND_FACTS = [
   { icon: faGlobe, label: 'Time Zone', value: 'GMT+7' },
 ];
 
-// ---------- INDONESIA ----------
 const INDONESIA_GALLERY = [
-  'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800',
-  'https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=800',
-  'https://images.unsplash.com/photo-1518183214770-9cffbec72538?w=800',
-  'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=800',
-  'https://images.unsplash.com/photo-1541417904950-b855846fe074?w=800',
-  'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=800',
+  'https://images.pexels.com/photos/3348363/pexels-photo-3348363.jpeg?auto=compress&cs=tinysrgb&w=800', 
+  'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800', 
+  'https://images.pexels.com/photos/931007/pexels-photo-931007.jpeg?auto=compress&cs=tinysrgb&w=800',
+  'https://images.unsplash.com/photo-1604999333679-b86d54738315?w=800', // Dragon de Komodo în habitatul său natural
+  'https://images.unsplash.com/photo-1558005530-a7958896ec60?w=800', // Dans tradițional balinez cu costume ornate
+  'https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?w=800', // Vulcan activ cu craterul și nori de fum
 ];
 
 const INDONESIA_HIGHLIGHTS = [
@@ -123,15 +122,22 @@ const INDONESIA_HIGHLIGHTS = [
 ];
 
 const INDONESIA_FACTS = [
-  { icon: faLocationDot, label: 'Capital', value: 'Jakarta' },
-  { icon: faLanguage, label: 'Language', value: 'Indonesian' },
-  { icon: faCoins, label: 'Currency', value: 'Indonesian Rupiah (IDR)' },
-  { icon: faCalendarDays, label: 'Best Time', value: 'Apr - Oct' },
-  { icon: faTemperatureHigh, label: 'Climate', value: 'Tropical, 24-32°C' },
-  { icon: faGlobe, label: 'Time Zone', value: 'GMT+7 to GMT+9' },
+  { icon: faLocationDot, label: 'Capitală', value: 'Jakarta' },
+  { icon: faLanguage, label: 'Limbă', value: 'Indoneziană' },
+  { icon: faCoins, label: 'Monedă', value: 'Rupiah indonezian (IDR)' },
+  { icon: faCalendarDays, label: 'Perioada ideală', value: 'Apr - Oct' },
+  { icon: faTemperatureHigh, label: 'Climat', value: 'Tropical, 24-32°C' },
+  { icon: faGlobe, label: 'Fus orar', value: 'GMT+7 până la GMT+9' },
 ];
 
-type DestinationKey = 'thailand' | 'indonesia';
+type DestinationKey =
+    | 'indonesia'
+    | 'japan'
+    | 'thailand'
+    | 'china'
+    | 'philippines'
+    | 'south-korea'
+    | 'cojusna';
 
 type Highlight = { icon: any; title: string; desc: string };
 type Fact = { icon: any; label: string; value: string };
@@ -163,7 +169,7 @@ const DESTINATION_CONFIG: Record<
   },
   indonesia: {
     title: 'Indonesia',
-    hero: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1920&q=80',
+    hero:   'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
     gallery: INDONESIA_GALLERY,
     highlights: INDONESIA_HIGHLIGHTS,
     facts: INDONESIA_FACTS,
@@ -290,30 +296,30 @@ export default function DestinationDetails() {
           </section>
 
           {/* Gallery */}
+          {/* Photo Gallery */}
           <section className="w-full px-6 md:px-16 pb-16">
             <p className="text-cyan-500 tracking-widest font-semibold text-sm uppercase mb-2">
-              {t('destinationDetails.gallery')}
+              Galerie
             </p>
 
             <h2 className="text-3xl font-bold text-gray-800 mb-8">
-              {destination.title === 'Thailand'
-                  ? t('destinationDetails.galleryTitle')
-                  : 'Explorează Indonezia în imagini'}
+              Explorează {destination.title} în imagini
             </h2>
 
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {destination.gallery.map((img, i) => (
                   <div
                       key={i}
-                      className={`overflow-hidden rounded-2xl ${
-                          i === 0 ? 'md:col-span-2 md:row-span-2' : ''
+                      className={`overflow-hidden rounded-2xl shadow-md ${
+                          i === 0
+                              ? "md:col-span-2 md:row-span-2 h-[600px]"
+                              : "h-[300px]"
                       }`}
                   >
                     <img
                         src={img}
                         alt={`${destination.title} ${i + 1}`}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                        style={{ minHeight: i === 0 ? '250px' : '150px' }}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 ease-in-out"
                         loading="lazy"
                     />
                   </div>
