@@ -172,6 +172,7 @@ const JAPAN_HIGHLIGHTS = [
     title: 'Rich Traditions',
     desc: 'From tea ceremonies to samurai heritage, Japan preserves centuries-old traditions.',
   },
+    
 ];
 
 const JAPAN_FACTS = [
@@ -181,6 +182,59 @@ const JAPAN_FACTS = [
   { icon: faCalendarDays, label: 'Best Time', value: 'Mar - May / Sep - Nov' },
   { icon: faTemperatureHigh, label: 'Climate', value: 'Temperate, 10-30°C' },
   { icon: faGlobe, label: 'Time Zone', value: 'GMT+9' },
+];
+
+// ---------- CHINA ----------
+
+const CHINA_GALLERY = [
+  'https://images.unsplash.com/photo-1508804185872-d7badad00f7d?w=800',
+  'https://images.unsplash.com/photo-1547981609-4b6bfe67ca0b?w=800',
+  'https://images.unsplash.com/photo-1533850595620-7b1711221751?w=800',
+  'https://images.unsplash.com/photo-1529516544813-9c3f3b9d0f9c?w=800',
+  'https://images.unsplash.com/photo-1577705998148-6da4f3963bc8?w=800',
+  'https://images.unsplash.com/photo-1549692520-acc6669e2f0c?w=800',
+];
+
+const CHINA_HIGHLIGHTS = [
+  {
+    icon: faLandmark,
+    title: 'Great Wall',
+    desc: 'Walk along the iconic Great Wall of China, one of the most impressive wonders in human history.',
+  },
+  {
+    icon: faGlobe,
+    title: 'Modern Megacities',
+    desc: 'Explore Shanghai and Beijing where futuristic skylines meet ancient traditions.',
+  },
+  {
+    icon: faUtensils,
+    title: 'Chinese Cuisine',
+    desc: 'Taste authentic regional dishes from Peking Duck to Sichuan specialties.',
+  },
+  {
+    icon: faMountainSun,
+    title: 'Epic Landscapes',
+    desc: 'Discover dramatic mountains, rivers and scenic national parks.',
+  },
+  {
+    icon: faTree,
+    title: 'Ancient Culture',
+    desc: 'Experience thousands of years of traditions, philosophy and art.',
+  },
+  {
+    icon: faHeart,
+    title: 'Cultural Heritage',
+    desc: 'Visit temples, imperial palaces and historical monuments across China.',
+  },
+];
+
+const CHINA_FACTS = [
+  { icon: faLocationDot, label: 'Capital', value: 'Beijing' },
+  { icon: faLanguage, label: 'Language', value: 'Chinese (Mandarin)' },
+  { icon: faCoins, label: 'Currency', value: 'Chinese Yuan (CNY)' },
+  { icon: faCalendarDays, label: 'Best Time', value: 'Apr - May / Sep - Oct' },
+  { icon: faTemperatureHigh, label: 'Climate', value: 'Varies by region' },
+  { icon: faGlobe, label: 'Time Zone', value: 'GMT+8' },
 ];
 
 type DestinationKey =
