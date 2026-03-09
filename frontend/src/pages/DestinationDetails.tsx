@@ -732,28 +732,6 @@ export default function DestinationDetails() {
                 </p>
             )}
           </section>
-                    </div>
-                    <p className="text-xl font-bold text-cyan-600">{tour.price}</p>
-                  </div>
-                  <div className="flex gap-3">
-                    <Link
-                      to={`${ROUTES.BOOKING}?tour=${tour.id}`}
-                      className="flex-1 text-center bg-cyan-500 text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-cyan-600 transition-colors"
-                    >
-                      {t('tourDetails.bookNow')}
-                    </Link>
-                    <Link
-                      to={ROUTES.TOUR_DETAILS.replace(':id', tour.id)}
-                      className="flex-1 text-center border-2 border-cyan-500 text-cyan-500 px-4 py-2.5 rounded-xl font-semibold hover:bg-cyan-500 hover:text-white transition-colors"
-                    >
-                      {t('actions.view')}
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
 
           {/* CTA */}
           <section className="w-full px-6 md:px-16 pb-16">
