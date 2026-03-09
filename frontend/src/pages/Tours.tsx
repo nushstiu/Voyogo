@@ -102,6 +102,7 @@ export default function Tours() {
             </p>
           )}
         </div>
+
       </main>
       <Footer />
     </>
