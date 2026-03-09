@@ -97,3 +97,11 @@ knip.jsonc
 *.cache
 private_key.pem
 public_key.pem
+
+bin/
+obj/
+.vs/
+.idea/
+
+.idea/
+*.sln.iml
