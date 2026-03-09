@@ -37,6 +37,7 @@ const THAILAND_GALLERY = [
   'https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?w=800',
 ];
 
+
 const THAILAND_HIGHLIGHTS = [
   {
     icon: faLandmark,
