@@ -7,8 +7,9 @@ import {
   faMapMarkerAlt,
   faClock,
 } from '@fortawesome/free-solid-svg-icons';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
-import { UI_TEXT, API_ENDPOINTS } from '../../constants';
+import { bookingService } from '../../services/booking.service';
 import { useDebounce } from '../../hooks/useDebounce';
 import { useFilters } from '../../hooks/useFilters';
 import { usePagination } from '../../hooks/usePagination';
@@ -22,23 +23,25 @@ import ConfirmDialog from '../../components/common/ConfirmDialog';
 import Breadcrumb from '../../components/common/Breadcrumb';
 import BookingEditModal from '../../components/user/BookingEditModal';
 import BookingDetailModal from '../../components/user/BookingDetailModal';
+import { BookingStatus } from '../../types';
 import type { Booking } from '../../types';
 import toast from 'react-hot-toast';
 import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
 
-const STATUS_OPTIONS = [
-  { label: 'Pending', value: 'pending' },
-  { label: 'Confirmed', value: 'confirmed' },
-  { label: 'Cancelled', value: 'cancelled' },
-];
-
 export default function UserBookings() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const { filters, setFilter } = useFilters({ keys: ['search', 'status'] });
   const debouncedSearch = useDebounce(filters.search, 300);
+
+  const STATUS_OPTIONS = [
+    { label: t('status.pending'), value: 'pending' },
+    { label: t('status.confirmed'), value: 'confirmed' },
+    { label: t('status.cancelled'), value: 'cancelled' },
+  ];
 
   const editModal = useModal<Booking>();
   const viewModal = useModal<Booking>();
@@ -47,13 +50,17 @@ export default function UserBookings() {
   const fetchBookings = useCallback(async () => {
     if (!user) return;
     setLoading(true);
-    const params = new URLSearchParams();
-    params.set('user_id', user.id);
-    if (debouncedSearch) params.set('search', debouncedSearch);
-    if (filters.status) params.set('status', filters.status);
-
-    const res = await fetch(`${API_ENDPOINTS.BOOKINGS}?${params}`);
-    const data = await res.json();
+    let data = await bookingService.getByUserId(user.id);
+    if (debouncedSearch) {
+      const q = debouncedSearch.toLowerCase();
+      data = data.filter(b =>
+        b.destination.toLowerCase().includes(q) ||
+        (b.tour_name || '').toLowerCase().includes(q)
+      );
+    }
+    if (filters.status) {
+      data = data.filter(b => b.status === filters.status);
+    }
     setBookings(data);
     setLoading(false);
   }, [user, debouncedSearch, filters.status]);
@@ -65,8 +72,8 @@ export default function UserBookings() {
   const { page, totalPages, paginated, total, goTo, perPage } = usePagination(bookings, 6);
 
   const handleCancel = async (booking: Booking) => {
-    await fetch(API_ENDPOINTS.BOOKING_CANCEL(booking.id), { method: 'PATCH' });
-    toast.success(UI_TEXT.SUCCESS_BOOKING_CANCELLED);
+    await bookingService.cancel(booking.id);
+    toast.success(t('success.bookingCancelled'));
     fetchBookings();
   };
 
@@ -77,7 +84,7 @@ export default function UserBookings() {
         <div className="w-full px-6 md:px-16 py-12">
           <Breadcrumb />
 
-          <h1 className="text-3xl font-bold text-gray-800 mb-6">{UI_TEXT.USER_MY_BOOKINGS}</h1>
+          <h1 className="text-3xl font-bold text-gray-800 mb-6">{t('userBookings.title')}</h1>
 
           <div className="flex flex-col sm:flex-row gap-3 mb-6">
             <SearchInput
@@ -89,7 +96,7 @@ export default function UserBookings() {
               value={filters.status || 'all'}
               onChange={(v) => setFilter('status', v)}
               options={STATUS_OPTIONS}
-              allLabel={UI_TEXT.FILTER_STATUS}
+              allLabel={t('filters.filterByStatus')}
             />
           </div>
 
@@ -98,7 +105,7 @@ export default function UserBookings() {
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-400" />
             </div>
           ) : paginated.length === 0 ? (
-            <EmptyState title={UI_TEXT.NO_BOOKINGS} description="Book a trip to see it here!" />
+            <EmptyState title={t('empty.noBookings')} description={t('empty.bookTrip')} />
           ) : (
             <div className="space-y-4">
               {paginated.map((b) => (
@@ -110,11 +117,11 @@ export default function UserBookings() {
                       </div>
                       <div>
                         <p className="font-bold text-gray-800">{b.destination}</p>
-                        <p className="text-sm text-gray-500">{b.tour_name || 'Custom Trip'}</p>
+                        <p className="text-sm text-gray-500">{b.tour_name || t('userDashboard.customTrip')}</p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-wrap items-center gap-3 sm:gap-4">
                       <div className="flex items-center gap-2 text-gray-500 text-sm">
                         <FontAwesomeIcon icon={faClock} className="text-gray-400" />
                         <span>{b.booking_date}</span>
@@ -127,23 +134,23 @@ export default function UserBookings() {
                       <button
                         onClick={() => viewModal.open(b)}
                         className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500"
-                        title={UI_TEXT.ACTION_VIEW}
+                        title={t('actions.view')}
                       >
                         <FontAwesomeIcon icon={faEye} className="text-sm" />
                       </button>
-                      {b.status === 'pending' && (
+                      {b.status === BookingStatus.Pending && (
                         <>
                           <button
                             onClick={() => editModal.open(b)}
                             className="p-2 hover:bg-blue-50 rounded-lg transition-colors text-blue-500"
-                            title={UI_TEXT.ACTION_EDIT}
+                            title={t('actions.edit')}
                           >
                             <FontAwesomeIcon icon={faEdit} className="text-sm" />
                           </button>
                           <button
                             onClick={() => cancelConfirm.open(b)}
                             className="p-2 hover:bg-red-50 rounded-lg transition-colors text-red-500 hover:text-red-600"
-                            title={UI_TEXT.ACTION_CANCEL}
+                            title={t('actions.cancel')}
                           >
                             <FontAwesomeIcon icon={faBan} className="text-sm" />
                           </button>
@@ -182,8 +189,8 @@ export default function UserBookings() {
           isOpen={cancelConfirm.isOpen}
           onClose={cancelConfirm.close}
           onConfirm={() => cancelConfirm.data && handleCancel(cancelConfirm.data)}
-          title={UI_TEXT.ACTION_CANCEL}
-          message={UI_TEXT.CONFIRM_CANCEL_BOOKING}
+          title={t('actions.cancel')}
+          message={t('confirm.cancelBooking')}
           variant="warning"
         />
       </main>

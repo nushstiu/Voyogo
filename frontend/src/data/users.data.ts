@@ -1,4 +1,4 @@
-import type { User } from '../types';
+import { UserRole, type User } from '../types';
 
 export const MOCK_USERS: User[] = [
   {
@@ -8,7 +8,7 @@ export const MOCK_USERS: User[] = [
     phone: '+40 123 456 789',
     country: 'Romania',
     profile_pic: null,
-    role: 'admin',
+    role: UserRole.Admin,
     created_at: '2024-01-01T00:00:00.000Z',
     updated_at: '2024-01-01T00:00:00.000Z',
   },
@@ -19,7 +19,7 @@ export const MOCK_USERS: User[] = [
     phone: '+373 777 888 999',
     country: 'Moldova',
     profile_pic: null,
-    role: 'user',
+    role: UserRole.User,
     created_at: '2025-01-15T10:30:00.000Z',
     updated_at: '2025-02-08T14:20:00.000Z',
   },
@@ -30,7 +30,7 @@ export const MOCK_USERS: User[] = [
     phone: '+1 555 123 4567',
     country: 'United States',
     profile_pic: null,
-    role: 'user',
+    role: UserRole.User,
     created_at: '2025-01-20T08:15:00.000Z',
     updated_at: '2025-02-01T11:45:00.000Z',
   },
@@ -41,7 +41,7 @@ export const MOCK_USERS: User[] = [
     phone: '+34 612 345 678',
     country: 'Spain',
     profile_pic: null,
-    role: 'user',
+    role: UserRole.User,
     created_at: '2025-01-25T13:00:00.000Z',
     updated_at: '2025-01-25T13:00:00.000Z',
   },
@@ -52,7 +52,7 @@ export const MOCK_USERS: User[] = [
     phone: '+44 7700 900123',
     country: 'United Kingdom',
     profile_pic: null,
-    role: 'user',
+    role: UserRole.User,
     created_at: '2025-02-01T09:30:00.000Z',
     updated_at: '2025-02-05T16:20:00.000Z',
   },

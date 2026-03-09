@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import destinations from '../../data/destinations.json';
+import { PUBLIC_DESTINATIONS } from '../../data';
+import { useTranslation } from 'react-i18next';
 
 export default function SearchForm() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [destination, setDestination] = useState('');
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
@@ -22,48 +24,50 @@ export default function SearchForm() {
   return (
     <form
       onSubmit={handleSearch}
-      className="bg-white p-6 md:p-10 rounded-lg max-w-6xl mx-auto"
+      className="bg-white p-4 sm:p-6 md:p-10 rounded-lg max-w-6xl mx-auto"
     >
-      <div className="flex flex-col md:flex-row gap-3 items-stretch">
+      <div className="flex flex-col md:flex-row gap-2 sm:gap-3 items-stretch">
         <select
           value={destination}
           onChange={(e) => setDestination(e.target.value)}
-          className="flex-1 p-3 rounded bg-gray-100 text-gray-700 outline-none"
+          className="flex-1 p-2.5 sm:p-3 rounded bg-gray-100 text-gray-700 outline-none text-sm sm:text-base"
           aria-label="Select destination"
         >
-          <option value="">Destination</option>
-          {destinations.map((d) => (
+          <option value="">{t('search.destination')}</option>
+          {PUBLIC_DESTINATIONS.map((d) => (
             <option key={d.id} value={d.id}>
               {d.name}
             </option>
           ))}
         </select>
 
-        <input
-          type="date"
-          value={checkIn}
-          onChange={(e) => setCheckIn(e.target.value)}
-          className="flex-1 p-3 rounded bg-gray-100 text-gray-700 outline-none"
-          placeholder="Check-in Date"
-          aria-label="Check-in date"
-        />
+        <div className="grid grid-cols-2 md:contents gap-2">
+          <input
+            type="date"
+            value={checkIn}
+            onChange={(e) => setCheckIn(e.target.value)}
+            className="flex-1 p-2.5 sm:p-3 rounded bg-gray-100 text-gray-700 outline-none text-sm sm:text-base"
+            placeholder="Check-in Date"
+            aria-label="Check-in date"
+          />
 
-        <input
-          type="date"
-          value={checkOut}
-          onChange={(e) => setCheckOut(e.target.value)}
-          className="flex-1 p-3 rounded bg-gray-100 text-gray-700 outline-none"
-          placeholder="Check-out Date"
-          aria-label="Check-out date"
-        />
+          <input
+            type="date"
+            value={checkOut}
+            onChange={(e) => setCheckOut(e.target.value)}
+            className="flex-1 p-2.5 sm:p-3 rounded bg-gray-100 text-gray-700 outline-none text-sm sm:text-base"
+            placeholder="Check-out Date"
+            aria-label="Check-out date"
+          />
+        </div>
 
         <select
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-          className="flex-1 p-3 rounded bg-gray-100 text-gray-700 outline-none"
+          className="flex-1 p-2.5 sm:p-3 rounded bg-gray-100 text-gray-700 outline-none text-sm sm:text-base"
           aria-label="Price range"
         >
-          <option value="">Price Range</option>
+          <option value="">{t('search.priceRange')}</option>
           <option value="500-1000">$500 - $1,000</option>
           <option value="1000-2000">$1,000 - $2,000</option>
           <option value="2000-5000">$2,000 - $5,000</option>
@@ -72,9 +76,9 @@ export default function SearchForm() {
 
         <button
           type="submit"
-          className="bg-cyan-400 text-white font-semibold px-8 py-3 rounded hover:bg-cyan-500 transition-colors whitespace-nowrap"
+          className="bg-cyan-400 text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded hover:bg-cyan-500 transition-colors whitespace-nowrap text-sm sm:text-base"
         >
-          Search
+          {t('search.search')}
         </button>
       </div>
     </form>

@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { MOCK_TOURS } from '../../data/tours.data';
-import type { Destination } from '../../types';
+import { useState, useEffect } from 'react';
+import { tourService } from '../../services/tour.service';
+import { TourStatus } from '../../types';
+import type { Destination, Tour } from '../../types';
 import type { BookingData } from '../../types/booking';
 
 interface Props {
@@ -19,10 +20,15 @@ export default function DurationSelector({
     onBack
 }: Props) {
     const [selectedDuration, setSelectedDuration] = useState<number>(bookingData.duration);
+    const [allTours, setAllTours] = useState<Tour[]>([]);
+
+    useEffect(() => {
+        tourService.getAll().then(setAllTours);
+    }, []);
 
     // Get tours available for the selected destination
     const destinationTours = selectedDestination
-        ? MOCK_TOURS.filter(t => t.destination_id === selectedDestination.id && t.status === 'active')
+        ? allTours.filter(t => t.destination_id === selectedDestination.id && t.status === TourStatus.Active)
         : [];
 
     // Build duration options from real tour data
@@ -31,7 +37,7 @@ export default function DurationSelector({
         const days = parseInt(tour.days, 10);
         return {
             days,
-            title: `${days} zile`,
+            title: `${days} days`,
             tourName: tour.name,
             description: tour.description.slice(0, 80) + '...',
             price: priceNum,
@@ -58,13 +64,13 @@ export default function DurationSelector({
     return (
         <div className="bg-white rounded-lg shadow-md p-8">
             <button onClick={onBack} className="mb-4 text-blue-600 hover:underline">
-                &#8592; Inapoi
+                &#8592; Back
             </button>
 
             <h2 className="text-2xl font-bold mb-2">
-                Tururi disponibile in {selectedDestination?.name || 'destinatia selectata'}
+                Available Tours in {selectedDestination?.name || 'Selected Destination'}
             </h2>
-            <p className="text-gray-600 mb-8">Alege durata care se potriveste cel mai bine nevoilor tale</p>
+            <p className="text-gray-600 mb-8">Choose the duration that best fits your needs</p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 {durationOptions.map(option => (
@@ -85,14 +91,14 @@ export default function DurationSelector({
 
                         <div className="border-t pt-3 mt-3">
                             <div className="flex justify-between items-center">
-                                <span className="text-gray-600 text-sm">Pret pe persoana:</span>
+                                <span className="text-gray-600 text-sm">Price per person:</span>
                                 <span className="text-lg font-bold text-green-600">${option.price.toLocaleString()}</span>
                             </div>
                         </div>
 
                         {selectedDuration === option.days && (
                             <div className="mt-3 text-blue-600 font-semibold text-sm">
-                                &#10003; Selectat
+                                &#10003; Selected
                             </div>
                         )}
                     </button>
@@ -101,22 +107,22 @@ export default function DurationSelector({
 
             {/* Selection summary */}
             <div className="bg-gray-50 rounded-lg p-6 mb-8">
-                <h3 className="font-semibold mb-4">Rezumatul selectiei:</h3>
+                <h3 className="font-semibold mb-4">Selection Summary</h3>
                 <div className="space-y-2">
                     <div className="flex justify-between">
-                        <span className="text-gray-600">Destinatie:</span>
+                        <span className="text-gray-600">Destination:</span>
                         <span className="font-semibold">{selectedDestination?.name}</span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="text-gray-600">Durata:</span>
-                        <span className="font-semibold">{selectedDuration} zile</span>
+                        <span className="text-gray-600">Duration:</span>
+                        <span className="font-semibold">{selectedDuration} days</span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="text-gray-600">Adulti:</span>
+                        <span className="text-gray-600">Adults:</span>
                         <span className="font-semibold">{bookingData.travelers.adults}</span>
                     </div>
                     <div className="flex justify-between">
-                        <span className="text-gray-600">Copii:</span>
+                        <span className="text-gray-600">Children:</span>
                         <span className="font-semibold">{bookingData.travelers.children}</span>
                     </div>
                 </div>
@@ -127,13 +133,13 @@ export default function DurationSelector({
                     onClick={onBack}
                     className="flex-1 px-6 py-3 border-2 border-gray-300 rounded-lg font-semibold hover:bg-gray-50 text-gray-700"
                 >
-                    &#8592; Inapoi
+                    &#8592; Back
                 </button>
                 <button
                     onClick={handleContinue}
                     className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
                 >
-                    Continua &#8594;
+                    Continue &#8594;
                 </button>
             </div>
         </div>

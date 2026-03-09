@@ -21,6 +21,12 @@ export const ROUTES = {
   DESTINATIONS: '/destinations',
   TOURS: '/tours',
   TOUR_DETAILS: '/tours/:id',
+  DESTINATION_DETAILS: '/destinations/:id',
   BOOKING: '/booking',
+
+  // Error Pages
+  UNAUTHORIZED: '/401',
+  FORBIDDEN: '/403',
   NOT_FOUND: '/404',
+  SERVER_ERROR: '/500',
 } as const;

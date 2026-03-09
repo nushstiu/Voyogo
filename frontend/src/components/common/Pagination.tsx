@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { UI_TEXT } from '../../constants/text';
+import { useTranslation } from 'react-i18next';
 
 interface PaginationProps {
   page: number;
@@ -11,6 +11,7 @@ interface PaginationProps {
 }
 
 export default function Pagination({ page, totalPages, total, perPage, onPageChange }: PaginationProps) {
+  const { t } = useTranslation();
   if (totalPages <= 1) return null;
 
   const start = (page - 1) * perPage + 1;
@@ -19,7 +20,7 @@ export default function Pagination({ page, totalPages, total, perPage, onPageCha
   return (
     <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100">
       <p className="text-sm text-gray-500">
-        {UI_TEXT.SHOWING} {start}-{end} {UI_TEXT.OF} {total} {UI_TEXT.RESULTS}
+        {t('pagination.showing')} {start}-{end} {t('pagination.of')} {total} {t('pagination.results')}
       </p>
       <div className="flex items-center gap-1">
         <button

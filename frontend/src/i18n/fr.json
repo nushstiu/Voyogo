@@ -1,0 +1,79 @@
+{
+  "app": {
+    "name": "Voyago",
+    "tagline": "Des aventures inoubliables vous attendent"
+  },
+  "nav": {
+    "destinations": "Destinations",
+    "tours": "Circuits",
+    "book": "Réserver",
+    "dashboard": "Tableau de bord",
+    "myBookings": "Mes réservations",
+    "profile": "Profil",
+    "users": "Utilisateurs",
+    "bookings": "Réservations",
+    "analytics": "Analytiques",
+    "login": "Connexion",
+    "logout": "Déconnexion"
+  },
+  "auth": {
+    "loginTitle": "Bienvenue",
+    "loginSubtitle": "Connectez-vous pour continuer votre voyage",
+    "registerTitle": "Créer un compte",
+    "registerSubtitle": "Commencez votre aventure avec nous",
+    "loginButton": "Se connecter",
+    "loginLoading": "Connexion en cours...",
+    "registerButton": "Créer un compte",
+    "registerLoading": "Création du compte...",
+    "demoAccounts": "Comptes démo",
+    "userLogin": "Connexion utilisateur",
+    "adminLogin": "Connexion admin",
+    "noAccount": "Pas de compte ?",
+    "signUp": "S'inscrire",
+    "hasAccount": "Vous avez déjà un compte ?",
+    "signIn": "Se connecter",
+    "googleLogin": "Continuer avec Google",
+    "facebookLogin": "Continuer avec Facebook",
+    "orDivider": "Ou continuer avec email"
+  },
+  "form": {
+    "username": "Nom d'utilisateur",
+    "email": "Email",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "phone": "Téléphone",
+    "country": "Pays",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "search": "Rechercher..."
+  },
+  "hero": {
+    "tagline": "Des aventures inoubliables vous attendent",
+    "title": "AVENTURE"
+  },
+  "home": {
+    "popularDestinations": "Destinations populaires",
+    "bookNow": "Réserver maintenant",
+    "subscribe": "S'abonner",
+    "thankYou": "Merci pour votre abonnement !"
+  },
+  "footer": {
+    "quickLinks": "Liens rapides",
+    "followUs": "Suivez-nous",
+    "copyright": "\u00a9 2025 Voyago. Tous droits réservés.",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions générales"
+  },
+  "actions": {
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "back": "Retour",
+    "continue": "Continuer",
+    "viewAll": "Voir tout"
+  },
+  "loading": {
+    "default": "Chargement..."
+  }
+}

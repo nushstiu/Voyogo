@@ -1,0 +1,79 @@
+{
+  "app": {
+    "name": "Voyago",
+    "tagline": "Aventuras inolvidables te esperan"
+  },
+  "nav": {
+    "destinations": "Destinos",
+    "tours": "Tours",
+    "book": "Reservar",
+    "dashboard": "Panel",
+    "myBookings": "Mis reservas",
+    "profile": "Perfil",
+    "users": "Usuarios",
+    "bookings": "Reservas",
+    "analytics": "Analíticas",
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión"
+  },
+  "auth": {
+    "loginTitle": "Bienvenido de nuevo",
+    "loginSubtitle": "Inicia sesión para continuar tu viaje",
+    "registerTitle": "Crear cuenta",
+    "registerSubtitle": "Comienza tu aventura con nosotros",
+    "loginButton": "Iniciar sesión",
+    "loginLoading": "Iniciando sesión...",
+    "registerButton": "Crear cuenta",
+    "registerLoading": "Creando cuenta...",
+    "demoAccounts": "Cuentas demo",
+    "userLogin": "Login de usuario",
+    "adminLogin": "Login de admin",
+    "noAccount": "¿No tienes cuenta?",
+    "signUp": "Regístrate",
+    "hasAccount": "¿Ya tienes cuenta?",
+    "signIn": "Inicia sesión",
+    "googleLogin": "Continuar con Google",
+    "facebookLogin": "Continuar con Facebook",
+    "orDivider": "O continuar con email"
+  },
+  "form": {
+    "username": "Nombre de usuario",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "phone": "Teléfono",
+    "country": "País",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "search": "Buscar..."
+  },
+  "hero": {
+    "tagline": "Aventuras inolvidables te esperan",
+    "title": "AVENTURA"
+  },
+  "home": {
+    "popularDestinations": "Destinos populares",
+    "bookNow": "Reservar ahora",
+    "subscribe": "Suscribirse",
+    "thankYou": "¡Gracias por suscribirte!"
+  },
+  "footer": {
+    "quickLinks": "Enlaces rápidos",
+    "followUs": "Síguenos",
+    "copyright": "\u00a9 2025 Voyago. Todos los derechos reservados.",
+    "privacy": "Política de privacidad",
+    "terms": "Términos y condiciones"
+  },
+  "actions": {
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "back": "Volver",
+    "continue": "Continuar",
+    "viewAll": "Ver todo"
+  },
+  "loading": {
+    "default": "Cargando..."
+  }
+}

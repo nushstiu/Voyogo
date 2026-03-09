@@ -7,7 +7,9 @@ import {
   faThLarge,
   faList,
 } from '@fortawesome/free-solid-svg-icons';
-import { UI_TEXT, API_ENDPOINTS } from '../../constants';
+import { useTranslation } from 'react-i18next';
+import { destinationService } from '../../services/destination.service';
+import { tourService } from '../../services/tour.service';
 import { useDebounce } from '../../hooks/useDebounce';
 import { useFilters } from '../../hooks/useFilters';
 import { useModal } from '../../hooks/useModal';
@@ -22,6 +24,7 @@ import type { Destination } from '../../types';
 import toast from 'react-hot-toast';
 
 export default function AdminDestinations() {
+  const { t } = useTranslation();
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [tours, setTours] = useState<{ destination_id: number }[]>([]);
   const [loading, setLoading] = useState(true);
@@ -35,15 +38,22 @@ export default function AdminDestinations() {
 
   const fetchDestinations = useCallback(async () => {
     setLoading(true);
-    const params = new URLSearchParams();
-    if (debouncedSearch) params.set('search', debouncedSearch);
-
-    const [destRes, toursRes] = await Promise.all([
-      fetch(`${API_ENDPOINTS.DESTINATIONS}?${params}`),
-      fetch(API_ENDPOINTS.TOURS),
-    ]);
-    setDestinations(await destRes.json());
-    setTours(await toursRes.json());
+    try {
+      const [allDests, allTours] = await Promise.all([
+        destinationService.getAll(),
+        tourService.getAll(),
+      ]);
+      let filtered = allDests;
+      if (debouncedSearch) {
+        const q = debouncedSearch.toLowerCase();
+        filtered = filtered.filter(d => d.name.toLowerCase().includes(q) || d.description.toLowerCase().includes(q));
+      }
+      setDestinations(filtered);
+      setTours(allTours);
+    } catch {
+      setDestinations([]);
+      setTours([]);
+    }
     setLoading(false);
   }, [debouncedSearch]);
 
@@ -55,8 +65,8 @@ export default function AdminDestinations() {
     tours.filter((t) => t.destination_id === destId).length;
 
   const handleDelete = async (dest: Destination) => {
-    await fetch(API_ENDPOINTS.DESTINATION_BY_ID(dest.id), { method: 'DELETE' });
-    toast.success(UI_TEXT.SUCCESS_DESTINATION_DELETED);
+    await destinationService.delete(dest.id);
+    toast.success(t('success.destinationDeleted'));
     fetchDestinations();
   };
 
@@ -68,13 +78,13 @@ export default function AdminDestinations() {
           <Breadcrumb />
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
-            <h1 className="text-3xl font-bold text-gray-800">Destinations</h1>
+            <h1 className="text-3xl font-bold text-gray-800">{t('nav.destinations')}</h1>
             <button
               onClick={() => createModal.open()}
               className="bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors flex items-center gap-2 px-4 py-2.5 text-sm"
             >
               <FontAwesomeIcon icon={faPlus} />
-              {UI_TEXT.ACTION_ADD_DESTINATION}
+              {t('actions.addDestination')}
             </button>
           </div>
 
@@ -109,7 +119,7 @@ export default function AdminDestinations() {
               <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-cyan-400" />
             </div>
           ) : destinations.length === 0 ? (
-            <EmptyState title={UI_TEXT.NO_DESTINATIONS} />
+            <EmptyState title={t('empty.noDestinations')} />
           ) : viewMode === 'grid' ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {destinations.map((dest) => (
@@ -130,7 +140,7 @@ export default function AdminDestinations() {
                     <p className="text-gray-500 text-sm mb-3 line-clamp-2">{dest.description}</p>
                     <div className="flex items-center justify-between">
                       <div className="text-sm">
-                        <span className="text-gray-400">{dest.packages} packages</span>
+                        <span className="text-gray-400">{dest.packages} {t('destinations.packages')}</span>
                         <span className="mx-2 text-gray-400">|</span>
                         <span className="text-blue-500 font-medium">{dest.price_range}</span>
                       </div>
@@ -149,7 +159,7 @@ export default function AdminDestinations() {
                         </button>
                       </div>
                     </div>
-                    <p className="text-xs text-gray-400 mt-2">{tourCount(dest.id)} tours linked</p>
+                    <p className="text-xs text-gray-400 mt-2">{tourCount(dest.id)} {t('destinations.toursLinked')}</p>
                   </div>
                 </div>
               ))}
@@ -160,11 +170,11 @@ export default function AdminDestinations() {
                 <table className="w-full">
                   <thead>
                     <tr className="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                      <th className="px-6 py-3">Destination</th>
-                      <th className="px-6 py-3">Packages</th>
-                      <th className="px-6 py-3">Price Range</th>
-                      <th className="px-6 py-3">Tours</th>
-                      <th className="px-6 py-3 text-right">Actions</th>
+                      <th className="px-6 py-3">{t('table.destination')}</th>
+                      <th className="px-6 py-3">{t('table.packages')}</th>
+                      <th className="px-6 py-3">{t('table.priceRange')}</th>
+                      <th className="px-6 py-3">{t('table.tours')}</th>
+                      <th className="px-6 py-3 text-right">{t('table.actions')}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-100">
@@ -230,10 +240,10 @@ export default function AdminDestinations() {
             isOpen={deleteConfirm.isOpen}
             onClose={deleteConfirm.close}
             onConfirm={() => deleteConfirm.data && handleDelete(deleteConfirm.data)}
-            title={UI_TEXT.ACTION_DELETE}
+            title={t('actions.delete')}
             message={
               deleteConfirm.data
-                ? UI_TEXT.CONFIRM_DELETE_DESTINATION(tourCount(deleteConfirm.data.id))
+                ? t('confirm.deleteDestination', { count: tourCount(deleteConfirm.data.id) })
                 : ''
             }
           />

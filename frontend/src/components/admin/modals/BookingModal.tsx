@@ -4,7 +4,8 @@ import { z } from 'zod/v4';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { UI_TEXT, API_ENDPOINTS } from '../../../constants';
+import { UI_TEXT } from '../../../constants';
+import { bookingService } from '../../../services/booking.service';
 import { destinationService } from '../../../services/destination.service';
 import { tourService } from '../../../services/tour.service';
 import type { Destination, Tour } from '../../../types';
@@ -116,23 +117,19 @@ export default function BookingModal({ isOpen, onClose, booking, onSaved }: Book
   if (!isOpen) return null;
 
   const onSubmit = async (data: BookingFormData) => {
-    if (booking) {
-      await fetch(API_ENDPOINTS.BOOKING_BY_ID(booking.id), {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-      toast.success(UI_TEXT.SUCCESS_BOOKING_UPDATED);
-    } else {
-      await fetch(API_ENDPOINTS.BOOKINGS, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...data, user_id: 'admin-created' }),
-      });
-      toast.success(UI_TEXT.SUCCESS_BOOKING_CREATED);
+    try {
+      if (booking) {
+        await bookingService.update(booking.id, data);
+        toast.success(UI_TEXT.SUCCESS_BOOKING_UPDATED);
+      } else {
+        await bookingService.create({ ...data, user_id: 'admin-created' });
+        toast.success(UI_TEXT.SUCCESS_BOOKING_CREATED);
+      }
+      onSaved();
+      onClose();
+    } catch {
+      toast.error('Failed to save booking');
     }
-    onSaved();
-    onClose();
   };
 
   return (
@@ -214,7 +211,7 @@ export default function BookingModal({ isOpen, onClose, booking, onSaved }: Book
                 className="p-4 rounded bg-gray-100 outline-none w-full"
               >
                 <option value="">Select destination</option>
-                {MOCK_DESTINATIONS.map((d) => (
+                {destinations.map((d) => (
                   <option key={d.id} value={d.name}>
                     {d.name}
                   </option>

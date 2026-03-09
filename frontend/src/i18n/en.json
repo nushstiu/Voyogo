@@ -1,0 +1,619 @@
+{
+  "app": {
+    "name": "Voyago",
+    "tagline": "Unforgettable adventures await"
+  },
+
+  "nav": {
+    "destinations": "Destinations",
+    "tours": "Tours",
+    "book": "Book",
+    "dashboard": "Dashboard",
+    "myBookings": "My Bookings",
+    "profile": "Profile",
+    "users": "Users",
+    "bookings": "Bookings",
+    "analytics": "Analytics",
+    "login": "Login",
+    "logout": "Logout"
+  },
+
+  "auth": {
+    "loginTitle": "Welcome back",
+    "loginSubtitle": "Log in to continue your journey",
+    "registerTitle": "Create account",
+    "registerSubtitle": "Start your adventure with us",
+    "loginButton": "Log in",
+    "loginLoading": "Logging in...",
+    "registerButton": "Create account",
+    "registerLoading": "Creating account...",
+    "demoAccounts": "Demo accounts",
+    "userLogin": "User login",
+    "adminLogin": "Admin login",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "hasAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "googleLogin": "Continue with Google",
+    "facebookLogin": "Continue with Facebook",
+    "orDivider": "Or continue with email"
+  },
+
+  "form": {
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "phone": "Phone",
+    "country": "Country",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "dateOfBirth": "Date of birth",
+    "preferredLanguage": "Preferred language",
+    "address": "Address",
+    "emergencyContact": "Emergency contact",
+    "contactName": "Contact name",
+    "contactPhone": "Contact phone",
+    "search": "Search..."
+  },
+
+  "validation": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email address",
+    "passwordMin": "Password must be at least 6 characters",
+    "passwordsMismatch": "Passwords do not match",
+    "usernameMin": "Username must be at least 5 characters",
+    "usernameMax": "Username must be at most 15 characters",
+    "usernameFormat": "Username can only contain letters, numbers and underscores",
+    "phoneFormat": "Phone must start with + and contain only digits and spaces",
+    "countryFormat": "Country must contain only letters, spaces and hyphens"
+  },
+
+  "userDashboard": {
+    "welcome": "Welcome back, {{name}}!",
+    "subtitle": "Manage your bookings and profile",
+    "totalBookings": "Total bookings",
+    "upcomingTrips": "Upcoming trips",
+    "completedTrips": "Completed trips",
+    "recentBookings": "Recent bookings",
+    "noBookings": "No bookings yet",
+    "customTrip": "Custom trip",
+    "unknownTour": "Unknown tour"
+  },
+
+  "adminDashboard": {
+    "welcome": "Admin Dashboard",
+    "totalUsers": "Total users",
+    "totalRevenue": "Total revenue",
+    "activeTours": "Active tours",
+    "subtitle": "Travel platform overview",
+    "administrator": "Administrator",
+    "topDestinations": "Top destinations",
+    "total": "total",
+    "viewReports": "View reports",
+    "bookingCount": "booking",
+    "bookingsCount": "bookings"
+  },
+
+  "status": {
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "cancelled": "Cancelled",
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+
+  "actions": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "view": "View details",
+    "save": "Save changes",
+    "create": "Create",
+    "update": "Update",
+    "back": "Back",
+    "continue": "Continue",
+    "addUser": "Add user",
+    "addDestination": "Add destination",
+    "addTour": "Add tour",
+    "createBooking": "Create booking",
+    "exportCsv": "Export CSV",
+    "bulkConfirm": "Confirm selected",
+    "bulkCancel": "Cancel selected",
+    "viewAll": "View all"
+  },
+
+  "filters": {
+    "all": "All",
+    "filterByRole": "Filter by role",
+    "filterByStatus": "Filter by status",
+    "filterByDestination": "Filter by destination",
+    "sortBy": "Sort by"
+  },
+
+  "modals": {
+    "editUser": "Edit user",
+    "viewUser": "User details",
+    "editBooking": "Edit booking",
+    "viewBooking": "Booking details"
+  },
+
+  "confirm": {
+    "delete": "Are you sure you want to delete?",
+    "cancelBooking": "Are you sure you want to cancel this booking?",
+    "deleteUser": "Delete this user? This action cannot be undone.",
+    "deleteDestination": "Delete this destination? This will affect {{count}} tours.",
+    "deleteTour": "Delete this tour? {{count}} bookings reference this tour."
+  },
+
+  "success": {
+    "login": "Login successful!",
+    "register": "Registration successful!",
+    "logout": "Logout successful",
+    "profileUpdate": "Profile updated successfully",
+    "bookingCreated": "Booking created successfully",
+    "bookingCancelled": "Booking cancelled successfully",
+    "bookingUpdated": "Booking updated successfully",
+    "statusChanged": "Status updated successfully",
+    "userCreated": "User created successfully",
+    "userUpdated": "User updated successfully",
+    "userDeleted": "User deleted successfully",
+    "destinationCreated": "Destination created successfully",
+    "destinationUpdated": "Destination updated successfully",
+    "destinationDeleted": "Destination deleted successfully",
+    "tourCreated": "Tour created successfully",
+    "tourUpdated": "Tour updated successfully",
+    "tourDeleted": "Tour deleted successfully"
+  },
+
+  "error": {
+    "login": "Login failed. Please check your credentials.",
+    "register": "Registration failed. Please try again.",
+    "generic": "Something went wrong. Please try again."
+  },
+
+  "loading": {
+    "default": "Loading...",
+    "login": "Logging in...",
+    "register": "Creating account..."
+  },
+
+  "empty": {
+    "noResults": "No results found",
+    "noUsers": "No users found",
+    "noDestinations": "No destinations found",
+    "noTours": "No tours found",
+    "noBookings": "No bookings yet",
+    "bookTrip": "Book a trip to see it here!"
+  },
+
+  "roles": {
+    "admin": "Admin",
+    "user": "User"
+  },
+
+  "table": {
+    "user": "User",
+    "phone": "Phone",
+    "country": "Country",
+    "role": "Role",
+    "joined": "Joined",
+    "actions": "Actions",
+    "destination": "Destination",
+    "packages": "Packages",
+    "priceRange": "Price range",
+    "tours": "Tours",
+    "tour": "Tour",
+    "price": "Price",
+    "days": "Days",
+    "bookings": "Bookings",
+    "status": "Status",
+    "guest": "Guest",
+    "date": "Date",
+    "duration": "Duration",
+    "contact": "Contact",
+    "bookedOn": "Booked on",
+    "toursLinked": "linked tours"
+  },
+
+  "analytics": {
+    "title": "Analytics",
+    "bookingTrends": "Booking trends",
+    "popularDestinations": "Popular destinations",
+    "revenueByDestination": "Revenue by destination",
+    "statusDistribution": "Booking status distribution"
+  },
+
+  "bookingEdit": {
+    "bookingDate": "Booking date",
+    "duration": "Duration"
+  },
+
+  "dateFilter": {
+    "from": "From:",
+    "to": "To:",
+    "selected": "selected"
+  },
+
+  "pagination": {
+    "showing": "Showing",
+    "of": "of",
+    "results": "results",
+    "perPage": "per page"
+  },
+
+  "hero": {
+    "tagline": "Unforgettable adventures await",
+    "title": "ADVENTURE"
+  },
+
+  "home": {
+    "popularDestinations": "Popular Destinations",
+    "destinationsBackground": "Destinations",
+    "packages": "packages",
+    "showLess": "Show less",
+    "loadMore": "Load more destinations",
+    "escapeToParadise": "Escape to paradise",
+    "escapeSubtitle": "Book now and save 20% on your magical trip",
+    "bookNow": "Book now",
+    "adventureAwaits": "Adventure awaits",
+    "adventureSubtitle": "Book a tour today and get a FREE excursion!",
+    "startAdventure": "Start adventure",
+    "newsletterSubtitle": "Subscribe to our newsletter and receive exclusive offers, tips and travel inspiration straight to your inbox.",
+    "emailPlaceholder": "Enter your email address",
+    "subscribe": "Subscribe",
+    "thankYou": "Thank you for subscribing!"
+  },
+
+  "search": {
+    "destination": "Destination",
+    "checkIn": "Check-in date",
+    "checkOut": "Check-out date",
+    "priceRange": "Price range",
+    "search": "Search"
+  },
+
+  "faq": {
+    "label": "Blog",
+    "title": "Frequently Asked Questions",
+    "subtitle": "What our customers usually ask about our services and tours",
+    "q1": "What types of travel packages does Voyago offer?",
+    "a1": "Voyago offers a wide range of travel packages, including adventure tours, luxury retreats, city explorations, nature expeditions and seasonal getaways. Each package is carefully crafted to provide the best experience for our travelers.",
+    "q2": "How do I book a trip with Voyago?",
+    "a2": "Booking with Voyago is simple! Browse our destinations and tours, select your preferred package, fill in your personal details in the booking form, choose your dates and trip duration, and confirm your booking. You can also contact our support team for personalized assistance.",
+    "q3": "What is the payment process at Voyago?",
+    "a3": "We accept major credit cards, bank transfers and digital payment methods. A 30% deposit is required to confirm the booking, with the remaining balance due 30 days before the trip. Full refunds are available for cancellations made more than 60 days in advance.",
+    "q4": "How do I cancel my booking at Voyago?",
+    "a4": "You can cancel your booking through your account dashboard or by contacting customer service. Cancellation policies vary by package: free cancellation up to 60 days before departure, 50% refund for 30-60 days, and no refund within the last 30 days."
+  },
+
+  "footer": {
+    "description": "Discover the world with Voyago. We create unforgettable travel experiences, tailored just for you.",
+    "quickLinks": "Quick Links",
+    "followUs": "Follow Us",
+    "copyright": "\u00a9 2025 Voyago. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms and Conditions"
+  },
+
+  "destinations": {
+    "breadcrumb": "Home | Destinations",
+    "title": "DESTINATIONS",
+    "popular": "Popular Destinations",
+    "noResults": "No destinations found matching your criteria."
+  },
+
+  "tours": {
+    "breadcrumb": "Home | Tours",
+    "title": "TOUR PACKAGES",
+    "popular": "Our tour packages",
+    "noResults": "No tours found matching your criteria."
+  },
+
+  "destinationDetails": {
+    "thailandTagline": "The Land of Smiles \u2013 Where ancient temples meet tropical paradise",
+    "overview": "Overview",
+    "discoverThailand": "Discover Thailand",
+    "thailandDesc1": "Thailand is a Southeast Asian gem that seamlessly blends ancient traditions with modern vibrancy. From the bustling streets of Bangkok, adorned with ornate temples and floating markets, to the serene beaches of the southern islands, Thailand offers an experience unlike any other.",
+    "thailandDesc2": "Whether you're exploring the lush jungles of Chiang Mai, diving into the crystal-clear waters of the Andaman Sea, or savoring the world-renowned Thai cuisine at a local street stall, every moment in Thailand is a feast for the senses. The warm hospitality of the Thai people makes every visitor feel at home.",
+    "keyFacts": "Key Facts",
+    "gallery": "Gallery",
+    "galleryTitle": "Explore Thailand in Photos",
+    "whyVisit": "Why Visit",
+    "whyVisitTitle": "Why Thailand Should Be Your Next Destination",
+    "tourPackages": "Tour Packages",
+    "availableTours": "Available Tour Packages",
+    "ctaTitle": "Ready to Explore Thailand?",
+    "ctaDesc": "Book your dream Thai adventure today and experience the magic of the Land of Smiles.",
+    "planTrip": "Plan Your Trip"
+  },
+
+  "tourDetails": {
+    "loading": "Loading tour details...",
+    "notFound": "Tour not found",
+    "backToTours": "Back to tours",
+    "aboutTour": "About this tour",
+    "aboutDest": "About {{name}}",
+    "highlights": "Highlights",
+    "professionalGuide": "Professional guide",
+    "hotelAccommodation": "Hotel accommodation",
+    "airportTransfers": "Airport transfers",
+    "breakfastIncluded": "Breakfast included",
+    "perPerson": "per person",
+    "duration": "Duration",
+    "days": "{{count}} days",
+    "location": "Location",
+    "statusLabel": "Status",
+    "priceRangeLabel": "Price range",
+    "bookNow": "Book now",
+    "freeCancellation": "Free cancellation up to 30 days before departure",
+    "overview": "Overview",
+    "included": "Included",
+    "notIncluded": "Not Included",
+    "itinerary": "Itinerary",
+    "reviews": "Reviews",
+    "joinTour": "JOIN THIS TOUR",
+    "joinTourDesc": "Fill in the form below to reserve your spot on this tour.",
+    "fullName": "Full Name",
+    "startingDate": "Starting Date",
+    "leavingDate": "Leaving Date",
+    "userFacilities": "User Facilities",
+    "facilitiesStandard": "Standard",
+    "facilitiesPremium": "Premium",
+    "facilitiesLuxury": "Luxury",
+    "bookTheTour": "Book The Tour",
+    "startAdventure": "START YOUR ADVENTURE",
+    "startAdventureDesc": "Don't miss this opportunity! Book your dream tour today and create memories that last a lifetime.",
+    "groupSize": "Group Size",
+    "tourType": "Tour Type",
+    "groupSizeValue": "10-15 people",
+    "tourTypeValue": "Guided Tour"
+  },
+
+  "booking": {
+    "bookingFor": "Booking for:",
+    "steps": {
+      "destination": "Destination",
+      "duration": "Duration",
+      "dates": "Dates",
+      "tourDetails": "Tour Details",
+      "preferences": "Preferences",
+      "documents": "Documents",
+      "payment": "Payment",
+      "confirmation": "Confirmation"
+    },
+    "chooseDestination": "Choose destination",
+    "chooseDestinationSub": "Select your desired destination and number of travelers",
+    "contactInfo": "Your contact details",
+    "name": "Name:",
+    "email": "Email:",
+    "phone": "Phone:",
+    "notFilled": "Not filled",
+    "travelerCount": "Number of travelers",
+    "adults": "Adults",
+    "children": "Children (2-12 years)",
+    "selected": "Selected",
+    "continueWith": "Continue with {{name}}",
+    "selectDestination": "Select a destination",
+    "back": "Back",
+    "continueBtn": "Continue",
+    "availableTours": "Available tours in {{name}}",
+    "chooseDuration": "Choose the duration that best fits your needs",
+    "daysLabel": "{{count}} days",
+    "pricePerPerson": "Price per person:",
+    "selectionSummary": "Selection summary:",
+    "destinationLabel": "Destination:",
+    "durationLabel": "Duration:",
+    "adultsLabel": "Adults:",
+    "childrenLabel": "Children:",
+    "selectDate": "Select departure date",
+    "toursAvailableFor": "Available tours to {{name}}",
+    "chooseStartDate": "Choose a start date",
+    "toursForDate": "Available tours for {{date}}",
+    "start": "Start:",
+    "end": "End:",
+    "availableSpots": "Available spots:",
+    "totalPrice": "Total price:",
+    "selectTour": "Select tour",
+    "tourDetailsTitle": "Tour Details",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "spots": "{{count}} spots",
+    "aboutDestination": "About {{name}}",
+    "tourDescription": "Tour description",
+    "includes": "What's included",
+    "excludes": "What's not included",
+    "pointsOfInterest": "Points of interest",
+    "fullItinerary": "Full itinerary",
+    "dayLabel": "Day {{day}}: {{title}}",
+    "accommodation": "Accommodation: {{value}} | Meals: {{meals}}",
+    "priceSummary": "Price summary:",
+    "adultsPrice": "Adults ({{count}}) x ${{price}}",
+    "childrenPrice": "Children ({{count}}) x ${{price}} (30% discount)",
+    "totalPriceLabel": "Total price:",
+    "continueToPreferences": "Continue to Preferences",
+    "selectTourFirst": "Select a tour first to see the details",
+    "travelPreferences": "Travel preferences",
+    "accommodationType": "Accommodation type",
+    "budget": "Budget",
+    "standard": "Standard",
+    "luxury": "Luxury",
+    "hotel3": "3* Hotel",
+    "hotel4": "4* Hotel",
+    "hotel5": "5* Hotel",
+    "mealPlan": "Meal plan",
+    "breakfastOnly": "Breakfast only",
+    "halfBoard": "Half board (breakfast + dinner)",
+    "fullBoard": "Full board (breakfast + lunch + dinner)",
+    "allInclusive": "All Inclusive",
+    "roomType": "Room type",
+    "single": "Single (1 person, single bed)",
+    "double": "Double (2 persons, double bed)",
+    "twin": "Twin (2 persons, 2 separate beds)",
+    "family": "Family (3-4 persons)",
+    "dietaryRestrictions": "Dietary restrictions",
+    "vegetarian": "Vegetarian",
+    "vegan": "Vegan",
+    "glutenFree": "Gluten-free",
+    "dairyFree": "Dairy-free",
+    "halal": "Halal",
+    "kosher": "Kosher",
+    "specialRequests": "Special requests",
+    "highFloor": "High floor room",
+    "roomWithView": "Room with a view",
+    "extraBed": "Extra bed for child",
+    "adjacentRoom": "Adjacent room",
+    "earlyCheckIn": "Early check-in",
+    "lateCheckOut": "Late check-out",
+    "medicalConditions": "Medical conditions (optional)",
+    "medicalPlaceholder": "Please mention any relevant medical conditions",
+    "travelInsurance": "Travel insurance (+$29/person)",
+    "insuranceCovers": "Covers: Medical expenses, Trip cancellation, Lost luggage, Repatriation",
+    "continueToDocuments": "Continue to required documents",
+    "documentsTitle": "Required Documents & Important Information",
+    "documentsSubtitle": "Information specific to traveling in {{name}}",
+    "requiredDocuments": "Required documents",
+    "passport": "Passport",
+    "passportDetails": ["Valid for at least 6 months from return date", "At least 2 blank pages for visas/stamps", "In good condition (no torn or damaged pages)"],
+    "touristVisa": "Tourist visa - {{name}}",
+    "visaDetails": ["Required for traveling to {{name}}", "Can be obtained through the agency (additional cost $50)", "Processing in 5-10 business days", "Required documents: passport, photo, completed form"],
+    "vaccinationCert": "Vaccination certificate",
+    "vaccinationDetails": ["COVID-19 vaccination (recommended)", "Other recommended vaccinations for {{name}}", "Certificate must be in English"],
+    "medicalInsurance": "Medical insurance",
+    "insuranceDetails": ["Included in the tour package", "Minimum coverage $30,000", "Valid in {{name}}"],
+    "required": "Required",
+    "optional": "Optional",
+    "agencyProvides": "What we provide (the agency)",
+    "agencyItems": [
+      "Airport - hotel - airport transfer",
+      "Accommodation as per selected package",
+      "Meals as per chosen plan",
+      "Tourist guide",
+      "24/7 assistance throughout the stay",
+      "Resolution of unforeseen situations",
+      "Complaint processing within 48h"
+    ],
+    "clientExpected": "What we expect from you",
+    "clientItems": [
+      "Valid identity documents",
+      "Adherence to the established schedule",
+      "Timely payment of additional services",
+      "Respect for local culture",
+      "Care for hotel property",
+      "Communication of any health issues"
+    ],
+    "importantInfo": "Important information",
+    "infoItems": [
+      "Hotel check-in: after 2:00 PM | Check-out: by 12:00 PM",
+      "Arrive at the airport 3 hours before departure",
+      "Checked luggage included: 20kg | Carry-on: 8kg",
+      "Free cancellation up to 30 days before departure",
+      "Cancellations under 30 days are subject to penalties as per contract"
+    ],
+    "understoodContinue": "I understand, continue to payment",
+    "finalizePayment": "Finalize payment",
+    "orderSummary": "Order Summary",
+    "tourLabel": "Tour:",
+    "periodLabel": "Period:",
+    "childrenDiscount": "Children (30% discount):",
+    "preferencesLabel": "Preferences:",
+    "accommodationLabel": "Accommodation:",
+    "mealPlanLabel": "Meal plan:",
+    "roomLabel": "Room:",
+    "total": "Total:",
+    "paymentMethod": "Payment method",
+    "fullCardPayment": "Full card payment - ${{amount}}",
+    "installments": "Installment payment: 30% deposit (${{deposit}}) + Remainder on arrival (${{remaining}})",
+    "bankTransfer": "Bank transfer (processing in 1-2 business days)",
+    "cardDetails": "Card details",
+    "cardNumber": "Card number",
+    "cardHolder": "Card holder name",
+    "expiryDate": "Expiry date",
+    "cvv": "CVV",
+    "bankInstructions": "Bank transfer instructions",
+    "bankInstructionsText": "Please make the transfer to the following details:",
+    "beneficiary": "Beneficiary: VOYAGO TRAVEL SRL",
+    "bank": "Bank: BCR",
+    "amount": "Amount: ${{amount}}",
+    "reference": "Reference: {{ref}}",
+    "termsAccept": "I accept the",
+    "termsLink": "terms and conditions",
+    "and": "and",
+    "privacyLink": "privacy policy",
+    "confirmAndPay": "Confirm and pay ${{amount}}",
+    "verifyingCard": "Verifying card details...",
+    "processingPayment": "Processing payment...",
+    "generatingRef": "Generating reference...",
+    "paymentSecure": "Payment is secured via SSL. Your data is protected.",
+    "noTourSelected": "No tour selected.",
+    "bookingConfirmed": "Booking confirmed!",
+    "paymentProcessed": "Payment has been processed successfully",
+    "bookingDetails": "Booking details",
+    "bookingRef": "Booking reference:",
+    "travelerData": "Traveler details",
+    "selectedPreferences": "Selected preferences",
+    "downloadVoucher": "Download voucher",
+    "addToCalendar": "Add to calendar",
+    "sendByEmail": "Send by email",
+    "nextSteps": "Next steps",
+    "step1": "You will receive a confirmation email with all booking details within 5 minutes",
+    "step2": "We will contact you by phone within the next 24 hours for final confirmation",
+    "step3": "7 days before departure you will receive the final voucher and detailed instructions",
+    "step4": "48 hours before we will send you a reminder and transfer details",
+    "emergencyContact": "Emergency contact (24/7)",
+    "emergencyPhone": "Phone: +40 21 XXX XXXX | Email: urgente@voyago.com",
+    "backToHome": "Back to home page",
+    "downloadingVoucher": "Downloading voucher...",
+    "calendarAdded": "Event added to calendar!",
+    "travelers": "Travelers:",
+    "adultsAndChildren": "{{adults}} adults, {{children}} children",
+    "totalPaid": "Total paid:"
+  },
+
+  "profile": {
+    "title": "My Profile"
+  },
+
+  "userBookings": {
+    "title": "My Bookings"
+  },
+
+  "bookingNotes": {
+    "label": "Special requests / Notes",
+    "placeholder": "Dietary requirements, accessibility needs, etc."
+  },
+
+  "itinerary": {
+    "arrivalDay": "Arrival day",
+    "departureDay": "Departure day",
+    "dayTitle": "Day {{day}} - {{name}}",
+    "arrivalDesc": "Arrival in {{location}}. Airport to hotel transfer, check-in and free time.",
+    "departureDesc": "Hotel check-out, last-minute shopping, transfer to airport.",
+    "exploreDesc": "Explore {{location}}. {{description}}",
+    "breakfast": "Breakfast",
+    "hotel4Star": "4* Hotel in {{location}}",
+    "na": "N/A",
+    "guidedTour": "Guided tour",
+    "visitAttractions": "Visit attractions in {{location}}",
+    "freeTime": "Free time",
+    "airportTransfer": "Airport transfer",
+    "hotelCheckIn": "Hotel check-in",
+    "checkOut": "Check-out"
+  },
+
+  "includes": {
+    "roundTripFlight": "Round-trip flight",
+    "hotel4Star": "4* Hotel accommodation in {{location}}",
+    "breakfastIncluded": "Breakfast included",
+    "airportTransfer": "Airport-hotel transfer",
+    "touristGuide": "Tourist guide",
+    "travelInsurance": "Travel medical insurance"
+  },
+
+  "excludes": {
+    "museumFees": "Museum/attraction entrance fees",
+    "lunchDinner": "Lunch and dinner",
+    "personalExpenses": "Personal expenses",
+    "tips": "Tips"
+  }
+}
