@@ -57,7 +57,8 @@ export const MOCK_TOURS: Tour[] = [
     price: '$1,047',
     days: '9',
     description: 'Embark on an epic adventure to the islands of Komodo and Flores. Encounter Komodo dragons in their natural habitat and explore breathtaking landscapes.',
-    image: 'https://images.unsplash.com/photo-1518183214770-9cffbec72538?w=800',
+    image:  "https://images.pexels.com/photos/3348363/pexels-photo-3348363.jpeg?auto=compress&cs=tinysrgb&w=800",
+
     destination_id: 1,
     status: TourStatus.Active,
     created_at: '2024-01-01T00:00:00.000Z',
