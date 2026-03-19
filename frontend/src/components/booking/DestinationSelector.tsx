@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { destinationService } from '../../services/destination.service';
-import type { Destination, User } from '../../types';
+import type { Destination } from '../../types';
 import type { BookingData } from '../../types/booking';
+import GuestCountInput from './GuestCountInput';
 
 interface Props {
     bookingData: BookingData;
     setBookingData: (data: BookingData) => void;
-    user: User | null;
     selectedDestination: Destination | null;
     setSelectedDestination: (dest: Destination | null) => void;
     preselectedDestination?: Destination | null;
@@ -16,7 +16,6 @@ interface Props {
 export default function DestinationSelector({
     bookingData,
     setBookingData,
-    user,
     selectedDestination,
     setSelectedDestination,
     preselectedDestination,
@@ -26,6 +25,7 @@ export default function DestinationSelector({
     const [children, setChildren] = useState(bookingData.travelers.children);
     const [chosen, setChosen] = useState<Destination | null>(selectedDestination);
     const [destinations, setDestinations] = useState<Destination[]>([]);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         destinationService.getAll().then(setDestinations);
@@ -39,10 +39,14 @@ export default function DestinationSelector({
 
     const handleSelectDestination = (dest: Destination) => {
         setChosen(dest);
+        setError('');
     };
 
     const handleContinue = () => {
-        if (!chosen) return;
+        if (!chosen) {
+            setError('Selectează o destinație pentru a continua.');
+            return;
+        }
         setSelectedDestination(chosen);
         setBookingData({
             ...bookingData,
@@ -53,125 +57,76 @@ export default function DestinationSelector({
         onNext();
     };
 
+    const totalTravelers = adults + children;
+
     return (
         <div className="bg-white rounded-lg shadow-md p-8">
-            <h2 className="text-2xl font-bold mb-2">Choose Your Destination</h2>
-            <p className="text-gray-600 mb-6">Select your destination and number of travelers</p>
+            <h2 className="text-2xl font-bold mb-2">Alege destinația</h2>
+            <p className="text-gray-600 mb-6">Selectează destinația și numărul de călători</p>
 
-            {/* User profile info */}
-            {user && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                    <h3 className="font-semibold text-blue-800 mb-2">Contact Information</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
-                        <div>
-                            <span className="text-gray-600">Name:</span>
-                            <p className="font-semibold">{user.username}</p>
-                        </div>
-                        <div>
-                            <span className="text-gray-600">Email:</span>
-                            <p className="font-semibold">{user.email}</p>
-                        </div>
-                        <div>
-                            <span className="text-gray-600">Phone:</span>
-                            <p className="font-semibold">{user.phone || 'Not provided'}</p>
-                        </div>
-                    </div>
+            {/* Traveler count with MUI GuestCountInput */}
+            <div className="bg-gray-50 rounded-xl p-5 mb-6 border border-gray-200">
+                <h3 className="font-semibold mb-4 text-gray-700">Număr de călători</h3>
+                <div className="space-y-4">
+                    <GuestCountInput
+                        label="Adulți"
+                        subtitle="Vârsta 13+ ani"
+                        value={adults}
+                        min={1}
+                        max={10}
+                        onChange={setAdults}
+                    />
+                    <div className="border-t border-gray-200" />
+                    <GuestCountInput
+                        label="Copii"
+                        subtitle="Vârsta 2-12 ani (reducere 30%)"
+                        value={children}
+                        min={0}
+                        max={8}
+                        onChange={setChildren}
+                    />
                 </div>
-            )}
-
-            {/* Traveler count */}
-            <div className="bg-gray-50 rounded-lg p-4 mb-6">
-                <h3 className="font-semibold mb-3">Number of Travelers</h3>
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-sm text-gray-600 mb-1">Adults</label>
-                        <div className="flex items-center gap-3">
-                            <button
-                                onClick={() => setAdults(Math.max(1, adults - 1))}
-                                className="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center hover:bg-gray-100"
-                            >-</button>
-                            <input
-                                type="text"
-                                inputMode="numeric"
-                                value={adults}
-                                onDoubleClick={(e) => (e.target as HTMLInputElement).select()}
-                                onChange={(e) => {
-                                    const val = e.target.value.replace(/\D/g, '');
-                                    if (val === '') { setAdults(0); return; }
-                                    const num = Math.min(30, parseInt(val, 10));
-                                    setAdults(num);
-                                }}
-                                onBlur={() => { if (adults < 1) setAdults(1); }}
-                                className="text-lg font-semibold w-10 text-center bg-transparent border-b-2 border-transparent hover:border-gray-300 focus:border-blue-500 focus:outline-none transition-colors"
-                            />
-                            <button
-                                onClick={() => setAdults(Math.min(30, adults + 1))}
-                                className="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center hover:bg-gray-100"
-                            >+</button>
-                        </div>
-                    </div>
-                    <div>
-                        <label className="block text-sm text-gray-600 mb-1">Children (2-12 years)</label>
-                        <div className="flex items-center gap-3">
-                            <button
-                                onClick={() => setChildren(Math.max(0, children - 1))}
-                                className="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center hover:bg-gray-100"
-                            >-</button>
-                            <input
-                                type="text"
-                                inputMode="numeric"
-                                value={children}
-                                onDoubleClick={(e) => (e.target as HTMLInputElement).select()}
-                                onChange={(e) => {
-                                    const val = e.target.value.replace(/\D/g, '');
-                                    if (val === '') { setChildren(0); return; }
-                                    const num = Math.min(30, parseInt(val, 10));
-                                    setChildren(num);
-                                }}
-                                className="text-lg font-semibold w-10 text-center bg-transparent border-b-2 border-transparent hover:border-gray-300 focus:border-blue-500 focus:outline-none transition-colors"
-                            />
-                            <button
-                                onClick={() => setChildren(Math.min(30, children + 1))}
-                                className="w-8 h-8 rounded-full border-2 border-gray-300 flex items-center justify-center hover:bg-gray-100"
-                            >+</button>
-                        </div>
-                    </div>
+                <div className="mt-3 pt-3 border-t border-gray-200 flex justify-between text-sm">
+                    <span className="text-gray-600">Total călători:</span>
+                    <span className="font-bold text-blue-600">{totalTravelers} {totalTravelers === 1 ? 'persoană' : 'persoane'}</span>
                 </div>
             </div>
 
             {/* Destination cards */}
+            <h3 className="font-semibold mb-3 text-gray-700">Alege destinația</h3>
+            {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
                 {destinations.map(dest => (
                     <button
                         key={dest.id}
                         onClick={() => handleSelectDestination(dest)}
-                        className={`text-left border-2 rounded-lg overflow-hidden transition-all ${
+                        className={`text-left border-2 rounded-xl overflow-hidden transition-all ${
                             chosen?.id === dest.id
                                 ? 'border-blue-600 shadow-lg ring-2 ring-blue-200'
                                 : 'border-gray-200 hover:border-blue-400 hover:shadow-md'
                         }`}
                     >
-                        <div className="h-32 relative overflow-hidden">
+                        <div className="h-36 relative overflow-hidden">
                             <img
                                 src={dest.image}
                                 alt={dest.name}
                                 className="w-full h-full object-cover"
                             />
-                            <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                                <span className="text-white text-2xl font-bold drop-shadow-lg">{dest.name}</span>
+                            <div className="absolute inset-0 bg-black/35 flex items-end p-3">
+                                <span className="text-white text-xl font-bold drop-shadow-lg">{dest.name}</span>
                             </div>
+                            {chosen?.id === dest.id && (
+                                <div className="absolute top-2 right-2 bg-blue-600 text-white rounded-full w-7 h-7 flex items-center justify-center font-bold text-sm shadow">
+                                    ✓
+                                </div>
+                            )}
                         </div>
-                        <div className="p-4">
-                            <div className="flex justify-between items-center mb-2">
-                                <span className="text-sm text-gray-600">{dest.packages} packages</span>
+                        <div className="p-3">
+                            <div className="flex justify-between items-center mb-1">
+                                <span className="text-xs text-gray-500">{dest.packages} pachete</span>
                                 <span className="text-sm font-semibold text-green-600">{dest.price_range}</span>
                             </div>
                             <p className="text-xs text-gray-500 line-clamp-2">{dest.description}</p>
-                            {chosen?.id === dest.id && (
-                                <div className="mt-2 text-blue-600 font-semibold text-sm">
-                                    &#10003; Selected
-                                </div>
-                            )}
                         </div>
                     </button>
                 ))}
@@ -180,10 +135,9 @@ export default function DestinationSelector({
             {/* Continue button */}
             <button
                 onClick={handleContinue}
-                disabled={!chosen}
-                className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+                className="w-full px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
             >
-                {chosen ? `Continue with ${chosen.name}` : 'Select a destination'}
+                {chosen ? `Continuă cu ${chosen.name} →` : 'Selectează o destinație'}
             </button>
         </div>
     );

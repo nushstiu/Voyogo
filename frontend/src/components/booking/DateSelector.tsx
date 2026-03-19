@@ -17,58 +17,55 @@ interface Props {
     onBack: () => void;
 }
 
-function TourCard({
-    tour,
-    travelers,
-    onSelect
-}: {
+interface TourCardProps {
     tour: AvailableTour;
     travelers: { adults: number; children: number };
     onSelect: () => void;
-}) {
+}
+
+function TourCard({ tour, travelers, onSelect }: TourCardProps) {
     const totalPrice = tour.price * (travelers.adults + travelers.children * 0.7);
 
     return (
-        <div className="border rounded-lg p-6 hover:shadow-lg transition">
-            <h4 className="text-lg font-semibold mb-1">{tour.tourName}</h4>
-            <p className="text-sm text-gray-500 mb-3">{tour.destinationName}</p>
-            <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
+        <div className="border rounded-xl p-6 hover:shadow-lg transition-shadow bg-white">
+            <div className="flex justify-between items-start mb-3">
                 <div>
-                    <span className="text-gray-600">Start:</span>
-                    <p>{tour.startDate.toLocaleDateString('en-US')}</p>
+                    <h4 className="text-lg font-semibold text-gray-800">{tour.tourName}</h4>
+                    <p className="text-sm text-gray-500">{tour.destinationName}</p>
                 </div>
-                <div>
-                    <span className="text-gray-600">End:</span>
-                    <p>{tour.endDate.toLocaleDateString('en-US')}</p>
+                <span className="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">
+                    {tour.availableSpots} locuri
+                </span>
+            </div>
+            <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
+                <div className="bg-gray-50 rounded-lg p-2">
+                    <span className="text-gray-500 text-xs">Plecare</span>
+                    <p className="font-medium">{tour.startDate.toLocaleDateString('ro-RO')}</p>
                 </div>
-                <div>
-                    <span className="text-gray-600">Duration:</span>
-                    <p>{tour.days} days</p>
+                <div className="bg-gray-50 rounded-lg p-2">
+                    <span className="text-gray-500 text-xs">Întoarcere</span>
+                    <p className="font-medium">{tour.endDate.toLocaleDateString('ro-RO')}</p>
                 </div>
-                <div>
-                    <span className="text-gray-600">Available spots:</span>
-                    <p>{tour.availableSpots}</p>
+                <div className="bg-gray-50 rounded-lg p-2">
+                    <span className="text-gray-500 text-xs">Durată</span>
+                    <p className="font-medium">{tour.days} zile</p>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-2">
+                    <span className="text-gray-500 text-xs">Preț/adult</span>
+                    <p className="font-medium text-green-600">${tour.price}</p>
                 </div>
             </div>
             <p className="text-sm text-gray-600 mb-4">{tour.description.slice(0, 120)}...</p>
-            <div className="mb-4">
-                <h5 className="font-semibold mb-2">Highlights:</h5>
-                <ul className="text-sm space-y-1">
-                    {tour.highlights.map((highlight, i) => (
-                        <li key={i}>&#8226; {highlight}</li>
-                    ))}
-                </ul>
-            </div>
-            <div className="flex justify-between items-center border-t pt-3">
+            <div className="flex justify-between items-center border-t pt-4">
                 <div>
-                    <span className="text-gray-600 text-sm">Total price:</span>
-                    <p className="text-lg font-bold text-green-600">${totalPrice.toFixed(0)}</p>
+                    <span className="text-gray-500 text-xs">Total ({travelers.adults}A + {travelers.children}C)</span>
+                    <p className="text-xl font-bold text-green-600">${totalPrice.toFixed(0)}</p>
                 </div>
                 <button
                     onClick={onSelect}
-                    className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+                    className="bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700 font-medium transition-colors"
                 >
-                    Select tour
+                    Selectează →
                 </button>
             </div>
         </div>
@@ -80,19 +77,19 @@ function generateItineraryForTour(tour: Tour, days: number): DayItinerary[] {
     for (let i = 1; i <= days; i++) {
         itinerary.push({
             day: i,
-            title: i === 1 ? 'Arrival Day' : i === days ? 'Departure Day' : `Day ${i} - ${tour.name}`,
+            title: i === 1 ? 'Ziua sosirii' : i === days ? 'Ziua plecării' : `Ziua ${i} - ${tour.name}`,
             description:
                 i === 1
-                    ? `Arrival in ${tour.location}. Airport transfer to hotel, check-in and free time.`
+                    ? `Sosire în ${tour.location}. Transfer aeroport-hotel, cazare și timp liber.`
                     : i === days
-                        ? `Hotel check-out, last-minute shopping, airport transfer.`
-                        : `Exploring ${tour.location}. ${tour.description.slice(0, 100)}`,
-            meals: ['Breakfast'],
-            accommodation: i < days ? `4* Hotel in ${tour.location}` : 'N/A',
+                        ? `Micul dejun la hotel, cumpărături de ultim moment, transfer aeroport.`
+                        : `Explorarea obiectivelor din ${tour.location}. ${tour.description.slice(0, 100)}`,
+            meals: ['Mic dejun'],
+            accommodation: i < days ? `Hotel 4* în ${tour.location}` : 'N/A',
             activities:
                 i > 1 && i < days
-                    ? ['Guided tour', `Visit landmarks in ${tour.location}`, 'Free time']
-                    : i === 1 ? ['Airport transfer', 'Hotel check-in'] : ['Check-out', 'Airport transfer']
+                    ? ['Tur ghidat', `Vizitarea obiectivelor din ${tour.location}`, 'Timp liber']
+                    : i === 1 ? ['Transfer aeroport', 'Check-in hotel'] : ['Check-out', 'Transfer aeroport']
         });
     }
     return itinerary;
@@ -100,33 +97,33 @@ function generateItineraryForTour(tour: Tour, days: number): DayItinerary[] {
 
 function generateHighlights(tour: Tour): string[] {
     const locationHighlights: Record<string, string[]> = {
-        'Indonesia': ['Ancient Hindu temples', 'Tegalalang rice terraces', 'Tropical beaches', 'Monkey forests'],
-        'Japan': ['Buddhist temples', 'Traditional Japanese gardens', 'Local cuisine', 'Samurai culture'],
-        'Thailand': ['Golden temples', 'Dream beaches', 'Street food', 'Floating markets'],
-        'China': ['The Great Wall', 'Forbidden City', 'Terracotta Army', 'Classical gardens'],
-        'Philippines': ['Pristine beaches', 'Turquoise lagoons', 'Coral reefs', 'Tropical jungles'],
-        'South Korea': ['Royal palaces', 'K-Pop culture', 'Korean cuisine', 'Buddhist temples'],
+        'Indonesia': ['Temple hinduse antice', 'Terase de orez Tegalalang', 'Plaje tropicale', 'Păduri de maimuțe'],
+        'Japan': ['Temple budiste', 'Grădini tradiționale japoneze', 'Bucătărie locală autentică', 'Cultura samurai'],
+        'Thailand': ['Temple aurite', 'Plaje de vis', 'Street food autentic', 'Piețe plutitoare'],
+        'China': ['Marele Zid Chinezesc', 'Orașul Interzis', 'Armata de teracotă', 'Grădini clasice'],
+        'Philippines': ['Plaje nealterate', 'Lagune turcoaz', 'Recife de corali', 'Jungle tropicale'],
+        'South Korea': ['Palate regale', 'Cultura K-Pop', 'Bucătărie coreeană', 'Temple budiste'],
     };
-    return locationHighlights[tour.location] || ['Local tourist attractions', 'Authentic cultural experience', 'Local cuisine'];
+    return locationHighlights[tour.location] || ['Atracții turistice locale', 'Experiență culturală autentică', 'Bucătărie locală'];
 }
 
 function generateIncludes(tour: Tour): string[] {
     return [
-        'Round-trip flights',
-        `4* Hotel accommodation in ${tour.location}`,
-        'Breakfast included',
-        'Airport-hotel transfer',
-        'Tour guide',
-        'Travel medical insurance'
+        'Zbor dus-întors (clasa economică)',
+        `Cazare hotel 4* în ${tour.location}`,
+        'Mic dejun inclus',
+        'Transfer aeroport-hotel-aeroport',
+        'Ghid turistic local',
+        'Asigurare medicală de călătorie'
     ];
 }
 
 function generateExcludes(): string[] {
     return [
-        'Museum/attraction entry fees',
-        'Lunch and dinner',
-        'Personal expenses',
-        'Tips'
+        'Taxe de intrare muzee/atracții',
+        'Prânz și cină',
+        'Cheltuieli personale',
+        'Bacșiș'
     ];
 }
 
@@ -177,7 +174,7 @@ export default function DateSelector({
                     destinationName: `${tour.location} - ${selectedDestination?.name || ''}`,
                     startDate: jsDate,
                     endDate,
-                    availableSpots: Math.floor(Math.random() * 15) + 3,
+                    availableSpots: Math.floor(Math.random() * 30) + 20,
                     price: priceNum,
                     days,
                     description: tour.description,
@@ -189,6 +186,7 @@ export default function DateSelector({
             });
             setTours(generated);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedDate, selectedDestination]);
 
     const shouldDisableDate = (date: Dayjs): boolean => {
@@ -196,16 +194,16 @@ export default function DateSelector({
     };
 
     return (
-        <div className="bg-white rounded-lg shadow-md p-8">
-            <button onClick={onBack} className="mb-4 text-blue-600 hover:underline">
-                &#8592; Back
+        <div className="bg-white rounded-xl shadow-md p-8">
+            <button onClick={onBack} className="mb-4 text-blue-600 hover:underline flex items-center gap-1">
+                ← Înapoi
             </button>
 
-            <h2 className="text-2xl font-bold mb-2">Select Departure Date</h2>
+            <h2 className="text-2xl font-bold mb-2">Selectează data de plecare</h2>
             <p className="text-gray-600 mb-6">
                 {selectedDestination
-                    ? `Available tours to ${selectedDestination.name}`
-                    : 'Choose a start date'}
+                    ? `Tururi disponibile spre ${selectedDestination.name}`
+                    : 'Alege data de start'}
             </p>
 
             <div className="mb-8 flex justify-center">
@@ -216,17 +214,22 @@ export default function DateSelector({
                         shouldDisableDate={shouldDisableDate}
                         minDate={dayjs().add(7, 'day')}
                         maxDate={dayjs().add(180, 'day')}
-                        slotProps={{
-                            actionBar: { actions: [] },
-                        }}
+                        slotProps={{ actionBar: { actions: [] } }}
                     />
                 </LocalizationProvider>
             </div>
 
+            {selectedDate && tours.length === 0 && (
+                <div className="text-center py-8 text-gray-500">
+                    <p>Nu există tururi disponibile pentru această dată.</p>
+                    <p className="text-sm mt-1">Încearcă o altă dată.</p>
+                </div>
+            )}
+
             {selectedDate && tours.length > 0 && (
-                <div className="space-y-6">
+                <div className="space-y-4">
                     <h3 className="text-xl font-semibold">
-                        Tours available for {selectedDate.format('MMMM D, YYYY')}
+                        {tours.length} tururi disponibile pentru {selectedDate.format('D MMMM YYYY')}
                     </h3>
                     {tours.map(tour => (
                         <TourCard

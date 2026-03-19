@@ -1,12 +1,23 @@
 import type { Destination, User } from './index';
 
+export interface PassengerInfo {
+  id: string;
+  type: 'adult' | 'child';
+  gender: 'Mr.' | 'Ms.' | 'None';
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  nationality: string;
+  passportNumber: string;
+  passportExpiry: string;
+}
+
 export interface TravelPreferences {
   accommodation?: string;
   mealPlan?: string;
   roomType?: string;
-  dietaryRestrictions?: string[];
   specialRequests?: string;
-  mobility?: string;
+  insuranceRequired?: boolean;
 }
 
 export interface DayItinerary {
@@ -43,6 +54,7 @@ export interface BookingData {
     adults: number;
     children: number;
   };
+  passengers?: PassengerInfo[];
   startDate?: Date;
   endDate?: Date;
   destinationId?: number;

@@ -120,10 +120,10 @@ export default function BookingConfirmation({ bookingData, selectedTour, user }:
                                 <span className="font-semibold">{bookingData.preferences.roomType}</span>
                             </div>
                         )}
-                        {bookingData.preferences.dietaryRestrictions && bookingData.preferences.dietaryRestrictions.length > 0 && (
+                        {bookingData.preferences.insuranceRequired && (
                             <div className="flex justify-between">
-                                <span className="text-gray-600">Dietary restrictions:</span>
-                                <span className="font-semibold">{bookingData.preferences.dietaryRestrictions.join(', ')}</span>
+                                <span className="text-gray-600">Asigurare călătorie:</span>
+                                <span className="font-semibold text-green-600">Inclusă</span>
                             </div>
                         )}
                     </div>

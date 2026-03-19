@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import type { BookingFormData } from '../../types/booking';
-import PersonalInfoForm from './PersonalInfoForm';
 import PackageSelector from './PackageSelector';
 
 const initialFormData: BookingFormData = {
@@ -62,7 +61,15 @@ export default function BookingForm() {
 
   return (
     <form onSubmit={handleSubmit} className="py-16">
-      <PersonalInfoForm formData={formData} onChange={updateForm} />
+      <div className="w-full px-6 md:px-16 mb-8">
+        <h2 className="text-2xl font-bold mb-6">Personal Information</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input type="text" placeholder="First name" value={formData.firstName} onChange={e => updateForm({ firstName: e.target.value })} className="p-3 border rounded-lg" required />
+          <input type="text" placeholder="Last name" value={formData.lastName} onChange={e => updateForm({ lastName: e.target.value })} className="p-3 border rounded-lg" required />
+          <input type="email" placeholder="Email" value={formData.email} onChange={e => updateForm({ email: e.target.value })} className="p-3 border rounded-lg" />
+          <input type="tel" placeholder="Phone" value={formData.phone} onChange={e => updateForm({ phone: e.target.value })} className="p-3 border rounded-lg" required />
+        </div>
+      </div>
 
       <PackageSelector
         destination={formData.destination}

@@ -53,6 +53,16 @@ export const PUBLIC_DESTINATIONS: PublicDestination[] = [
     link: '/tours?destination=philippines',
   },
   {
+    id: 'cojușna',
+    name: 'Cojușna',
+    image: 'https://storage.moldova1.md/images/5208fcbf-3348-4859-a9db-d4578f76a8e8.jpg',
+    packages: 1,
+    priceRange: '$50 - $150',
+    description: 'Discover the hidden charm of Cojusna, a picturesque village in the heart of Moldova with rolling hills, vineyards, and authentic rural traditions.',
+    category: 'nature',
+    link: '/tours?destination=cojusna',
+  },
+  {
     id: 'south-korea',
     name: 'South Korea',
     image: 'https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=800',
@@ -62,7 +72,6 @@ export const PUBLIC_DESTINATIONS: PublicDestination[] = [
     category: 'city',
     link: '/tours?destination=south-korea',
   },
-  
 ];
 
 export const MOCK_DESTINATIONS: Destination[] = [

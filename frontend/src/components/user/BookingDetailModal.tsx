@@ -11,6 +11,21 @@ interface BookingDetailModalProps {
   booking?: Booking | null;
 }
 
+interface FieldProps {
+  label: string;
+  value?: string | null;
+}
+
+function Field({ label, value }: FieldProps) {
+  if (!value) return null;
+  return (
+    <div>
+      <p className="text-xs text-gray-500 font-semibold uppercase tracking-wide">{label}</p>
+      <p className="text-sm text-gray-800 mt-0.5">{value}</p>
+    </div>
+  );
+}
+
 export default function BookingDetailModal({ isOpen, onClose, booking }: BookingDetailModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
@@ -29,55 +44,73 @@ export default function BookingDetailModal({ isOpen, onClose, booking }: Booking
     <div
       ref={overlayRef}
       onClick={(e) => e.target === overlayRef.current && onClose()}
-      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
+      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
     >
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
-        <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+        {/* Header */}
+        <div className="p-6 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white z-10">
           <h2 className="text-xl font-bold text-gray-800">{t('modals.viewBooking')}</h2>
           <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
             <FontAwesomeIcon icon={faTimes} className="text-gray-500" />
           </button>
         </div>
 
-        <div className="p-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="font-bold text-gray-800 text-lg">{booking.destination}</h3>
+        <div className="p-6 space-y-5">
+          {/* Title + Status */}
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h3 className="font-bold text-gray-800 text-xl">{booking.destination}</h3>
+              {booking.tour_name && (
+                <p className="text-sm text-blue-600 font-medium mt-0.5">{booking.tour_name}</p>
+              )}
+            </div>
             <StatusBadge status={booking.status} />
           </div>
 
-          {booking.tour_name && (
-            <p className="text-sm text-blue-500 font-medium">{booking.tour_name}</p>
-          )}
-
-          <div className="grid grid-cols-2 gap-3 pt-3 border-t border-gray-200">
-            <div>
-              <p className="text-xs text-gray-500 font-semibold uppercase">{t('table.date')}</p>
-              <p className="text-sm text-gray-800">{booking.booking_date}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500 font-semibold uppercase">{t('table.duration')}</p>
-              <p className="text-sm text-gray-800">{booking.duration}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500 font-semibold uppercase">{t('table.contact')}</p>
-              <p className="text-sm text-gray-800">{booking.phone}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500 font-semibold uppercase">{t('table.bookedOn')}</p>
-              <p className="text-sm text-gray-800">
-                {new Date(booking.created_at).toLocaleDateString()}
-              </p>
+          {/* Trip Details */}
+          <div className="bg-blue-50 rounded-xl p-4">
+            <p className="text-xs font-semibold text-blue-700 uppercase mb-3">Detalii Călătorie</p>
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Data plecare" value={booking.booking_date} />
+              <Field label="Durată" value={booking.duration} />
+              {booking.tour_id && <Field label="ID Tur" value={booking.tour_id} />}
+              <Field label="Creat la" value={new Date(booking.created_at).toLocaleDateString('ro-RO')} />
             </div>
           </div>
 
+          {/* Passenger Info */}
+          <div className="bg-gray-50 rounded-xl p-4">
+            <p className="text-xs font-semibold text-gray-600 uppercase mb-3">Date Pasager Principal</p>
+            <div className="grid grid-cols-2 gap-3">
+              <Field label="Nume" value={`${booking.name} ${booking.surname}`} />
+              <Field label="Email" value={booking.email} />
+              <Field label="Telefon" value={booking.phone} />
+            </div>
+          </div>
+
+          {/* Notes */}
           {booking.notes && (
-            <div className="pt-3 border-t border-gray-200">
-              <p className="text-xs text-gray-500 font-semibold uppercase mb-1">
-                {t('bookingNotes.label')}
-              </p>
-              <p className="text-sm text-gray-600">{booking.notes}</p>
+            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+              <p className="text-xs font-semibold text-yellow-700 uppercase mb-2">Note personale</p>
+              <p className="text-sm text-gray-700">{booking.notes}</p>
             </div>
           )}
+
+          {/* Admin Notes */}
+          {booking.admin_notes && (
+            <div className="bg-purple-50 border border-purple-200 rounded-xl p-4">
+              <p className="text-xs font-semibold text-purple-700 uppercase mb-2">Mesaj de la agenție</p>
+              <p className="text-sm text-gray-700">{booking.admin_notes}</p>
+            </div>
+          )}
+
+          {/* Footer info */}
+          <div className="text-xs text-gray-400 border-t pt-3">
+            ID rezervare: <span className="font-mono">{booking.id}</span>
+            {booking.updated_at && (
+              <span className="ml-3">Actualizat: {new Date(booking.updated_at).toLocaleDateString('ro-RO')}</span>
+            )}
+          </div>
         </div>
       </div>
     </div>
