@@ -12,8 +12,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="frontend\src\pages\Register.tsx" />
-      <None Remove="frontend\src\pages\Login.tsx" />
+      <ProjectReference Include="..\Voyago.BusinessLayer\Voyago.BusinessLayer.csproj" />
+      <ProjectReference Include="..\Voyago.Domain\Voyago.Domain.csproj" />
     </ItemGroup>
 
 </Project>

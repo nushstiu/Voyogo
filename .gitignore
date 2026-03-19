@@ -98,7 +98,7 @@ knip.jsonc
 private_key.pem
 public_key.pem
 # .NET build artifacts
-
+nul
 bin/
 obj/
 **/bin/
