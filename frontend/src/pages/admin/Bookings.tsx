@@ -25,6 +25,7 @@ import ConfirmDialog from '../../components/common/ConfirmDialog';
 import Breadcrumb from '../../components/common/Breadcrumb';
 import BookingModal from '../../components/admin/modals/BookingModal';
 import BookingDetailModal from '../../components/admin/modals/BookingDetailModal';
+import MainLayout from '../../components/layout/MainLayout';
 import { BookingStatus } from '../../types';
 import type { Booking, Destination } from '../../types';
 import toast from 'react-hot-toast';
@@ -143,6 +144,7 @@ export default function AdminBookings() {
   };
 
   return (
+    <MainLayout>
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <Breadcrumb />
 
@@ -357,5 +359,6 @@ export default function AdminBookings() {
         message={t('confirm.delete')}
       />
     </div>
+    </MainLayout>
   );
 }

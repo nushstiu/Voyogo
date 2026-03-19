@@ -58,7 +58,7 @@ export default function TourDetails() {
 
 /* ─── Rich Vacasky-style layout (Thailand tours) ─── */
 
-function RichTourLayout({ tour, destination }: { tour: Tour; destination: Destination | null }) {
+function RichTourLayout({ tour, destination: _destination }: { tour: Tour; destination: Destination | null }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const days = parseInt(tour.days, 10);

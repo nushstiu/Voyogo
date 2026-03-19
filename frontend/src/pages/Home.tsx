@@ -14,8 +14,9 @@ export default function Home() {
         <HeroSection />
         <PopularDestinations />
         <PromoSection />
+          
         <FAQSection />
-        <NewsletterSection />
+        <NewsletterSection />  
       </main>
       <Footer />
     </>

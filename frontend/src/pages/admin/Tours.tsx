@@ -21,8 +21,7 @@ import EmptyState from '../../components/common/EmptyState';
 import ConfirmDialog from '../../components/common/ConfirmDialog';
 import Breadcrumb from '../../components/common/Breadcrumb';
 import TourModal from '../../components/admin/modals/TourModal';
-import Header from '../../components/layout/Header';
-import Footer from '../../components/layout/Footer';
+import MainLayout from '../../components/layout/MainLayout';
 import type { Tour, Destination } from '../../types';
 import toast from 'react-hot-toast';
 
@@ -87,9 +86,7 @@ export default function AdminTours() {
   };
 
   return (
-    <>
-      <Header />
-      <main className="pt-20">
+    <MainLayout>
         <div className="w-full px-6 md:px-16 py-12">
           <Breadcrumb />
 
@@ -234,8 +231,6 @@ export default function AdminTours() {
             }
           />
         </div>
-      </main>
-      <Footer />
-    </>
+    </MainLayout>
   );
 }

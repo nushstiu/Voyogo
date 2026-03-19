@@ -17,6 +17,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { COLORS } from '../../constants';
 import Breadcrumb from '../../components/common/Breadcrumb';
+import MainLayout from '../../components/layout/MainLayout';
 import type {
   AnalyticsOverview,
   BookingTrend,
@@ -77,13 +78,16 @@ export default function AdminAnalytics() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" />
-      </div>
+      <MainLayout>
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" />
+        </div>
+      </MainLayout>
     );
   }
 
   return (
+    <MainLayout>
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <Breadcrumb />
 
@@ -187,5 +191,6 @@ export default function AdminAnalytics() {
         </div>
       </div>
     </div>
+    </MainLayout>
   );
 }

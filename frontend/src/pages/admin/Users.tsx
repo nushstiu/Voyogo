@@ -21,8 +21,7 @@ import EmptyState from '../../components/common/EmptyState';
 import ConfirmDialog from '../../components/common/ConfirmDialog';
 import Breadcrumb from '../../components/common/Breadcrumb';
 import UserModal from '../../components/admin/modals/UserModal';
-import Header from '../../components/layout/Header';
-import Footer from '../../components/layout/Footer';
+import MainLayout from '../../components/layout/MainLayout';
 import type { User } from '../../types';
 import toast from 'react-hot-toast';
 
@@ -94,9 +93,7 @@ export default function AdminUsers() {
   };
 
   return (
-    <>
-      <Header />
-      <main className="pt-20">
+    <MainLayout>
         <div className="w-full px-6 md:px-16 py-12">
           <Breadcrumb />
 
@@ -243,8 +240,6 @@ export default function AdminUsers() {
             message={t('confirm.deleteUser')}
           />
         </div>
-      </main>
-      <Footer />
-    </>
+    </MainLayout>
   );
 }

@@ -18,8 +18,7 @@ import EmptyState from '../../components/common/EmptyState';
 import ConfirmDialog from '../../components/common/ConfirmDialog';
 import Breadcrumb from '../../components/common/Breadcrumb';
 import DestinationModal from '../../components/admin/modals/DestinationModal';
-import Header from '../../components/layout/Header';
-import Footer from '../../components/layout/Footer';
+import MainLayout from '../../components/layout/MainLayout';
 import type { Destination } from '../../types';
 import toast from 'react-hot-toast';
 
@@ -71,9 +70,7 @@ export default function AdminDestinations() {
   };
 
   return (
-    <>
-      <Header />
-      <main className="pt-20">
+    <MainLayout>
         <div className="w-full px-6 md:px-16 py-12">
           <Breadcrumb />
 
@@ -248,8 +245,6 @@ export default function AdminDestinations() {
             }
           />
         </div>
-      </main>
-      <Footer />
-    </>
+    </MainLayout>
   );
 }
