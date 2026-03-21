@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
+import { AxiosProvider } from './context/AxiosContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import ScrollToTop from './components/ScrollToTop';
 import ScrollToTopButton from './components/ScrollToTopButton';
@@ -79,11 +80,13 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <AuthProvider>
-        <AppRoutes />
-        <ScrollToTopButton />
-        <Toaster position="top-right" />
-      </AuthProvider>
+      <AxiosProvider>
+        <AuthProvider>
+          <AppRoutes />
+          <ScrollToTopButton />
+          <Toaster position="top-right" />
+        </AuthProvider>
+      </AxiosProvider>
     </BrowserRouter>
   );
 }
