@@ -1,10 +1,13 @@
-using Voyago.BusinessLayer.Services;
+using Voyago.BusinessLayer.Interfaces;
+using Voyago.BusinessLayer.Structure;
 
 namespace Voyago.BusinessLayer;
 
 public class BusinessLogic
 {
-    public DestinationService Destinations { get; } = new DestinationService();
-    public TripService Trips { get; } = new TripService();
-    public BookingService Bookings { get; } = new BookingService();
+    public IAuthAction AuthAction() => new AuthAction();
+    public IUserAction UserAction() => new UserAction();
+    public ITourAction TourAction() => new TourAction();
+    public IDestinationAction DestinationAction() => new DestinationAction();
+    public IBookingAction BookingAction() => new BookingAction();
 }
