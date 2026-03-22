@@ -1,54 +1,38 @@
-import { MOCK_BOOKINGS } from '../data/bookings.data';
-import { BookingStatus, type Booking, type CreateBookingData } from '../types';
-
-const MOCK_DELAY = 400;
-
-function delay<T>(data: T): Promise<T> {
-  return new Promise(resolve => setTimeout(() => resolve(data), MOCK_DELAY));
-}
+import type { Booking, CreateBookingData } from '../types';
+import http from './_http';
 
 export const bookingService = {
-  async getAll(): Promise<Booking[]> {
-    return delay([...MOCK_BOOKINGS]);
-  },
+    async getAll(): Promise<Booking[]> {
+        const res = await http.get('/bookings');
+        return res.data;
+    },
 
-  async getById(id: string): Promise<Booking | null> {
-    const booking = MOCK_BOOKINGS.find(b => b.id === id) || null;
-    return delay(booking);
-  },
+    async getById(id: string): Promise<Booking | null> {
+        const res = await http.get(`/bookings/${id}`);
+        return res.data;
+    },
 
-  async getByUserId(userId: string): Promise<Booking[]> {
-    const bookings = MOCK_BOOKINGS.filter(b => b.user_id === userId);
-    return delay(bookings);
-  },
+    async getByUserId(userId: string): Promise<Booking[]> {
+        const res = await http.get(`/bookings/user/${userId}`);
+        return res.data;
+    },
 
-  async create(data: CreateBookingData): Promise<Booking> {
-    const newBooking: Booking = {
-      ...data,
-      id: crypto.randomUUID(),
-      user_id: data.user_id || '',
-      status: BookingStatus.Pending,
-      created_at: new Date().toISOString(),
-    };
-    return delay(newBooking);
-  },
+    async create(data: CreateBookingData): Promise<Booking> {
+        const res = await http.post('/bookings', data);
+        return res.data;
+    },
 
-  async update(id: string, data: Partial<Booking>): Promise<Booking> {
-    const existing = MOCK_BOOKINGS.find(b => b.id === id);
-    if (!existing) throw new Error('Booking not found');
-    const updated = { ...existing, ...data };
-    return delay(updated);
-  },
+    async update(id: string, data: Partial<Booking>): Promise<Booking> {
+        const res = await http.put(`/bookings/${id}`, data);
+        return res.data;
+    },
 
-  async cancel(id: string): Promise<Booking> {
-    const existing = MOCK_BOOKINGS.find(b => b.id === id);
-    if (!existing) throw new Error('Booking not found');
-    const updated = { ...existing, status: BookingStatus.Cancelled };
-    return delay(updated);
-  },
+    async cancel(id: string): Promise<Booking> {
+        const res = await http.patch(`/bookings/${id}/status`, { status: 'cancelled' });
+        return res.data;
+    },
 
-  async delete(id: string): Promise<void> {
-    if (!MOCK_BOOKINGS.find(b => b.id === id)) throw new Error('Booking not found');
-    return delay(undefined);
-  },
+    async delete(id: string): Promise<void> {
+        await http.delete(`/bookings/${id}`);
+    },
 };

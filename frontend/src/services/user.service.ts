@@ -1,31 +1,23 @@
-import { MOCK_USERS } from '../data/users.data';
 import type { User, UpdateProfileData } from '../types';
-
-const MOCK_DELAY = 400;
-
-function delay<T>(data: T): Promise<T> {
-  return new Promise(resolve => setTimeout(() => resolve(data), MOCK_DELAY));
-}
+import http from './_http';
 
 export const userService = {
-  async getAll(): Promise<User[]> {
-    return delay([...MOCK_USERS]);
-  },
+    async getAll(): Promise<User[]> {
+        const res = await http.get('/users');
+        return res.data;
+    },
 
-  async getById(id: string): Promise<User | null> {
-    const user = MOCK_USERS.find(u => u.id === id) || null;
-    return delay(user);
-  },
+    async getById(id: string): Promise<User | null> {
+        const res = await http.get(`/users/${id}`);
+        return res.data;
+    },
 
-  async update(id: string, data: Partial<UpdateProfileData>): Promise<User> {
-    const existing = MOCK_USERS.find(u => u.id === id);
-    if (!existing) throw new Error('User not found');
-    const updated = { ...existing, ...data, updated_at: new Date().toISOString() };
-    return delay(updated as User);
-  },
+    async update(id: string, data: Partial<UpdateProfileData>): Promise<User> {
+        const res = await http.put(`/users/${id}`, data);
+        return res.data;
+    },
 
-  async delete(id: string): Promise<void> {
-    if (!MOCK_USERS.find(u => u.id === id)) throw new Error('User not found');
-    return delay(undefined);
-  },
+    async delete(id: string): Promise<void> {
+        await http.delete(`/users/${id}`);
+    },
 };
