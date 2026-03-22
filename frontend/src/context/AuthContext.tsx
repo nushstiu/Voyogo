@@ -1,6 +1,7 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useMemo, type ReactNode } from 'react';
 import { UI_TEXT } from '../constants/text';
-import { authService } from '../services/auth.service';
+import { createAuthService } from '../services/auth.service';
+import { useAxios } from './AxiosContext';
 import type { User } from '../types';
 import toast from 'react-hot-toast';
 
@@ -15,6 +16,9 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const axiosInstance = useAxios();
+  const authService = useMemo(() => createAuthService(axiosInstance), [axiosInstance]);
+
   const [user, setUser] = useState<User | null>(() => {
     const stored = localStorage.getItem('voyogo_user');
     return stored ? JSON.parse(stored) : null;
@@ -69,9 +73,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider
-      value={{ user, loading, login, register, logout }}
-    >
+    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );
