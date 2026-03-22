@@ -1,5 +1,1 @@
-﻿namespace Voyago.DataAccessLayer;
-
-public class Class1
-{
-}
+namespace Voyago.DataAccessLayer;
