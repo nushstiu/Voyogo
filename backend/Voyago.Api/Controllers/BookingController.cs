@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Voyago.BusinessLayer;
 using Voyago.BusinessLayer.Dtos;
-using Voyago.BusinessLayer.Interfaces;
+using Voyago.BusinessLayer.Interfaces; 
+using Voyago.DataAccessLayer.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Voyago.Api.Controllers;
 
@@ -46,6 +48,35 @@ public class BookingController : ControllerBase
         return Ok(updated);
     }
 
+    [HttpPut("{id:guid}")]
+    public IActionResult Update(Guid id, [FromBody] UpdateBookingDto dto)
+    {
+        using var db = new VoyagoContext();
+
+        var booking = db.Bookings.FirstOrDefault(b => b.Id == id);
+        if (booking == null) return NotFound();
+
+        booking.UserId = dto.UserId;
+        booking.Name = dto.Name;
+        booking.Surname = dto.Surname;
+        booking.Email = dto.Email;
+        booking.Phone = dto.Phone;
+        booking.Destination = dto.Destination;
+        booking.TourId = dto.TourId;
+        booking.TourName = dto.TourName;
+        booking.BookingDate = dto.BookingDate;
+        booking.Duration = dto.Duration;
+        booking.Status = dto.Status;
+        booking.Notes = dto.Notes;
+        booking.AdminNotes = dto.AdminNotes;
+        booking.UpdatedAt = DateTime.UtcNow;
+
+        db.SaveChanges();
+
+        return Ok(booking);
+    }
+    
+    
     [HttpDelete("{id:guid}")]
     public IActionResult Delete(Guid id)
     {
