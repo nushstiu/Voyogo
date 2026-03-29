@@ -18,28 +18,59 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAll() => Ok(_action.GetAll());
-
-    [HttpGet("{id:guid}")]
-    public IActionResult GetById(Guid id)
+    public IActionResult GetAll()
     {
-        var user = _action.GetById(id);
-        if (user == null) return NotFound();
-        return Ok(user);
+        try
+        {
+            return Ok(_action.GetAll());
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea utilizatorilor: " + ex.Message);
+        }
     }
 
-    [HttpPut("{id:guid}")]
-    public IActionResult Update(Guid id, [FromBody] UserDto dto)
+    [HttpGet("{id:int}")]
+    public IActionResult GetById(int id)
     {
-        var updated = _action.Update(id, dto);
-        if (updated == null) return NotFound();
-        return Ok(updated);
+        try
+        {
+            var user = _action.GetById(id);
+            if (user == null) return NotFound("Utilizatorul nu a fost gasit.");
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea utilizatorului: " + ex.Message);
+        }
     }
 
-    [HttpDelete("{id:guid}")]
-    public IActionResult Delete(Guid id)
+    [HttpPut("{id:int}")]
+    public IActionResult Update(int id, [FromBody] UserDto dto)
     {
-        if (!_action.Delete(id)) return NotFound();
-        return NoContent();
+        try
+        {
+            var updated = _action.Update(id, dto);
+            if (updated == null) return NotFound("Utilizatorul nu a fost gasit.");
+            return Ok(updated);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la actualizarea utilizatorului: " + ex.Message);
+        }
+    }
+
+    [HttpDelete("{id:int}")]
+    public IActionResult Delete(int id)
+    {
+        try
+        {
+            if (!_action.Delete(id)) return NotFound("Utilizatorul nu a fost gasit.");
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la stergerea utilizatorului: " + ex.Message);
+        }
     }
 }

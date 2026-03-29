@@ -20,16 +20,30 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login([FromBody] UserLoginDto dto)
     {
-        var response = _action.Login(dto);
-        if (response == null) return Unauthorized();
-        return Ok(response);
+        try
+        {
+            var response = _action.Login(dto);
+            if (response == null) return Unauthorized("Email sau parola incorecte.");
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la autentificare: " + ex.Message);
+        }
     }
 
     [HttpPost("register")]
     public IActionResult Register([FromBody] UserRegisterDto dto)
     {
-        var response = _action.Register(dto);
-        if (response == null) return BadRequest("Email already registered.");
-        return Created(string.Empty, response);
+        try
+        {
+            var response = _action.Register(dto);
+            if (response == null) return BadRequest("Emailul este deja inregistrat.");
+            return Created(string.Empty, response);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la inregistrare: " + ex.Message);
+        }
     }
 }

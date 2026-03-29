@@ -18,38 +18,85 @@ public class BookingController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAll() => Ok(_action.GetAll());
-
-    [HttpGet("{id:guid}")]
-    public IActionResult GetById(Guid id)
+    public IActionResult GetAll()
     {
-        var booking = _action.GetById(id);
-        if (booking == null) return NotFound();
-        return Ok(booking);
+        try
+        {
+            return Ok(_action.GetAll());
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea rezervarilor: " + ex.Message);
+        }
     }
 
-    [HttpGet("user/{userId:guid}")]
-    public IActionResult GetByUser(Guid userId) => Ok(_action.GetByUserId(userId));
+    [HttpGet("{id:int}")]
+    public IActionResult GetById(int id)
+    {
+        try
+        {
+            var booking = _action.GetById(id);
+            if (booking == null) return NotFound("Rezervarea nu a fost gasita.");
+            return Ok(booking);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea rezervarii: " + ex.Message);
+        }
+    }
+
+    [HttpGet("user/{userId:int}")]
+    public IActionResult GetByUser(int userId)
+    {
+        try
+        {
+            return Ok(_action.GetByUserId(userId));
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea rezervarilor utilizatorului: " + ex.Message);
+        }
+    }
 
     [HttpPost]
     public IActionResult Create([FromBody] BookingDto dto)
     {
-        var created = _action.Create(dto);
-        return Created(string.Empty, created);
+        try
+        {
+            return Created(string.Empty, _action.Create(dto));
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la crearea rezervarii: " + ex.Message);
+        }
     }
 
-    [HttpPatch("{id:guid}/status")]
-    public IActionResult UpdateStatus(Guid id, [FromBody] UpdateStatusDto dto)
+    [HttpPatch("{id:int}/status")]
+    public IActionResult UpdateStatus(int id, [FromBody] UpdateStatusDto dto)
     {
-        var updated = _action.UpdateStatus(id, dto.Status);
-        if (updated == null) return NotFound();
-        return Ok(updated);
+        try
+        {
+            var updated = _action.UpdateStatus(id, dto.Status);
+            if (updated == null) return NotFound("Rezervarea nu a fost gasita.");
+            return Ok(updated);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la actualizarea statusului rezervarii: " + ex.Message);
+        }
     }
 
-    [HttpDelete("{id:guid}")]
-    public IActionResult Delete(Guid id)
+    [HttpDelete("{id:int}")]
+    public IActionResult Delete(int id)
     {
-        if (!_action.Delete(id)) return NotFound();
-        return NoContent();
+        try
+        {
+            if (!_action.Delete(id)) return NotFound("Rezervarea nu a fost gasita.");
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la stergerea rezervarii: " + ex.Message);
+        }
     }
 }

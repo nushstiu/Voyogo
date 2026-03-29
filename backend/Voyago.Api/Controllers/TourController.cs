@@ -18,38 +18,85 @@ public class TourController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAll() => Ok(_action.GetAll());
-
-    [HttpGet("{id:guid}")]
-    public IActionResult GetById(Guid id)
+    public IActionResult GetAll()
     {
-        var tour = _action.GetById(id);
-        if (tour == null) return NotFound();
-        return Ok(tour);
+        try
+        {
+            return Ok(_action.GetAll());
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea tururilor: " + ex.Message);
+        }
+    }
+
+    [HttpGet("{id:int}")]
+    public IActionResult GetById(int id)
+    {
+        try
+        {
+            var tour = _action.GetById(id);
+            if (tour == null) return NotFound("Turul nu a fost gasit.");
+            return Ok(tour);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea turului: " + ex.Message);
+        }
     }
 
     [HttpGet("destination/{destinationId:int}")]
-    public IActionResult GetByDestination(int destinationId) => Ok(_action.GetByDestinationId(destinationId));
+    public IActionResult GetByDestination(int destinationId)
+    {
+        try
+        {
+            return Ok(_action.GetByDestinationId(destinationId));
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea tururilor dupa destinatie: " + ex.Message);
+        }
+    }
 
     [HttpPost]
     public IActionResult Create([FromBody] TourDto dto)
     {
-        var created = _action.Create(dto);
-        return Created(string.Empty, created);
+        try
+        {
+            return Created(string.Empty, _action.Create(dto));
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la crearea turului: " + ex.Message);
+        }
     }
 
-    [HttpPut("{id:guid}")]
-    public IActionResult Update(Guid id, [FromBody] TourDto dto)
+    [HttpPut("{id:int}")]
+    public IActionResult Update(int id, [FromBody] TourDto dto)
     {
-        var updated = _action.Update(id, dto);
-        if (updated == null) return NotFound();
-        return Ok(updated);
+        try
+        {
+            var updated = _action.Update(id, dto);
+            if (updated == null) return NotFound("Turul nu a fost gasit.");
+            return Ok(updated);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la actualizarea turului: " + ex.Message);
+        }
     }
 
-    [HttpDelete("{id:guid}")]
-    public IActionResult Delete(Guid id)
+    [HttpDelete("{id:int}")]
+    public IActionResult Delete(int id)
     {
-        if (!_action.Delete(id)) return NotFound();
-        return NoContent();
+        try
+        {
+            if (!_action.Delete(id)) return NotFound("Turul nu a fost gasit.");
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la stergerea turului: " + ex.Message);
+        }
     }
 }
