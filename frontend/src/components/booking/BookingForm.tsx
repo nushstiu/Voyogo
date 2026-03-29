@@ -64,10 +64,10 @@ export default function BookingForm() {
       <div className="w-full px-6 md:px-16 mb-8">
         <h2 className="text-2xl font-bold mb-6">Personal Information</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input type="text" placeholder="First name" value={formData.firstName} onChange={e => updateForm({ firstName: e.target.value })} className="p-3 border rounded-lg" required />
-          <input type="text" placeholder="Last name" value={formData.lastName} onChange={e => updateForm({ lastName: e.target.value })} className="p-3 border rounded-lg" required />
-          <input type="email" placeholder="Email" value={formData.email} onChange={e => updateForm({ email: e.target.value })} className="p-3 border rounded-lg" />
-          <input type="tel" placeholder="Phone" value={formData.phone} onChange={e => updateForm({ phone: e.target.value })} className="p-3 border rounded-lg" required />
+          <input type="text" placeholder="First name" value={formData.firstName} onChange={e => updateForm({ firstName: e.target.value })} className="p-4 rounded-lg bg-gray-100 outline-none w-full text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all" required />
+          <input type="text" placeholder="Last name" value={formData.lastName} onChange={e => updateForm({ lastName: e.target.value })} className="p-4 rounded-lg bg-gray-100 outline-none w-full text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all" required />
+          <input type="email" placeholder="Email" value={formData.email} onChange={e => updateForm({ email: e.target.value })} className="p-4 rounded-lg bg-gray-100 outline-none w-full text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all" />
+          <input type="tel" placeholder="Phone" value={formData.phone} onChange={e => updateForm({ phone: e.target.value })} className="p-4 rounded-lg bg-gray-100 outline-none w-full text-sm focus:ring-2 focus:ring-primary focus:bg-white transition-all" required />
         </div>
       </div>
 
@@ -118,7 +118,7 @@ export default function BookingForm() {
 
           <button
             type="submit"
-            className="h-[65px] w-[200px] bg-blue-500 text-white rounded-lg font-semibold text-lg hover:bg-blue-600 transition-colors"
+            className="h-[65px] w-[200px] bg-primary hover:bg-primary-hover text-white rounded-lg font-semibold text-lg transition-colors"
           >
             Book now
           </button>

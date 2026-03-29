@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { UI_TEXT } from '../../../constants';
+import StyledSelect from '../../common/StyledSelect';
 import type { Tour, Destination } from '../../../types';
 import { tourService } from '../../../services/tour.service';
 import toast from 'react-hot-toast';
@@ -138,17 +139,14 @@ export default function TourModal({ isOpen, onClose, tour, destinations, onSaved
               <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
                 Destination <span className="text-blue-500">*</span>
               </label>
-              <select
-                {...register('destination_id')}
-                className="p-4 rounded bg-gray-100 outline-none w-full"
-              >
+              <StyledSelect {...register('destination_id')}>
                 <option value={0}>Select destination</option>
                 {destinations.map((d) => (
                   <option key={d.id} value={d.id}>
                     {d.name}
                   </option>
                 ))}
-              </select>
+              </StyledSelect>
               {errors.destination_id && (
                 <p className="text-red-500 text-sm mt-1">{errors.destination_id.message}</p>
               )}
@@ -211,10 +209,10 @@ export default function TourModal({ isOpen, onClose, tour, destinations, onSaved
             <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
               Status <span className="text-blue-500">*</span>
             </label>
-            <select {...register('status')} className="p-4 rounded bg-gray-100 outline-none w-full">
+            <StyledSelect {...register('status')}>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
-            </select>
+            </StyledSelect>
           </div>
 
           <div className="p-6 border-t border-gray-200 flex justify-end gap-3 -mx-6 -mb-6 mt-6">
@@ -228,7 +226,7 @@ export default function TourModal({ isOpen, onClose, tour, destinations, onSaved
             <button
               type="submit"
               disabled={isSubmitting}
-              className="bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors px-6 py-3 disabled:opacity-50"
+              className="bg-primary hover:bg-primary-hover text-white rounded-lg font-semibold transition-colors px-6 py-3 disabled:opacity-50"
             >
               {isSubmitting
                 ? UI_TEXT.LOADING

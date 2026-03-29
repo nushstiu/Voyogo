@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { UI_TEXT } from '../../../constants';
+import StyledSelect from '../../common/StyledSelect';
 import type { User } from '../../../types';
 import { userService } from '../../../services/user.service';
 import toast from 'react-hot-toast';
@@ -144,14 +145,14 @@ export default function UserModal({ isOpen, onClose, user, readOnly, onSaved }: 
 
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">Role <span className="text-blue-500">*</span></label>
-            <select
+            <StyledSelect
               {...register('role')}
               disabled={readOnly}
-              className={readOnly ? "p-4 rounded bg-gray-200 cursor-not-allowed text-gray-500 outline-none w-full" : "p-4 rounded bg-gray-100 outline-none w-full"}
+              className={readOnly ? 'bg-gray-200 cursor-not-allowed text-gray-500' : ''}
             >
               <option value="user">User</option>
               <option value="admin">Admin</option>
-            </select>
+            </StyledSelect>
           </div>
 
           {readOnly && user && (
@@ -177,7 +178,7 @@ export default function UserModal({ isOpen, onClose, user, readOnly, onSaved }: 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors px-6 py-3 disabled:opacity-50"
+                className="bg-primary hover:bg-primary-hover text-white rounded-lg font-semibold transition-colors px-6 py-3 disabled:opacity-50"
               >
                 {isSubmitting
                   ? UI_TEXT.LOADING

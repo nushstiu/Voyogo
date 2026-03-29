@@ -301,15 +301,20 @@ function RichTourLayout({ tour, destination: _destination }: { tour: Tour; desti
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       {t('tourDetails.userFacilities')}
                     </label>
-                    <select
-                      value={formData.facilities}
-                      onChange={(e) => setFormData({ ...formData, facilities: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00d3f3] focus:border-transparent text-sm"
-                    >
-                      <option value="standard">{t('tourDetails.facilitiesStandard')}</option>
-                      <option value="premium">{t('tourDetails.facilitiesPremium')}</option>
-                      <option value="luxury">{t('tourDetails.facilitiesLuxury')}</option>
-                    </select>
+                    <div className="relative">
+                      <select
+                        value={formData.facilities}
+                        onChange={(e) => setFormData({ ...formData, facilities: e.target.value })}
+                        className="appearance-none w-full px-3 py-2 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm cursor-pointer"
+                      >
+                        <option value="standard">{t('tourDetails.facilitiesStandard')}</option>
+                        <option value="premium">{t('tourDetails.facilitiesPremium')}</option>
+                        <option value="luxury">{t('tourDetails.facilitiesLuxury')}</option>
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400">
+                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                      </div>
+                    </div>
                   </div>
 
                   {/* Price */}

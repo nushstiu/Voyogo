@@ -62,7 +62,7 @@ export default function Header({ transparent = false }: HeaderProps) {
 
   const navLinks = user
     ? user.role === UserRole.Admin
-      ? adminLinks
+      ? []
       : [...publicLinks, ...userLinks]
     : publicLinks;
 

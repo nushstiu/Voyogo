@@ -63,7 +63,7 @@ export default function DurationSelector({
 
     return (
         <div className="bg-white rounded-lg shadow-md p-8">
-            <button onClick={onBack} className="mb-4 text-blue-600 hover:underline">
+            <button onClick={onBack} className="mb-4 text-primary hover:underline">
                 &#8592; Back
             </button>
 
@@ -79,13 +79,13 @@ export default function DurationSelector({
                         onClick={() => handleSelectDuration(option.days)}
                         className={`p-6 border-2 rounded-lg transition-all text-left ${
                             selectedDuration === option.days
-                                ? 'border-blue-600 bg-blue-50 shadow-lg'
-                                : 'border-gray-200 hover:border-blue-400 hover:bg-gray-50'
+                                ? 'border-primary bg-primary-light shadow-lg'
+                                : 'border-gray-200 hover:border-primary hover:bg-gray-50'
                         }`}
                     >
                         <div className="mb-3">
                             <h3 className="text-xl font-semibold text-gray-800">{option.tourName}</h3>
-                            <span className="text-sm text-blue-600 font-medium">{option.title}</span>
+                            <span className="text-sm text-primary font-medium">{option.title}</span>
                         </div>
                         <p className="text-gray-600 text-sm mt-1">{option.description}</p>
 
@@ -97,7 +97,7 @@ export default function DurationSelector({
                         </div>
 
                         {selectedDuration === option.days && (
-                            <div className="mt-3 text-blue-600 font-semibold text-sm">
+                            <div className="mt-3 text-primary font-semibold text-sm">
                                 &#10003; Selected
                             </div>
                         )}
@@ -137,7 +137,7 @@ export default function DurationSelector({
                 </button>
                 <button
                     onClick={handleContinue}
-                    className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                    className="flex-1 px-6 py-3 bg-primary hover:bg-primary-hover text-white rounded-lg font-semibold transition-colors"
                 >
                     Continue &#8594;
                 </button>

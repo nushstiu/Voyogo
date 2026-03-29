@@ -216,7 +216,7 @@ export default function PaymentMock({ bookingData, setBookingData, selectedTour,
                                 placeholder="1234 5678 9012 3456"
                                 value={cardDetails.number}
                                 onChange={(e) => handleCardNumberChange(e.target.value)}
-                                className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500 font-mono tracking-wider ${cardErrors.number ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}
+                                className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-primary font-mono tracking-wider ${cardErrors.number ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}
                                 maxLength={19}
                                 inputMode="numeric"
                             />
@@ -238,7 +238,7 @@ export default function PaymentMock({ bookingData, setBookingData, selectedTour,
                                         setCardErrors(errs);
                                     }
                                 }}
-                                className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500 uppercase ${cardErrors.name ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}
+                                className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-primary uppercase ${cardErrors.name ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}
                             />
                             {cardErrors.name && <p className="text-xs text-red-500 mt-1">{cardErrors.name}</p>}
                         </div>
@@ -253,7 +253,7 @@ export default function PaymentMock({ bookingData, setBookingData, selectedTour,
                                     placeholder="MM/AA"
                                     value={cardDetails.expiry}
                                     onChange={(e) => handleExpiryChange(e.target.value)}
-                                    className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500 ${cardErrors.expiry ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}
+                                    className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-primary ${cardErrors.expiry ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}
                                     maxLength={5}
                                     inputMode="numeric"
                                 />
@@ -275,7 +275,7 @@ export default function PaymentMock({ bookingData, setBookingData, selectedTour,
                                             setCardErrors(errs);
                                         }
                                     }}
-                                    className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500 ${cardErrors.cvv ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}
+                                    className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-primary ${cardErrors.cvv ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}
                                     maxLength={4}
                                     inputMode="numeric"
                                 />

@@ -21,7 +21,7 @@ export default function ProtectedRoute({ requiredRole }: ProtectedRouteProps) {
   }
 
   if (!user) {
-    return <Navigate to={ROUTES.UNAUTHORIZED} replace />;
+    return <Navigate to={ROUTES.LOGIN} replace />;
   }
 
   if (requiredRole && user.role !== requiredRole) {

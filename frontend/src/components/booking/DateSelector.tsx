@@ -3,6 +3,11 @@ import dayjs, { type Dayjs } from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const calendarTheme = createTheme({
+  palette: { primary: { main: '#00BCD4' } },
+});
 import { tourService } from '../../services/tour.service';
 import { TourStatus } from '../../types';
 import type { Destination, Tour } from '../../types';
@@ -63,7 +68,7 @@ function TourCard({ tour, travelers, onSelect }: TourCardProps) {
                 </div>
                 <button
                     onClick={onSelect}
-                    className="bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700 font-medium transition-colors"
+                    className="bg-primary hover:bg-primary-hover text-white px-6 py-2 rounded-xl font-medium transition-colors"
                 >
                     Selectează →
                 </button>
@@ -195,7 +200,7 @@ export default function DateSelector({
 
     return (
         <div className="bg-white rounded-xl shadow-md p-8">
-            <button onClick={onBack} className="mb-4 text-blue-600 hover:underline flex items-center gap-1">
+            <button onClick={onBack} className="mb-4 text-primary hover:underline flex items-center gap-1">
                 ← Înapoi
             </button>
 
@@ -207,16 +212,18 @@ export default function DateSelector({
             </p>
 
             <div className="mb-8 flex justify-center">
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <StaticDatePicker
-                        value={selectedDate}
-                        onChange={(newValue) => setSelectedDate(newValue)}
-                        shouldDisableDate={shouldDisableDate}
-                        minDate={dayjs().add(7, 'day')}
-                        maxDate={dayjs().add(180, 'day')}
-                        slotProps={{ actionBar: { actions: [] } }}
-                    />
-                </LocalizationProvider>
+                <ThemeProvider theme={calendarTheme}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <StaticDatePicker
+                            value={selectedDate}
+                            onChange={(newValue) => setSelectedDate(newValue)}
+                            shouldDisableDate={shouldDisableDate}
+                            minDate={dayjs().add(7, 'day')}
+                            maxDate={dayjs().add(180, 'day')}
+                            slotProps={{ actionBar: { actions: [] } }}
+                        />
+                    </LocalizationProvider>
+                </ThemeProvider>
             </div>
 
             {selectedDate && tours.length === 0 && (
