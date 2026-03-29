@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { UI_TEXT } from '../../constants';
+import StyledSelect from '../common/StyledSelect';
 import type { Booking } from '../../types';
 import { bookingService } from '../../services/booking.service';
 import toast from 'react-hot-toast';
@@ -117,11 +118,11 @@ export default function BookingEditModal({ isOpen, onClose, booking, onSaved }: 
             <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
               Duration <span className="text-blue-500">*</span>
             </label>
-            <select {...register('duration')} className="p-4 rounded bg-gray-100 outline-none w-full">
+            <StyledSelect {...register('duration')}>
               {DURATION_OPTIONS.map((d) => (
                 <option key={d} value={d}>{d}</option>
               ))}
-            </select>
+            </StyledSelect>
           </div>
 
           <div>

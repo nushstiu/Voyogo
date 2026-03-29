@@ -24,12 +24,15 @@ namespace Voyago.DataAccessLayer.Migrations
 
             modelBuilder.Entity("Voyago.Domain.Entities.Booking", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("AdminNotes")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("BookingDate")
                         .HasColumnType("datetime2");
@@ -39,55 +42,62 @@ namespace Voyago.DataAccessLayer.Migrations
 
                     b.Property<string>("Destination")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Duration")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Surname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<Guid?>("TourId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("TourName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("TourId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TourId");
 
                     b.ToTable("Bookings");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b8c9d0e1-f2a3-4567-bcde-567890123457"),
+                            Id = 1,
                             BookingDate = new DateTime(2024, 6, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Destination = "Paris",
@@ -97,13 +107,12 @@ namespace Voyago.DataAccessLayer.Migrations
                             Phone = "+40722000001",
                             Status = "confirmed",
                             Surname = "Popescu",
-                            TourId = new Guid("a1b2c3d4-e5f6-7890-abcd-ef1234567890"),
-                            TourName = "Paris Highlights Tour",
-                            UserId = new Guid("a7b8c9d0-e1f2-3456-abcd-456789012346")
+                            TourId = 1,
+                            UserId = 2
                         },
                         new
                         {
-                            Id = new Guid("c9d0e1f2-a3b4-5678-cdef-678901234568"),
+                            Id = 2,
                             BookingDate = new DateTime(2024, 9, 15, 0, 0, 0, 0, DateTimeKind.Utc),
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Destination = "Tokyo",
@@ -113,13 +122,12 @@ namespace Voyago.DataAccessLayer.Migrations
                             Phone = "+40722000001",
                             Status = "pending",
                             Surname = "Popescu",
-                            TourId = new Guid("c3d4e5f6-a7b8-9012-cdef-012345678902"),
-                            TourName = "Tokyo Explorer",
-                            UserId = new Guid("a7b8c9d0-e1f2-3456-abcd-456789012346")
+                            TourId = 3,
+                            UserId = 2
                         },
                         new
                         {
-                            Id = new Guid("d0e1f2a3-b4c5-6789-defa-789012345679"),
+                            Id = 3,
                             BookingDate = new DateTime(2024, 12, 20, 0, 0, 0, 0, DateTimeKind.Utc),
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Destination = "New York",
@@ -129,9 +137,8 @@ namespace Voyago.DataAccessLayer.Migrations
                             Phone = "+40712345678",
                             Status = "confirmed",
                             Surname = "Voyago",
-                            TourId = new Guid("e5f6a7b8-c9d0-1234-efab-234567890124"),
-                            TourName = "NYC Manhattan Rush",
-                            UserId = new Guid("f6a7b8c9-d0e1-2345-fabc-345678901235")
+                            TourId = 5,
+                            UserId = 1
                         });
                 });
 
@@ -148,11 +155,13 @@ namespace Voyago.DataAccessLayer.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("Image")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -206,39 +215,47 @@ namespace Voyago.DataAccessLayer.Migrations
 
             modelBuilder.Entity("Voyago.Domain.Entities.Tour", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Days")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<int>("DestinationId")
                         .HasColumnType("int");
 
                     b.Property<string>("Image")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Location")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("Price")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -252,7 +269,7 @@ namespace Voyago.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a1b2c3d4-e5f6-7890-abcd-ef1234567890"),
+                            Id = 1,
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Days = "7 days",
                             Description = "Explore the best of Paris from the Eiffel Tower to Versailles.",
@@ -265,7 +282,7 @@ namespace Voyago.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b2c3d4e5-f6a7-8901-bcde-f01234567891"),
+                            Id = 2,
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Days = "10 days",
                             Description = "Discover the artistic heritage of Paris through its world-famous museums.",
@@ -278,7 +295,7 @@ namespace Voyago.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c3d4e5f6-a7b8-9012-cdef-012345678902"),
+                            Id = 3,
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Days = "8 days",
                             Description = "From Shibuya to Akihabara, experience the full spectrum of Tokyo life.",
@@ -291,7 +308,7 @@ namespace Voyago.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d4e5f6a7-b8c9-0123-defa-123456789013"),
+                            Id = 4,
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Days = "12 days",
                             Description = "Tea ceremonies, temples, and the timeless beauty of Japanese tradition.",
@@ -304,7 +321,7 @@ namespace Voyago.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e5f6a7b8-c9d0-1234-efab-234567890124"),
+                            Id = 5,
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Days = "5 days",
                             Description = "Five days covering Times Square, Central Park, and the Brooklyn Bridge.",
@@ -319,15 +336,19 @@ namespace Voyago.DataAccessLayer.Migrations
 
             modelBuilder.Entity("Voyago.Domain.Entities.User", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -341,23 +362,29 @@ namespace Voyago.DataAccessLayer.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("EmergencyContactName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("EmergencyContactPhone")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("PreferredLanguage")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("ProfilePic")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<int>("Role")
                         .HasColumnType("int");
@@ -377,7 +404,7 @@ namespace Voyago.DataAccessLayer.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f6a7b8c9-d0e1-2345-fabc-345678901235"),
+                            Id = 1,
                             Country = "Romania",
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Email = "admin@voyago.com",
@@ -389,7 +416,7 @@ namespace Voyago.DataAccessLayer.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a7b8c9d0-e1f2-3456-abcd-456789012346"),
+                            Id = 2,
                             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Email = "user@voyago.com",
                             PasswordHash = "e606e38b0d8c19b24cf0ee3808183162ea7cd63ff7912dbb22b5e803286b4446",
@@ -397,6 +424,16 @@ namespace Voyago.DataAccessLayer.Migrations
                             UpdatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Username = "testuser"
                         });
+                });
+
+            modelBuilder.Entity("Voyago.Domain.Entities.Booking", b =>
+                {
+                    b.HasOne("Voyago.Domain.Entities.Tour", "Tour")
+                        .WithMany()
+                        .HasForeignKey("TourId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Tour");
                 });
 
             modelBuilder.Entity("Voyago.Domain.Entities.Tour", b =>

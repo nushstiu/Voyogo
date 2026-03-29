@@ -6,9 +6,9 @@ namespace Voyago.BusinessLayer.Interfaces;
 public interface IBookingAction
 {
     List<Booking> GetAll();
-    Booking? GetById(Guid id);
-    List<Booking> GetByUserId(Guid userId);
+    Booking? GetById(int id);
+    List<Booking> GetByUserId(int userId);
     Booking Create(BookingDto dto);
-    Booking? UpdateStatus(Guid id, string status);
-    bool Delete(Guid id);
+    Booking? UpdateStatus(int id, string status);
+    bool Delete(int id);
 }

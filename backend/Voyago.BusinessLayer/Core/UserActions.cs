@@ -11,14 +11,14 @@ public abstract class UserActions
         return db.Users.Select(u => AuthActions.MapToDto(u)).ToList();
     }
 
-    internal UserDto? ExecuteGetById(Guid id)
+    internal UserDto? ExecuteGetById(int id)
     {
         using var db = new VoyagoContext();
         var user = db.Users.FirstOrDefault(u => u.Id == id);
         return user == null ? null : AuthActions.MapToDto(user);
     }
 
-    internal UserDto? ExecuteUpdate(Guid id, UserDto dto)
+    internal UserDto? ExecuteUpdate(int id, UserDto dto)
     {
         using var db = new VoyagoContext();
         var user = db.Users.FirstOrDefault(u => u.Id == id);
@@ -39,7 +39,7 @@ public abstract class UserActions
         return AuthActions.MapToDto(user);
     }
 
-    internal bool ExecuteDelete(Guid id)
+    internal bool ExecuteDelete(int id)
     {
         using var db = new VoyagoContext();
         var user = db.Users.FirstOrDefault(u => u.Id == id);

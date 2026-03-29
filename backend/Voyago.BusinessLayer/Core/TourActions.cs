@@ -12,7 +12,7 @@ public abstract class TourActions
         return db.Tours.ToList();
     }
 
-    internal Tour? ExecuteGetById(Guid id)
+    internal Tour? ExecuteGetById(int id)
     {
         using var db = new VoyagoContext();
         return db.Tours.FirstOrDefault(t => t.Id == id);
@@ -29,7 +29,6 @@ public abstract class TourActions
         using var db = new VoyagoContext();
         var tour = new Tour
         {
-            Id = Guid.NewGuid(),
             Location = dto.Location,
             Name = dto.Name,
             Price = dto.Price,
@@ -45,7 +44,7 @@ public abstract class TourActions
         return tour;
     }
 
-    internal Tour? ExecuteUpdate(Guid id, TourDto dto)
+    internal Tour? ExecuteUpdate(int id, TourDto dto)
     {
         using var db = new VoyagoContext();
         var tour = db.Tours.FirstOrDefault(t => t.Id == id);
@@ -64,7 +63,7 @@ public abstract class TourActions
         return tour;
     }
 
-    internal bool ExecuteDelete(Guid id)
+    internal bool ExecuteDelete(int id)
     {
         using var db = new VoyagoContext();
         var tour = db.Tours.FirstOrDefault(t => t.Id == id);

@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Voyago.BusinessLayer.Dtos;
 using Voyago.DataAccessLayer.Context;
 using Voyago.Domain.Entities;
@@ -9,19 +10,25 @@ public abstract class BookingActions
     internal List<Booking> ExecuteGetAll()
     {
         using var db = new VoyagoContext();
-        return db.Bookings.ToList();
+        var bookings = db.Bookings.Include(b => b.Tour).ToList();
+        bookings.ForEach(b => b.TourName = b.Tour?.Name);
+        return bookings;
     }
 
-    internal Booking? ExecuteGetById(Guid id)
+    internal Booking? ExecuteGetById(int id)
     {
         using var db = new VoyagoContext();
-        return db.Bookings.FirstOrDefault(b => b.Id == id);
+        var booking = db.Bookings.Include(b => b.Tour).FirstOrDefault(b => b.Id == id);
+        if (booking != null) booking.TourName = booking.Tour?.Name;
+        return booking;
     }
 
-    internal List<Booking> ExecuteGetByUserId(Guid userId)
+    internal List<Booking> ExecuteGetByUserId(int userId)
     {
         using var db = new VoyagoContext();
-        return db.Bookings.Where(b => b.UserId == userId).ToList();
+        var bookings = db.Bookings.Include(b => b.Tour).Where(b => b.UserId == userId).ToList();
+        bookings.ForEach(b => b.TourName = b.Tour?.Name);
+        return bookings;
     }
 
     internal Booking ExecuteCreate(BookingDto dto)
@@ -29,7 +36,6 @@ public abstract class BookingActions
         using var db = new VoyagoContext();
         var booking = new Booking
         {
-            Id = Guid.NewGuid(),
             UserId = dto.UserId,
             Name = dto.Name,
             Surname = dto.Surname,
@@ -37,7 +43,6 @@ public abstract class BookingActions
             Phone = dto.Phone,
             Destination = dto.Destination,
             TourId = dto.TourId,
-            TourName = dto.TourName,
             BookingDate = dto.BookingDate,
             Duration = dto.Duration,
             Status = dto.Status,
@@ -47,23 +52,28 @@ public abstract class BookingActions
         };
         db.Bookings.Add(booking);
         db.SaveChanges();
+        if (booking.TourId.HasValue)
+        {
+            booking.Tour = db.Tours.FirstOrDefault(t => t.Id == booking.TourId.Value);
+            booking.TourName = booking.Tour?.Name;
+        }
         return booking;
     }
 
-    internal Booking? ExecuteUpdateStatus(Guid id, string status)
+    internal Booking? ExecuteUpdateStatus(int id, string status)
     {
         using var db = new VoyagoContext();
-        var booking = db.Bookings.FirstOrDefault(b => b.Id == id);
+        var booking = db.Bookings.Include(b => b.Tour).FirstOrDefault(b => b.Id == id);
         if (booking == null) return null;
 
         booking.Status = status;
         booking.UpdatedAt = DateTime.UtcNow;
-
         db.SaveChanges();
+        booking.TourName = booking.Tour?.Name;
         return booking;
     }
 
-    internal bool ExecuteDelete(Guid id)
+    internal bool ExecuteDelete(int id)
     {
         using var db = new VoyagoContext();
         var booking = db.Bookings.FirstOrDefault(b => b.Id == id);

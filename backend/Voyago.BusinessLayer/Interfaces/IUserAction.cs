@@ -5,7 +5,7 @@ namespace Voyago.BusinessLayer.Interfaces;
 public interface IUserAction
 {
     List<UserDto> GetAll();
-    UserDto? GetById(Guid id);
-    UserDto? Update(Guid id, UserDto dto);
-    bool Delete(Guid id);
+    UserDto? GetById(int id);
+    UserDto? Update(int id, UserDto dto);
+    bool Delete(int id);
 }

@@ -6,8 +6,8 @@ namespace Voyago.BusinessLayer.Structure;
 
 public class UserAction : UserActions, IUserAction
 {
-    public List<UserDto> GetAll() => ExecuteGetAll();
-    public UserDto? GetById(Guid id) => ExecuteGetById(id);
-    public UserDto? Update(Guid id, UserDto dto) => ExecuteUpdate(id, dto);
-    public bool Delete(Guid id) => ExecuteDelete(id);
+    public List<UserDto> GetAll()               => ExecuteGetAll();
+    public UserDto? GetById(int id)             => ExecuteGetById(id);
+    public UserDto? Update(int id, UserDto dto) => ExecuteUpdate(id, dto);
+    public bool Delete(int id)                  => ExecuteDelete(id);
 }

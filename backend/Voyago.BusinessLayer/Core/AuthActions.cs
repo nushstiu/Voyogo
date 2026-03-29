@@ -26,7 +26,6 @@ public abstract class AuthActions
 
         var user = new User
         {
-            Id = Guid.NewGuid(),
             Username = dto.Username,
             Email = dto.Email,
             PasswordHash = HashPassword(dto.Password),
