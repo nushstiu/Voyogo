@@ -51,15 +51,6 @@ export default function Header({ transparent = false }: HeaderProps) {
     { to: ROUTES.USER_PROFILE, label: t('nav.profile') },
   ];
 
-  const adminLinks = [
-    { to: ROUTES.ADMIN_DASHBOARD, label: t('nav.dashboard') },
-    { to: ROUTES.ADMIN_USERS, label: t('nav.users') },
-    { to: ROUTES.ADMIN_DESTINATIONS, label: t('nav.destinations') },
-    { to: ROUTES.ADMIN_TOURS, label: t('nav.tours') },
-    { to: ROUTES.ADMIN_BOOKINGS, label: t('nav.bookings') },
-    { to: ROUTES.ADMIN_ANALYTICS, label: t('nav.analytics') },
-  ];
-
   const navLinks = user
     ? user.role === UserRole.Admin
       ? []
