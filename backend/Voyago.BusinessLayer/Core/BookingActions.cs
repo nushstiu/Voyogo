@@ -71,6 +71,43 @@ public abstract class BookingActions
         return booking;
     }
 
+    internal async Task<Booking?> ExecuteUpdate(int id, BookingDto dto)
+    {
+        using var db = new VoyagoContext();
+        var booking = await db.Bookings.FirstOrDefaultAsync(b => b.Id == id);
+        if (booking == null) return null;
+
+        if (dto.TourId.HasValue)
+        {
+            var tourExists = await db.Tours.AnyAsync(t => t.Id == dto.TourId.Value);
+            if (!tourExists)
+            {
+                throw new InvalidOperationException($"Turul cu ID-ul {dto.TourId.Value} nu exista.");
+            }
+        }
+
+        booking.Name = dto.Name;
+        booking.Surname = dto.Surname;
+        booking.Email = dto.Email;
+        booking.Phone = dto.Phone;
+        booking.Destination = dto.Destination;
+        booking.TourId = dto.TourId;
+        booking.BookingDate = dto.BookingDate;
+        booking.Duration = dto.Duration;
+        booking.Status = dto.Status;
+        booking.Notes = dto.Notes;
+        booking.AdminNotes = dto.AdminNotes;
+        booking.UpdatedAt = DateTime.UtcNow;
+
+        await db.SaveChangesAsync();
+        if (booking.TourId.HasValue)
+        {
+            booking.Tour = await db.Tours.FirstOrDefaultAsync(t => t.Id == booking.TourId.Value);
+            booking.TourName = booking.Tour?.Name;
+        }
+        return booking;
+    }
+
     internal async Task<Booking?> ExecuteUpdateStatus(int id, string status)
     {
         using var db = new VoyagoContext();
