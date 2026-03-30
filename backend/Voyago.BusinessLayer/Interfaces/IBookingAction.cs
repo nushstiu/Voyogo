@@ -9,6 +9,7 @@ public interface IBookingAction
     Task<Booking?> GetById(int id);
     Task<List<Booking>> GetByUserId(int userId);
     Task<Booking> Create(BookingDto dto);
+    Task<Booking?> Update(int id, BookingDto dto);
     Task<Booking?> UpdateStatus(int id, string status);
     Task<bool> Delete(int id);
 }

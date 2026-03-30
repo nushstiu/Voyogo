@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Voyago.BusinessLayer;
 using Voyago.BusinessLayer.Dtos;
 using Voyago.BusinessLayer.Interfaces;
 
@@ -11,10 +10,9 @@ public class BookingController : ControllerBase
 {
     private readonly IBookingAction _action;
 
-    public BookingController()
+    public BookingController(IBookingAction action)
     {
-        var bl = new BusinessLogic();
-        _action = bl.BookingAction();
+        _action = action;
     }
 
     [HttpGet]

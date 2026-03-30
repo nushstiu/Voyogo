@@ -1,5 +1,5 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Voyago.BusinessLayer;
 using Voyago.BusinessLayer.Dtos;
 using Voyago.BusinessLayer.Interfaces;
 
@@ -7,17 +7,18 @@ namespace Voyago.Api.Controllers;
 
 [ApiController]
 [Route("api/users")]
+[Authorize]
 public class UserController : ControllerBase
 {
     private readonly IUserAction _action;
 
-    public UserController()
+    public UserController(IUserAction action)
     {
-        var bl = new BusinessLogic();
-        _action = bl.UserAction();
+        _action = action;
     }
 
     [HttpGet]
+    [Authorize(Roles = "admin")]
     public IActionResult GetAll()
     {
         try
@@ -61,6 +62,7 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
+    [Authorize(Roles = "admin")]
     public IActionResult Delete(int id)
     {
         try

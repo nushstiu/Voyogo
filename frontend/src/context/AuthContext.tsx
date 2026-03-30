@@ -36,11 +36,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string): Promise<User> => {
     setLoading(true);
     try {
-      const foundUser = await authService.login(email, password);
-      setUser(foundUser);
-      localStorage.setItem('voyogo_user', JSON.stringify(foundUser));
+      const response = await authService.login(email, password);
+      setUser(response.user);
+      localStorage.setItem('voyogo_user', JSON.stringify(response.user));
+      localStorage.setItem('voyogo_token', response.token);
       toast.success(UI_TEXT.SUCCESS_LOGIN);
-      return foundUser;
+      return response.user;
     } catch {
       toast.error(UI_TEXT.ERROR_LOGIN);
       throw new Error(UI_TEXT.ERROR_LOGIN);
@@ -52,11 +53,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const register = async (username: string, email: string, password: string): Promise<User> => {
     setLoading(true);
     try {
-      const newUser = await authService.register(username, email, password);
-      setUser(newUser);
-      localStorage.setItem('voyogo_user', JSON.stringify(newUser));
+      const response = await authService.register(username, email, password);
+      setUser(response.user);
+      localStorage.setItem('voyogo_user', JSON.stringify(response.user));
+      localStorage.setItem('voyogo_token', response.token);
       toast.success(UI_TEXT.SUCCESS_REGISTER);
-      return newUser;
+      return response.user;
     } catch (err) {
       const message = err instanceof Error ? err.message : UI_TEXT.ERROR_REGISTER;
       toast.error(message);
@@ -69,6 +71,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     setUser(null);
     localStorage.removeItem('voyogo_user');
+    localStorage.removeItem('voyogo_token');
     toast.success(UI_TEXT.SUCCESS_LOGOUT);
   };
 
