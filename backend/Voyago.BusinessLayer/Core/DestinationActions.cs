@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Voyago.BusinessLayer.Dtos;
 using Voyago.DataAccessLayer.Context;
 using Voyago.Domain.Entities;
@@ -6,19 +7,19 @@ namespace Voyago.BusinessLayer.Core;
 
 public abstract class DestinationActions
 {
-    internal List<Destination> ExecuteGetAll()
+    internal async Task<List<Destination>> ExecuteGetAll()
     {
         using var db = new VoyagoContext();
-        return db.Destinations.ToList();
+        return await db.Destinations.ToListAsync();
     }
 
-    internal Destination? ExecuteGetById(int id)
+    internal async Task<Destination?> ExecuteGetById(int id)
     {
         using var db = new VoyagoContext();
-        return db.Destinations.FirstOrDefault(d => d.Id == id);
+        return await db.Destinations.FirstOrDefaultAsync(d => d.Id == id);
     }
 
-    internal Destination ExecuteCreate(DestinationDto dto)
+    internal async Task<Destination> ExecuteCreate(DestinationDto dto)
     {
         using var db = new VoyagoContext();
         var destination = new Destination
@@ -31,14 +32,14 @@ public abstract class DestinationActions
             CreatedAt = DateTime.UtcNow
         };
         db.Destinations.Add(destination);
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         return destination;
     }
 
-    internal Destination? ExecuteUpdate(int id, DestinationDto dto)
+    internal async Task<Destination?> ExecuteUpdate(int id, DestinationDto dto)
     {
         using var db = new VoyagoContext();
-        var destination = db.Destinations.FirstOrDefault(d => d.Id == id);
+        var destination = await db.Destinations.FirstOrDefaultAsync(d => d.Id == id);
         if (destination == null) return null;
 
         destination.Name = dto.Name;
@@ -47,18 +48,18 @@ public abstract class DestinationActions
         destination.Image = dto.Image;
         destination.Description = dto.Description;
 
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         return destination;
     }
 
-    internal bool ExecuteDelete(int id)
+    internal async Task<bool> ExecuteDelete(int id)
     {
         using var db = new VoyagoContext();
-        var destination = db.Destinations.FirstOrDefault(d => d.Id == id);
+        var destination = await db.Destinations.FirstOrDefaultAsync(d => d.Id == id);
         if (destination == null) return false;
 
         db.Destinations.Remove(destination);
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         return true;
     }
 }

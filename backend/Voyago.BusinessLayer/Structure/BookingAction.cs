@@ -7,10 +7,10 @@ namespace Voyago.BusinessLayer.Structure;
 
 public class BookingAction : BookingActions, IBookingAction
 {
-    public List<Booking> GetAll()                           => ExecuteGetAll();
-    public Booking? GetById(int id)                         => ExecuteGetById(id);
-    public List<Booking> GetByUserId(int userId)            => ExecuteGetByUserId(userId);
-    public Booking Create(BookingDto dto)                   => ExecuteCreate(dto);
-    public Booking? UpdateStatus(int id, string status)     => ExecuteUpdateStatus(id, status);
-    public bool Delete(int id)                              => ExecuteDelete(id);
+    public async Task<List<Booking>> GetAll()                       => await ExecuteGetAll();
+    public async Task<Booking?> GetById(int id)                     => await ExecuteGetById(id);
+    public async Task<List<Booking>> GetByUserId(int userId)        => await ExecuteGetByUserId(userId);
+    public async Task<Booking> Create(BookingDto dto)               => await ExecuteCreate(dto);
+    public async Task<Booking?> UpdateStatus(int id, string status) => await ExecuteUpdateStatus(id, status);
+    public async Task<bool> Delete(int id)                          => await ExecuteDelete(id);
 }

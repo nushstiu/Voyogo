@@ -5,10 +5,10 @@ namespace Voyago.BusinessLayer.Interfaces;
 
 public interface IBookingAction
 {
-    List<Booking> GetAll();
-    Booking? GetById(int id);
-    List<Booking> GetByUserId(int userId);
-    Booking Create(BookingDto dto);
-    Booking? UpdateStatus(int id, string status);
-    bool Delete(int id);
+    Task<List<Booking>> GetAll();
+    Task<Booking?> GetById(int id);
+    Task<List<Booking>> GetByUserId(int userId);
+    Task<Booking> Create(BookingDto dto);
+    Task<Booking?> UpdateStatus(int id, string status);
+    Task<bool> Delete(int id);
 }

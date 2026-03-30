@@ -18,11 +18,11 @@ public class BookingController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
         try
         {
-            return Ok(_action.GetAll());
+            return Ok(await _action.GetAll());
         }
         catch (Exception ex)
         {
@@ -31,11 +31,11 @@ public class BookingController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
-    public IActionResult GetById(int id)
+    public async Task<IActionResult> GetById(int id)
     {
         try
         {
-            var booking = _action.GetById(id);
+            var booking = await _action.GetById(id);
             if (booking == null) return NotFound("Rezervarea nu a fost gasita.");
             return Ok(booking);
         }
@@ -46,11 +46,11 @@ public class BookingController : ControllerBase
     }
 
     [HttpGet("user/{userId:int}")]
-    public IActionResult GetByUser(int userId)
+    public async Task<IActionResult> GetByUser(int userId)
     {
         try
         {
-            return Ok(_action.GetByUserId(userId));
+            return Ok(await _action.GetByUserId(userId));
         }
         catch (Exception ex)
         {
@@ -59,11 +59,21 @@ public class BookingController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] BookingDto dto)
+    public async Task<IActionResult> Create([FromBody] BookingDto dto)
     {
         try
         {
-            return Created(string.Empty, _action.Create(dto));
+            if (dto == null)
+                return BadRequest("Corpul cererii nu poate fi null.");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Created(string.Empty, await _action.Create(dto));
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
@@ -72,11 +82,19 @@ public class BookingController : ControllerBase
     }
 
     [HttpPatch("{id:int}/status")]
-    public IActionResult UpdateStatus(int id, [FromBody] UpdateStatusDto dto)
+    public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateStatusDto dto)
     {
         try
         {
-            var updated = _action.UpdateStatus(id, dto.Status);
+            if (dto == null)
+                return BadRequest("Corpul cererii nu poate fi null.");
+
+            // Validate status enum
+            var validStatuses = new[] { "pending", "confirmed", "cancelled" };
+            if (!validStatuses.Contains(dto.Status.ToLower()))
+                return BadRequest($"Status invalid. Valori permise: {string.Join(", ", validStatuses)}");
+
+            var updated = await _action.UpdateStatus(id, dto.Status);
             if (updated == null) return NotFound("Rezervarea nu a fost gasita.");
             return Ok(updated);
         }
@@ -87,11 +105,11 @@ public class BookingController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         try
         {
-            if (!_action.Delete(id)) return NotFound("Rezervarea nu a fost gasita.");
+            if (!await _action.Delete(id)) return NotFound("Rezervarea nu a fost gasita.");
             return NoContent();
         }
         catch (Exception ex)
