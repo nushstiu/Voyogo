@@ -18,11 +18,11 @@ public class DestinationController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
         try
         {
-            return Ok(_action.GetAll());
+            return Ok(await _action.GetAll());
         }
         catch (Exception ex)
         {
@@ -31,11 +31,11 @@ public class DestinationController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
-    public IActionResult GetById(int id)
+    public async Task<IActionResult> GetById(int id)
     {
         try
         {
-            var dest = _action.GetById(id);
+            var dest = await _action.GetById(id);
             if (dest == null) return NotFound("Destinatia nu a fost gasita.");
             return Ok(dest);
         }
@@ -46,11 +46,17 @@ public class DestinationController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] DestinationDto dto)
+    public async Task<IActionResult> Create([FromBody] DestinationDto dto)
     {
         try
         {
-            return Created(string.Empty, _action.Create(dto));
+            if (dto == null)
+                return BadRequest("Corpul cererii nu poate fi null.");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Created(string.Empty, await _action.Create(dto));
         }
         catch (Exception ex)
         {
@@ -59,11 +65,17 @@ public class DestinationController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public IActionResult Update(int id, [FromBody] DestinationDto dto)
+    public async Task<IActionResult> Update(int id, [FromBody] DestinationDto dto)
     {
         try
         {
-            var updated = _action.Update(id, dto);
+            if (dto == null)
+                return BadRequest("Corpul cererii nu poate fi null.");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var updated = await _action.Update(id, dto);
             if (updated == null) return NotFound("Destinatia nu a fost gasita.");
             return Ok(updated);
         }
@@ -74,11 +86,11 @@ public class DestinationController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         try
         {
-            if (!_action.Delete(id)) return NotFound("Destinatia nu a fost gasita.");
+            if (!await _action.Delete(id)) return NotFound("Destinatia nu a fost gasita.");
             return NoContent();
         }
         catch (Exception ex)

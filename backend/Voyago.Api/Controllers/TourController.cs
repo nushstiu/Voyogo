@@ -18,11 +18,11 @@ public class TourController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
         try
         {
-            return Ok(_action.GetAll());
+            return Ok(await _action.GetAll());
         }
         catch (Exception ex)
         {
@@ -31,11 +31,11 @@ public class TourController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
-    public IActionResult GetById(int id)
+    public async Task<IActionResult> GetById(int id)
     {
         try
         {
-            var tour = _action.GetById(id);
+            var tour = await _action.GetById(id);
             if (tour == null) return NotFound("Turul nu a fost gasit.");
             return Ok(tour);
         }
@@ -46,11 +46,11 @@ public class TourController : ControllerBase
     }
 
     [HttpGet("destination/{destinationId:int}")]
-    public IActionResult GetByDestination(int destinationId)
+    public async Task<IActionResult> GetByDestination(int destinationId)
     {
         try
         {
-            return Ok(_action.GetByDestinationId(destinationId));
+            return Ok(await _action.GetByDestinationId(destinationId));
         }
         catch (Exception ex)
         {
@@ -59,11 +59,21 @@ public class TourController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] TourDto dto)
+    public async Task<IActionResult> Create([FromBody] TourDto dto)
     {
         try
         {
-            return Created(string.Empty, _action.Create(dto));
+            if (dto == null)
+                return BadRequest("Corpul cererii nu poate fi null.");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Created(string.Empty, await _action.Create(dto));
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
@@ -72,13 +82,23 @@ public class TourController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public IActionResult Update(int id, [FromBody] TourDto dto)
+    public async Task<IActionResult> Update(int id, [FromBody] TourDto dto)
     {
         try
         {
-            var updated = _action.Update(id, dto);
+            if (dto == null)
+                return BadRequest("Corpul cererii nu poate fi null.");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var updated = await _action.Update(id, dto);
             if (updated == null) return NotFound("Turul nu a fost gasit.");
             return Ok(updated);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
@@ -87,11 +107,11 @@ public class TourController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    public IActionResult Delete(int id)
+    public async Task<IActionResult> Delete(int id)
     {
         try
         {
-            if (!_action.Delete(id)) return NotFound("Turul nu a fost gasit.");
+            if (!await _action.Delete(id)) return NotFound("Turul nu a fost gasit.");
             return NoContent();
         }
         catch (Exception ex)
