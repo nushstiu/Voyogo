@@ -7,6 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\Voyago.DataAccessLayer\Voyago.DataAccessLayer.csproj" />
       <ProjectReference Include="..\Voyago.Domain\Voyago.Domain.csproj" />
     </ItemGroup>
