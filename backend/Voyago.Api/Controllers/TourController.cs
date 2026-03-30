@@ -1,5 +1,5 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Voyago.BusinessLayer;
 using Voyago.BusinessLayer.Dtos;
 using Voyago.BusinessLayer.Interfaces;
 
@@ -11,10 +11,9 @@ public class TourController : ControllerBase
 {
     private readonly ITourAction _action;
 
-    public TourController()
+    public TourController(ITourAction action)
     {
-        var bl = new BusinessLogic();
-        _action = bl.TourAction();
+        _action = action;
     }
 
     [HttpGet]
@@ -58,6 +57,7 @@ public class TourController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] TourDto dto)
     {
@@ -81,6 +81,7 @@ public class TourController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, [FromBody] TourDto dto)
     {
@@ -106,6 +107,7 @@ public class TourController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {

@@ -1,5 +1,5 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Voyago.BusinessLayer;
 using Voyago.BusinessLayer.Dtos;
 using Voyago.BusinessLayer.Interfaces;
 
@@ -11,10 +11,9 @@ public class DestinationController : ControllerBase
 {
     private readonly IDestinationAction _action;
 
-    public DestinationController()
+    public DestinationController(IDestinationAction action)
     {
-        var bl = new BusinessLogic();
-        _action = bl.DestinationAction();
+        _action = action;
     }
 
     [HttpGet]
@@ -45,6 +44,7 @@ public class DestinationController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] DestinationDto dto)
     {
@@ -64,6 +64,7 @@ public class DestinationController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, [FromBody] DestinationDto dto)
     {
@@ -85,6 +86,7 @@ public class DestinationController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {

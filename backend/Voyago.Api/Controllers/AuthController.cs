@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Voyago.BusinessLayer;
 using Voyago.BusinessLayer.Dtos;
 using Voyago.BusinessLayer.Interfaces;
 
@@ -11,10 +10,9 @@ public class AuthController : ControllerBase
 {
     private readonly IAuthAction _action;
 
-    public AuthController()
+    public AuthController(IAuthAction action)
     {
-        var bl = new BusinessLogic();
-        _action = bl.AuthAction();
+        _action = action;
     }
 
     [HttpPost("login")]
