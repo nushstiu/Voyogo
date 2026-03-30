@@ -7,10 +7,10 @@ namespace Voyago.BusinessLayer.Structure;
 
 public class TourAction : TourActions, ITourAction
 {
-    public List<Tour> GetAll()                      => ExecuteGetAll();
-    public Tour? GetById(int id)                    => ExecuteGetById(id);
-    public List<Tour> GetByDestinationId(int destId)=> ExecuteGetByDestinationId(destId);
-    public Tour Create(TourDto dto)                 => ExecuteCreate(dto);
-    public Tour? Update(int id, TourDto dto)        => ExecuteUpdate(id, dto);
-    public bool Delete(int id)                      => ExecuteDelete(id);
+    public async Task<List<Tour>> GetAll()                                => await ExecuteGetAll();
+    public async Task<Tour?> GetById(int id)                              => await ExecuteGetById(id);
+    public async Task<List<Tour>> GetByDestinationId(int destinationId)   => await ExecuteGetByDestinationId(destinationId);
+    public async Task<Tour> Create(TourDto dto)                           => await ExecuteCreate(dto);
+    public async Task<Tour?> Update(int id, TourDto dto)                  => await ExecuteUpdate(id, dto);
+    public async Task<bool> Delete(int id)                                => await ExecuteDelete(id);
 }

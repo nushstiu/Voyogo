@@ -5,9 +5,9 @@ namespace Voyago.BusinessLayer.Interfaces;
 
 public interface IDestinationAction
 {
-    List<Destination> GetAll();
-    Destination? GetById(int id);
-    Destination Create(DestinationDto dto);
-    Destination? Update(int id, DestinationDto dto);
-    bool Delete(int id);
+    Task<List<Destination>> GetAll();
+    Task<Destination?> GetById(int id);
+    Task<Destination> Create(DestinationDto dto);
+    Task<Destination?> Update(int id, DestinationDto dto);
+    Task<bool> Delete(int id);
 }

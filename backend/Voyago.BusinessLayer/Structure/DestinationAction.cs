@@ -7,9 +7,9 @@ namespace Voyago.BusinessLayer.Structure;
 
 public class DestinationAction : DestinationActions, IDestinationAction
 {
-    public List<Destination> GetAll() => ExecuteGetAll();
-    public Destination? GetById(int id) => ExecuteGetById(id);
-    public Destination Create(DestinationDto dto) => ExecuteCreate(dto);
-    public Destination? Update(int id, DestinationDto dto) => ExecuteUpdate(id, dto);
-    public bool Delete(int id) => ExecuteDelete(id);
+    public async Task<List<Destination>> GetAll() => await ExecuteGetAll();
+    public async Task<Destination?> GetById(int id) => await ExecuteGetById(id);
+    public async Task<Destination> Create(DestinationDto dto) => await ExecuteCreate(dto);
+    public async Task<Destination?> Update(int id, DestinationDto dto) => await ExecuteUpdate(id, dto);
+    public async Task<bool> Delete(int id) => await ExecuteDelete(id);
 }

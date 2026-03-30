@@ -7,33 +7,44 @@ namespace Voyago.BusinessLayer.Core;
 
 public abstract class BookingActions
 {
-    internal List<Booking> ExecuteGetAll()
+    internal async Task<List<Booking>> ExecuteGetAll()
     {
         using var db = new VoyagoContext();
-        var bookings = db.Bookings.Include(b => b.Tour).ToList();
+        var bookings = await db.Bookings.Include(b => b.Tour).ToListAsync();
         bookings.ForEach(b => b.TourName = b.Tour?.Name);
         return bookings;
     }
 
-    internal Booking? ExecuteGetById(int id)
+    internal async Task<Booking?> ExecuteGetById(int id)
     {
         using var db = new VoyagoContext();
-        var booking = db.Bookings.Include(b => b.Tour).FirstOrDefault(b => b.Id == id);
+        var booking = await db.Bookings.Include(b => b.Tour).FirstOrDefaultAsync(b => b.Id == id);
         if (booking != null) booking.TourName = booking.Tour?.Name;
         return booking;
     }
 
-    internal List<Booking> ExecuteGetByUserId(int userId)
+    internal async Task<List<Booking>> ExecuteGetByUserId(int userId)
     {
         using var db = new VoyagoContext();
-        var bookings = db.Bookings.Include(b => b.Tour).Where(b => b.UserId == userId).ToList();
+        var bookings = await db.Bookings.Include(b => b.Tour).Where(b => b.UserId == userId).ToListAsync();
         bookings.ForEach(b => b.TourName = b.Tour?.Name);
         return bookings;
     }
 
-    internal Booking ExecuteCreate(BookingDto dto)
+    internal async Task<Booking> ExecuteCreate(BookingDto dto)
     {
         using var db = new VoyagoContext();
+
+        // Validate foreign key: TourId must exist if provided
+        if (dto.TourId.HasValue)
+        {
+            var tourExists = await db.Tours.AnyAsync(t => t.Id == dto.TourId.Value);
+            if (!tourExists)
+            {
+                throw new InvalidOperationException($"Turul cu ID-ul {dto.TourId.Value} nu exista.");
+            }
+        }
+
         var booking = new Booking
         {
             UserId = dto.UserId,
@@ -51,36 +62,36 @@ public abstract class BookingActions
             CreatedAt = DateTime.UtcNow
         };
         db.Bookings.Add(booking);
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         if (booking.TourId.HasValue)
         {
-            booking.Tour = db.Tours.FirstOrDefault(t => t.Id == booking.TourId.Value);
+            booking.Tour = await db.Tours.FirstOrDefaultAsync(t => t.Id == booking.TourId.Value);
             booking.TourName = booking.Tour?.Name;
         }
         return booking;
     }
 
-    internal Booking? ExecuteUpdateStatus(int id, string status)
+    internal async Task<Booking?> ExecuteUpdateStatus(int id, string status)
     {
         using var db = new VoyagoContext();
-        var booking = db.Bookings.Include(b => b.Tour).FirstOrDefault(b => b.Id == id);
+        var booking = await db.Bookings.Include(b => b.Tour).FirstOrDefaultAsync(b => b.Id == id);
         if (booking == null) return null;
 
         booking.Status = status;
         booking.UpdatedAt = DateTime.UtcNow;
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         booking.TourName = booking.Tour?.Name;
         return booking;
     }
 
-    internal bool ExecuteDelete(int id)
+    internal async Task<bool> ExecuteDelete(int id)
     {
         using var db = new VoyagoContext();
-        var booking = db.Bookings.FirstOrDefault(b => b.Id == id);
+        var booking = await db.Bookings.FirstOrDefaultAsync(b => b.Id == id);
         if (booking == null) return false;
 
         db.Bookings.Remove(booking);
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         return true;
     }
 }
