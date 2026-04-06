@@ -31,7 +31,17 @@ const GuestCountInput = ({ label, subtitle, value, min, max, onChange }: GuestCo
         >
           -
         </button>
-        <span className="w-8 text-center font-medium">{value}</span>
+        <input
+          type="number"
+          value={value}
+          min={min}
+          max={max}
+          onChange={(e) => {
+            const num = parseInt(e.target.value, 10);
+            if (!isNaN(num)) onChange(Math.min(max, Math.max(min, num)));
+          }}
+          className="w-10 text-center font-medium bg-transparent outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+        />
         <button
           type="button"
           onClick={increment}
