@@ -8,6 +8,7 @@ import {
   faFileExport,
   faCheckDouble,
   faBan,
+  faRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import { bookingService } from '../../services/booking.service';
@@ -36,7 +37,7 @@ export default function AdminBookings() {
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-  const { filters, setFilter } = useFilters({
+  const { filters, setFilter, resetFilters, hasActiveFilters } = useFilters({
     keys: ['search', 'status', 'destination', 'fromDate', 'toDate'],
   });
   const debouncedSearch = useDebounce(filters.search, 300);
@@ -208,6 +209,15 @@ export default function AdminBookings() {
                 className="input-default py-2 text-sm"
               />
             </div>
+            {hasActiveFilters && (
+              <button
+                onClick={resetFilters}
+                className="text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-lg transition-colors flex items-center gap-2"
+              >
+                <FontAwesomeIcon icon={faRotateLeft} />
+                {t('filters.resetFilters')}
+              </button>
+            )}
           </div>
         </div>
 

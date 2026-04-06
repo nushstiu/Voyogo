@@ -128,7 +128,8 @@
     "filterByRole": "Filtreaza dupa rol",
     "filterByStatus": "Filtreaza dupa status",
     "filterByDestination": "Filtreaza dupa destinatie",
-    "sortBy": "Sorteaza dupa"
+    "sortBy": "Sorteaza dupa",
+    "resetFilters": "Reseteaza filtrele"
   },
 
   "modals": {

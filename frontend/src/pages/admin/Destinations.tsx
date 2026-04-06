@@ -6,6 +6,7 @@ import {
   faTrash,
   faThLarge,
   faList,
+  faRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import { destinationService } from '../../services/destination.service';
@@ -28,7 +29,7 @@ export default function AdminDestinations() {
   const [tours, setTours] = useState<{ destination_id: number }[]>([]);
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const { filters, setFilter } = useFilters({ keys: ['search'] });
+  const { filters, setFilter, resetFilters, hasActiveFilters } = useFilters({ keys: ['search'] });
   const debouncedSearch = useDebounce(filters.search, 300);
 
   const createModal = useModal<undefined>();
@@ -91,6 +92,15 @@ export default function AdminDestinations() {
               onChange={(v) => setFilter('search', v)}
               className="flex-1"
             />
+            {hasActiveFilters && (
+              <button
+                onClick={resetFilters}
+                className="text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-lg transition-colors flex items-center gap-2"
+              >
+                <FontAwesomeIcon icon={faRotateLeft} />
+                {t('filters.resetFilters')}
+              </button>
+            )}
             <div className="flex gap-1 bg-white rounded-2xl shadow-lg p-1">
               <button
                 onClick={() => setViewMode('grid')}

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Voyago.BusinessLayer.Dtos;
 using Voyago.BusinessLayer.Interfaces;
@@ -6,6 +7,7 @@ namespace Voyago.Api.Controllers;
 
 [ApiController]
 [Route("api/bookings")]
+[Authorize]
 public class BookingController : ControllerBase
 {
     private readonly IBookingAction _action;

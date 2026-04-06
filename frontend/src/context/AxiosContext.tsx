@@ -19,6 +19,17 @@ export function AxiosProvider({ children }: { children: ReactNode }) {
     }, []);
 
     useEffect(() => {
+        const requestInterceptorId = axiosInstance.interceptors.request.use(
+            (config) => {
+                const token = localStorage.getItem('voyogo_token');
+                if (token) {
+                    config.headers.Authorization = `Bearer ${token}`;
+                }
+                return config;
+            },
+            (error) => Promise.reject(error)
+        );
+
         const interceptorId = axiosInstance.interceptors.response.use(
             (response) => response,
             (error) => {
@@ -60,6 +71,7 @@ export function AxiosProvider({ children }: { children: ReactNode }) {
         );
 
         return () => {
+            axiosInstance.interceptors.request.eject(requestInterceptorId);
             axiosInstance.interceptors.response.eject(interceptorId);
         };
     }, [axiosInstance, navigate]);

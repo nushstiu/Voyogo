@@ -37,5 +37,10 @@ export function useFilters({ keys, defaults = {} }: UseFiltersConfig) {
     setSearchParams({});
   }, [setSearchParams]);
 
-  return { filters, setFilter, resetFilters };
+  const hasActiveFilters = useMemo(
+    () => keys.some((key) => searchParams.has(key) && searchParams.get(key) !== ''),
+    [searchParams, keys]
+  );
+
+  return { filters, setFilter, resetFilters, hasActiveFilters };
 }
