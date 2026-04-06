@@ -4,6 +4,7 @@ import {
   faPlus,
   faEdit,
   faTrash,
+  faRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import { tourService } from '../../services/tour.service';
@@ -31,7 +32,7 @@ export default function AdminTours() {
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [bookings, setBookings] = useState<{ tour_id?: string }[]>([]);
   const [loading, setLoading] = useState(true);
-  const { filters, setFilter } = useFilters({ keys: ['search', 'status', 'destination_id'] });
+  const { filters, setFilter, resetFilters, hasActiveFilters } = useFilters({ keys: ['search', 'status', 'destination_id'] });
   const debouncedSearch = useDebounce(filters.search, 300);
 
   const STATUS_OPTIONS = [
@@ -120,6 +121,15 @@ export default function AdminTours() {
                 options={destOptions}
                 allLabel={t('filters.filterByDestination')}
               />
+              {hasActiveFilters && (
+                <button
+                  onClick={resetFilters}
+                  className="text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-lg transition-colors flex items-center gap-2"
+                >
+                  <FontAwesomeIcon icon={faRotateLeft} />
+                  {t('filters.resetFilters')}
+                </button>
+              )}
             </div>
 
             {loading ? (

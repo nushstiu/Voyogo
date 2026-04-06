@@ -6,6 +6,7 @@ import {
   faTrash,
   faEye,
   faFileExport,
+  faRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import { userService } from '../../services/user.service';
@@ -29,7 +30,7 @@ export default function AdminUsers() {
   const { t } = useTranslation();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
-  const { filters, setFilter } = useFilters({ keys: ['search', 'role'] });
+  const { filters, setFilter, resetFilters, hasActiveFilters } = useFilters({ keys: ['search', 'role'] });
   const debouncedSearch = useDebounce(filters.search, 300);
 
   const ROLE_OPTIONS = [
@@ -130,6 +131,15 @@ export default function AdminUsers() {
                 options={ROLE_OPTIONS}
                 allLabel={t('filters.filterByRole')}
               />
+              {hasActiveFilters && (
+                <button
+                  onClick={resetFilters}
+                  className="text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-lg transition-colors flex items-center gap-2"
+                >
+                  <FontAwesomeIcon icon={faRotateLeft} />
+                  {t('filters.resetFilters')}
+                </button>
+              )}
             </div>
 
             {loading ? (

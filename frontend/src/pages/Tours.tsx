@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faChevronRight, faRotateLeft } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
@@ -82,12 +82,21 @@ export default function Tours() {
             </div>
           </div>
 
-          <div className="mt-8">
+          <div className="mt-8 flex items-center gap-4">
             <FilterButtons
               categories={categories}
               active={activeFilter}
               onFilter={setActiveFilter}
             />
+            {(activeFilter !== 'all' || search !== '') && (
+              <button
+                onClick={() => { setActiveFilter('all'); setSearch(''); }}
+                className="text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-lg transition-colors flex items-center gap-2"
+              >
+                <FontAwesomeIcon icon={faRotateLeft} />
+                {t('filters.resetFilters')}
+              </button>
+            )}
           </div>
         </div>
 

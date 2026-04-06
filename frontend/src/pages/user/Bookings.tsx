@@ -6,6 +6,7 @@ import {
   faBan,
   faMapMarkerAlt,
   faClock,
+  faRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
@@ -33,7 +34,7 @@ export default function UserBookings() {
   const { user } = useAuth();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
-  const { filters, setFilter } = useFilters({ keys: ['search', 'status'] });
+  const { filters, setFilter, resetFilters, hasActiveFilters } = useFilters({ keys: ['search', 'status'] });
   const debouncedSearch = useDebounce(filters.search, 300);
 
   const STATUS_OPTIONS = [
@@ -95,6 +96,15 @@ export default function UserBookings() {
               options={STATUS_OPTIONS}
               allLabel={t('filters.filterByStatus')}
             />
+            {hasActiveFilters && (
+              <button
+                onClick={resetFilters}
+                className="text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-lg transition-colors flex items-center gap-2"
+              >
+                <FontAwesomeIcon icon={faRotateLeft} />
+                {t('filters.resetFilters')}
+              </button>
+            )}
           </div>
 
           {loading ? (
