@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Voyago.BusinessLayer;
 using Voyago.BusinessLayer.Dtos;
-using Voyago.BusinessLayer.Interfaces;
 
 namespace Voyago.Api.Controllers;
 
@@ -9,11 +9,11 @@ namespace Voyago.Api.Controllers;
 [Route("api/destinations")]
 public class DestinationController : ControllerBase
 {
-    private readonly IDestinationAction _action;
+    private readonly BusinessLogic _bl;
 
-    public DestinationController(IDestinationAction action)
+    public DestinationController(BusinessLogic bl)
     {
-        _action = action;
+        _bl = bl;
     }
 
     [HttpGet]
@@ -21,7 +21,7 @@ public class DestinationController : ControllerBase
     {
         try
         {
-            return Ok(await _action.GetAll());
+            return Ok(await _bl.DestinationAction().GetAll());
         }
         catch (Exception ex)
         {
@@ -34,7 +34,7 @@ public class DestinationController : ControllerBase
     {
         try
         {
-            var dest = await _action.GetById(id);
+            var dest = await _bl.DestinationAction().GetById(id);
             if (dest == null) return NotFound("Destinatia nu a fost gasita.");
             return Ok(dest);
         }
@@ -56,7 +56,7 @@ public class DestinationController : ControllerBase
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return Created(string.Empty, await _action.Create(dto));
+            return Created(string.Empty, await _bl.DestinationAction().Create(dto));
         }
         catch (Exception ex)
         {
@@ -76,7 +76,7 @@ public class DestinationController : ControllerBase
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var updated = await _action.Update(id, dto);
+            var updated = await _bl.DestinationAction().Update(id, dto);
             if (updated == null) return NotFound("Destinatia nu a fost gasita.");
             return Ok(updated);
         }
@@ -92,7 +92,7 @@ public class DestinationController : ControllerBase
     {
         try
         {
-            if (!await _action.Delete(id)) return NotFound("Destinatia nu a fost gasita.");
+            if (!await _bl.DestinationAction().Delete(id)) return NotFound("Destinatia nu a fost gasita.");
             return NoContent();
         }
         catch (Exception ex)

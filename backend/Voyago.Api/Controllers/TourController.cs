@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Voyago.BusinessLayer;
 using Voyago.BusinessLayer.Dtos;
-using Voyago.BusinessLayer.Interfaces;
 
 namespace Voyago.Api.Controllers;
 
@@ -9,11 +9,11 @@ namespace Voyago.Api.Controllers;
 [Route("api/tours")]
 public class TourController : ControllerBase
 {
-    private readonly ITourAction _action;
+    private readonly BusinessLogic _bl;
 
-    public TourController(ITourAction action)
+    public TourController(BusinessLogic bl)
     {
-        _action = action;
+        _bl = bl;
     }
 
     [HttpGet]
@@ -21,7 +21,7 @@ public class TourController : ControllerBase
     {
         try
         {
-            return Ok(await _action.GetAll());
+            return Ok(await _bl.TourAction().GetAll());
         }
         catch (Exception ex)
         {
@@ -34,7 +34,7 @@ public class TourController : ControllerBase
     {
         try
         {
-            var tour = await _action.GetById(id);
+            var tour = await _bl.TourAction().GetById(id);
             if (tour == null) return NotFound("Turul nu a fost gasit.");
             return Ok(tour);
         }
@@ -49,7 +49,7 @@ public class TourController : ControllerBase
     {
         try
         {
-            return Ok(await _action.GetByDestinationId(destinationId));
+            return Ok(await _bl.TourAction().GetByDestinationId(destinationId));
         }
         catch (Exception ex)
         {
@@ -69,7 +69,7 @@ public class TourController : ControllerBase
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return Created(string.Empty, await _action.Create(dto));
+            return Created(string.Empty, await _bl.TourAction().Create(dto));
         }
         catch (InvalidOperationException ex)
         {
@@ -93,7 +93,7 @@ public class TourController : ControllerBase
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var updated = await _action.Update(id, dto);
+            var updated = await _bl.TourAction().Update(id, dto);
             if (updated == null) return NotFound("Turul nu a fost gasit.");
             return Ok(updated);
         }
@@ -113,7 +113,7 @@ public class TourController : ControllerBase
     {
         try
         {
-            if (!await _action.Delete(id)) return NotFound("Turul nu a fost gasit.");
+            if (!await _bl.TourAction().Delete(id)) return NotFound("Turul nu a fost gasit.");
             return NoContent();
         }
         catch (Exception ex)

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Voyago.BusinessLayer;
 using Voyago.BusinessLayer.Dtos;
-using Voyago.BusinessLayer.Interfaces;
 
 namespace Voyago.Api.Controllers;
 
@@ -8,11 +8,11 @@ namespace Voyago.Api.Controllers;
 [Route("api/auth")]
 public class AuthController : ControllerBase
 {
-    private readonly IAuthAction _action;
+    private readonly BusinessLogic _bl;
 
-    public AuthController(IAuthAction action)
+    public AuthController(BusinessLogic bl)
     {
-        _action = action;
+        _bl = bl;
     }
 
     [HttpPost("login")]
@@ -20,7 +20,7 @@ public class AuthController : ControllerBase
     {
         try
         {
-            var response = _action.Login(dto);
+            var response = _bl.AuthAction().Login(dto);
             if (response == null) return Unauthorized("Email sau parola incorecte.");
             return Ok(response);
         }
@@ -35,7 +35,7 @@ public class AuthController : ControllerBase
     {
         try
         {
-            var response = _action.Register(dto);
+            var response = _bl.AuthAction().Register(dto);
             if (response == null) return BadRequest("Emailul este deja inregistrat.");
             return Created(string.Empty, response);
         }

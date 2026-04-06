@@ -3,8 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Voyago.BusinessLayer.Interfaces;
-using Voyago.BusinessLayer.Structure;
+using Voyago.BusinessLayer;
 using Voyago.DataAccessLayer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,11 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 DbSession.ConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Dependency Injection
-builder.Services.AddScoped<IAuthAction, AuthAction>();
-builder.Services.AddScoped<IBookingAction, BookingAction>();
-builder.Services.AddScoped<ITourAction, TourAction>();
-builder.Services.AddScoped<IDestinationAction, DestinationAction>();
-builder.Services.AddScoped<IUserAction, UserAction>();
+builder.Services.AddSingleton<BusinessLogic>();
 
 // CORS Configuration
 builder.Services.AddCors(options =>
@@ -58,7 +53,32 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Introdu tokenul JWT"
+    });
+    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 var app = builder.Build();
 
