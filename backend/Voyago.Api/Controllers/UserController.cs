@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Voyago.BusinessLayer;
 using Voyago.BusinessLayer.Dtos;
-using Voyago.BusinessLayer.Interfaces;
 
 namespace Voyago.Api.Controllers;
 
@@ -10,11 +10,11 @@ namespace Voyago.Api.Controllers;
 [Authorize]
 public class UserController : ControllerBase
 {
-    private readonly IUserAction _action;
+    private readonly BusinessLogic _bl;
 
-    public UserController(IUserAction action)
+    public UserController(BusinessLogic bl)
     {
-        _action = action;
+        _bl = bl;
     }
 
     [HttpGet]
@@ -23,7 +23,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            return Ok(_action.GetAll());
+            return Ok(_bl.UserAction().GetAll());
         }
         catch (Exception ex)
         {
@@ -36,7 +36,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            var user = _action.GetById(id);
+            var user = _bl.UserAction().GetById(id);
             if (user == null) return NotFound("Utilizatorul nu a fost gasit.");
             return Ok(user);
         }
@@ -51,7 +51,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            var updated = _action.Update(id, dto);
+            var updated = _bl.UserAction().Update(id, dto);
             if (updated == null) return NotFound("Utilizatorul nu a fost gasit.");
             return Ok(updated);
         }
@@ -67,7 +67,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            if (!_action.Delete(id)) return NotFound("Utilizatorul nu a fost gasit.");
+            if (!_bl.UserAction().Delete(id)) return NotFound("Utilizatorul nu a fost gasit.");
             return NoContent();
         }
         catch (Exception ex)

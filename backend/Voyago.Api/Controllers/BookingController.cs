@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Voyago.BusinessLayer;
 using Voyago.BusinessLayer.Dtos;
-using Voyago.BusinessLayer.Interfaces;
 
 namespace Voyago.Api.Controllers;
 
@@ -10,11 +10,11 @@ namespace Voyago.Api.Controllers;
 [Authorize]
 public class BookingController : ControllerBase
 {
-    private readonly IBookingAction _action;
+    private readonly BusinessLogic _bl;
 
-    public BookingController(IBookingAction action)
+    public BookingController(BusinessLogic bl)
     {
-        _action = action;
+        _bl = bl;
     }
 
     [HttpGet]
@@ -22,7 +22,7 @@ public class BookingController : ControllerBase
     {
         try
         {
-            return Ok(await _action.GetAll());
+            return Ok(await _bl.BookingAction().GetAll());
         }
         catch (Exception ex)
         {
@@ -35,7 +35,7 @@ public class BookingController : ControllerBase
     {
         try
         {
-            var booking = await _action.GetById(id);
+            var booking = await _bl.BookingAction().GetById(id);
             if (booking == null) return NotFound("Rezervarea nu a fost gasita.");
             return Ok(booking);
         }
@@ -50,7 +50,7 @@ public class BookingController : ControllerBase
     {
         try
         {
-            return Ok(await _action.GetByUserId(userId));
+            return Ok(await _bl.BookingAction().GetByUserId(userId));
         }
         catch (Exception ex)
         {
@@ -69,7 +69,7 @@ public class BookingController : ControllerBase
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return Created(string.Empty, await _action.Create(dto));
+            return Created(string.Empty, await _bl.BookingAction().Create(dto));
         }
         catch (InvalidOperationException ex)
         {
@@ -94,7 +94,7 @@ public class BookingController : ControllerBase
             if (!validStatuses.Contains(dto.Status.ToLower()))
                 return BadRequest($"Status invalid. Valori permise: {string.Join(", ", validStatuses)}");
 
-            var updated = await _action.UpdateStatus(id, dto.Status);
+            var updated = await _bl.BookingAction().UpdateStatus(id, dto.Status);
             if (updated == null) return NotFound("Rezervarea nu a fost gasita.");
             return Ok(updated);
         }
@@ -109,7 +109,7 @@ public class BookingController : ControllerBase
     {
         try
         {
-            if (!await _action.Delete(id)) return NotFound("Rezervarea nu a fost gasita.");
+            if (!await _bl.BookingAction().Delete(id)) return NotFound("Rezervarea nu a fost gasita.");
             return NoContent();
         }
         catch (Exception ex)
