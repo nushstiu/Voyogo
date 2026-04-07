@@ -6,8 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Voyago.BusinessLayer.Dtos;
 using Voyago.DataAccessLayer.Context;
+using Voyago.Domain.Constants;
 using Voyago.Domain.Entities;
-using Voyago.Domain.Enums;
 
 namespace Voyago.BusinessLayer.Core;
 
@@ -35,12 +35,20 @@ public abstract class AuthActions
         using var db = new VoyagoContext();
         if (db.Users.Any(u => u.Email == dto.Email)) return null;
 
+        var role = string.IsNullOrWhiteSpace(dto.Role) ? Roles.User : dto.Role;
+
+        if (role == Roles.Visitor)
+            return null;
+
+        if (role != Roles.User && role != Roles.Admin)
+            return null;
+
         var user = new User
         {
             Username = dto.Username,
             Email = dto.Email,
             PasswordHash = HashPassword(dto.Password),
-            Role = UserRole.User,
+            Role = role,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
@@ -61,7 +69,7 @@ public abstract class AuthActions
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.Role.ToString().ToLower()),
+            new Claim(ClaimTypes.Role, user.Role),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
