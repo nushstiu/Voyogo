@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Voyago.BusinessLayer.Dtos;
+namespace Voyago.Domain.Dtos;
 
 public class BookingDto
 {

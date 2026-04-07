@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Voyago.BusinessLayer.Dtos;
+using Voyago.Domain.Dtos;
 using Voyago.DataAccessLayer.Context;
 using Voyago.Domain.Constants;
 using Voyago.Domain.Entities;

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Voyago.Domain.Enums;
 
-namespace Voyago.BusinessLayer.Dtos;
+namespace Voyago.Domain.Dtos;
 
 public class TourDto
 {

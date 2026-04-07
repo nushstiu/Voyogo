@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Voyago.BusinessLayer;
-using Voyago.BusinessLayer.Dtos;
+using Voyago.Domain.Dtos;
 using Voyago.Domain.Constants;
 
 namespace Voyago.Api.Controllers;

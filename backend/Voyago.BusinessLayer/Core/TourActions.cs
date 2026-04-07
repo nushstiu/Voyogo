@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Voyago.BusinessLayer.Dtos;
+using Voyago.Domain.Dtos;
 using Voyago.DataAccessLayer.Context;
 using Voyago.Domain.Entities;
 

@@ -1,4 +1,4 @@
-namespace Voyago.BusinessLayer.Dtos;
+namespace Voyago.Domain.Dtos;
 
 public class UserRegisterDto
 {
