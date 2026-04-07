@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Voyago.BusinessLayer;
 using Voyago.BusinessLayer.Dtos;
+using Voyago.Domain.Constants;
 
 namespace Voyago.Api.Controllers;
 
@@ -35,6 +36,12 @@ public class AuthController : ControllerBase
     {
         try
         {
+            if (!string.IsNullOrWhiteSpace(dto.Role) && dto.Role == Roles.Visitor)
+                return BadRequest("Rolul 'Visitor' nu poate fi atribuit la inregistrare. Visitor = utilizator neautentificat.");
+
+            if (!string.IsNullOrWhiteSpace(dto.Role) && dto.Role != Roles.User && dto.Role != Roles.Admin)
+                return BadRequest($"Rol invalid. Roluri permise: {Roles.User}, {Roles.Admin}.");
+
             var response = _bl.AuthAction().Register(dto);
             if (response == null) return BadRequest("Emailul este deja inregistrat.");
             return Created(string.Empty, response);
