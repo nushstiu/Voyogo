@@ -1,4 +1,4 @@
-using Voyago.BusinessLayer.Dtos;
+using Voyago.Domain.Dtos;
 using Voyago.Domain.Entities;
 
 namespace Voyago.BusinessLayer.Interfaces;

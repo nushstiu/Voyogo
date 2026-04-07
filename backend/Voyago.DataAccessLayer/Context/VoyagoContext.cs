@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Voyago.Domain.Constants;
 using Voyago.Domain.Entities;
 using Voyago.Domain.Enums;
 
@@ -52,8 +53,8 @@ public class VoyagoContext : DbContext
         var userHash = HashPassword("user123");
 
         modelBuilder.Entity<User>().HasData(
-            new User { Id = 1, Username = "admin", Email = "admin@voyago.com", PasswordHash = adminHash, Phone = "+40712345678", Country = "Romania", Role = UserRole.Admin, CreatedAt = seed, UpdatedAt = seed },
-            new User { Id = 2, Username = "testuser", Email = "user@voyago.com", PasswordHash = userHash, Role = UserRole.User, CreatedAt = seed, UpdatedAt = seed }
+            new User { Id = 1, Username = "admin", Email = "admin@voyago.com", PasswordHash = adminHash, Phone = "+40712345678", Country = "Romania", Role = Roles.Admin, CreatedAt = seed, UpdatedAt = seed },
+            new User { Id = 2, Username = "testuser", Email = "user@voyago.com", PasswordHash = userHash, Role = Roles.User, CreatedAt = seed, UpdatedAt = seed }
         );
 
         modelBuilder.Entity<Booking>().HasData(

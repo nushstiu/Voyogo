@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Voyago.BusinessLayer.Core;
-using Voyago.BusinessLayer.Dtos;
+using Voyago.Domain.Dtos;
 using Voyago.BusinessLayer.Interfaces;
 
 namespace Voyago.BusinessLayer.Structure;

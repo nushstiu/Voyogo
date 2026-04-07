@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Voyago.BusinessLayer;
-using Voyago.BusinessLayer.Dtos;
+using Voyago.Domain.Dtos;
+using Voyago.Domain.Constants;
 
 namespace Voyago.Api.Controllers;
 
@@ -44,8 +45,8 @@ public class DestinationController : ControllerBase
         }
     }
 
-    [Authorize]
     [HttpPost]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Create([FromBody] DestinationDto dto)
     {
         try
@@ -64,8 +65,8 @@ public class DestinationController : ControllerBase
         }
     }
 
-    [Authorize]
     [HttpPut("{id:int}")]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Update(int id, [FromBody] DestinationDto dto)
     {
         try
@@ -86,8 +87,8 @@ public class DestinationController : ControllerBase
         }
     }
 
-    [Authorize]
     [HttpDelete("{id:int}")]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Delete(int id)
     {
         try

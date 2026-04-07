@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Voyago.BusinessLayer;
-using Voyago.BusinessLayer.Dtos;
+using Voyago.Domain.Dtos;
+using Voyago.Domain.Constants;
 
 namespace Voyago.Api.Controllers;
 
 [ApiController]
 [Route("api/bookings")]
-[Authorize]
+[Authorize(Roles = $"{Roles.User},{Roles.Admin}")]
 public class BookingController : ControllerBase
 {
     private readonly BusinessLogic _bl;
@@ -105,6 +106,7 @@ public class BookingController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Delete(int id)
     {
         try

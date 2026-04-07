@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Voyago.BusinessLayer;
-using Voyago.BusinessLayer.Dtos;
+using Voyago.Domain.Dtos;
+using Voyago.Domain.Constants;
 
 namespace Voyago.Api.Controllers;
 
@@ -18,7 +19,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = Roles.Admin)]
     public IActionResult GetAll()
     {
         try
@@ -32,6 +33,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
+    [Authorize(Roles = $"{Roles.User},{Roles.Admin}")]
     public IActionResult GetById(int id)
     {
         try
@@ -47,6 +49,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
+    [Authorize(Roles = $"{Roles.User},{Roles.Admin}")]
     public IActionResult Update(int id, [FromBody] UserDto dto)
     {
         try
@@ -62,7 +65,7 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("{id:int}")]
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = Roles.Admin)]
     public IActionResult Delete(int id)
     {
         try

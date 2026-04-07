@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Voyago.Domain.Enums;
 
 namespace Voyago.Domain.Entities;
 
@@ -44,7 +43,10 @@ public class User
     [StringLength(500, MinimumLength = 10, ErrorMessage = "URL-ul pozei de profil trebuie sa aiba intre 10 si 500 de caractere.")]
     public string? ProfilePic { get; set; }
 
-    public UserRole Role { get; set; }
+    [Required]
+    [StringLength(20)]
+    public string Role { get; set; } = "User";
+
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 }

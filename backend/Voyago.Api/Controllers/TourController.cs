@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Voyago.BusinessLayer;
-using Voyago.BusinessLayer.Dtos;
+using Voyago.Domain.Dtos;
+using Voyago.Domain.Constants;
 
 namespace Voyago.Api.Controllers;
 
@@ -57,8 +58,8 @@ public class TourController : ControllerBase
         }
     }
 
-    [Authorize]
     [HttpPost]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Create([FromBody] TourDto dto)
     {
         try
@@ -81,8 +82,8 @@ public class TourController : ControllerBase
         }
     }
 
-    [Authorize]
     [HttpPut("{id:int}")]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Update(int id, [FromBody] TourDto dto)
     {
         try
@@ -107,8 +108,8 @@ public class TourController : ControllerBase
         }
     }
 
-    [Authorize]
     [HttpDelete("{id:int}")]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Delete(int id)
     {
         try
