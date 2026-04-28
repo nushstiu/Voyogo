@@ -12,7 +12,7 @@ import toast from 'react-hot-toast';
 const destinationSchema = z.object({
   name: z.string().min(2, UI_TEXT.ERROR_REQUIRED),
   packages: z.coerce.number().min(0),
-  price_range: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
+  priceRange: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
   image: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
   description: z.string().min(10, 'Description must be at least 10 characters'),
 });
@@ -44,11 +44,11 @@ export default function DestinationModal({ isOpen, onClose, destination, onSaved
           ? {
               name: destination.name,
               packages: destination.packages,
-              price_range: destination.price_range,
+              priceRange: destination.priceRange,
               image: destination.image,
               description: destination.description,
             }
-          : { name: '', packages: 0, price_range: '', image: '', description: '' }
+          : { name: '', packages: 0, priceRange: '', image: '', description: '' }
       );
     }
   }, [isOpen, destination, reset]);
@@ -118,12 +118,12 @@ export default function DestinationModal({ isOpen, onClose, destination, onSaved
                 Price Range <span className="text-blue-500">*</span>
               </label>
               <input
-                {...register('price_range')}
+                {...register('priceRange')}
                 className="p-4 rounded bg-gray-100 outline-none w-full"
                 placeholder="$500 - $1,000"
               />
-              {errors.price_range && (
-                <p className="text-red-500 text-sm mt-1">{errors.price_range.message}</p>
+              {errors.priceRange && (
+                <p className="text-red-500 text-sm mt-1">{errors.priceRange.message}</p>
               )}
             </div>
           </div>

@@ -28,7 +28,7 @@ export default function DurationSelector({
 
     // Get tours available for the selected destination
     const destinationTours = selectedDestination
-        ? allTours.filter(t => t.destination_id === selectedDestination.id && t.status === TourStatus.Active)
+        ? allTours.filter(t => t.destinationId === selectedDestination.id && t.status === TourStatus.Active)
         : [];
 
     // Build duration options from real tour data

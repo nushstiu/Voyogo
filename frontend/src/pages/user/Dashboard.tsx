@@ -34,7 +34,7 @@ export default function UserDashboard() {
         tourService.getAll(),
       ]);
       setAllTours(tours.map(t => ({ id: t.id, name: t.name })));
-      const userBookings = allBookings.filter((b) => b.user_id === user?.id);
+      const userBookings = allBookings.filter((b) => b.userId === user?.id);
       setBookings(userBookings.length > 0 ? userBookings : allBookings.slice(0, 3));
       setLoading(false);
     };
@@ -47,16 +47,16 @@ export default function UserDashboard() {
   };
 
   const upcomingTrips = bookings.filter(
-    (b) => b.status !== BookingStatus.Cancelled && new Date(b.booking_date) > new Date()
+    (b) => b.status !== BookingStatus.Cancelled && new Date(b.bookingDate) > new Date()
   ).length;
 
   const completedTrips = bookings.filter(
-    (b) => b.status === BookingStatus.Confirmed && new Date(b.booking_date) <= new Date()
+    (b) => b.status === BookingStatus.Confirmed && new Date(b.bookingDate) <= new Date()
   ).length;
 
   const getTourName = (tourId?: string) => {
     if (!tourId) return t('userDashboard.customTrip');
-    return allTours.find((tour) => tour.id === tourId)?.name || t('userDashboard.unknownTour');
+    return allTours.find((tour) => String(tour.id) === String(tourId))?.name || t('userDashboard.unknownTour');
   };
 
   const statusColor = (status: string) => {
@@ -173,7 +173,7 @@ export default function UserDashboard() {
                     </div>
                     <div>
                       <p className="font-semibold text-gray-800">{booking.destination}</p>
-                      <p className="text-sm text-gray-500">{getTourName(booking.tour_id)}</p>
+                      <p className="text-sm text-gray-500">{getTourName(booking.tourId)}</p>
                     </div>
                   </div>
 
@@ -183,7 +183,7 @@ export default function UserDashboard() {
                       <span>{booking.duration}</span>
                     </div>
                     <div className="text-sm text-gray-500">
-                      {new Date(booking.booking_date).toLocaleDateString('en-US', {
+                      {new Date(booking.bookingDate).toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
                         year: 'numeric',

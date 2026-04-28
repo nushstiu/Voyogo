@@ -16,11 +16,11 @@ export default function UserProfile() {
     username: z.string().min(5, t('validation.usernameMin')).max(15, t('validation.usernameMax')),
     phone: z.string().optional(),
     country: z.string().optional(),
-    date_of_birth: z.string().optional(),
+    dateOfBirth: z.string().optional(),
     address: z.string().optional(),
-    preferred_language: z.string().optional(),
-    emergency_contact_name: z.string().optional(),
-    emergency_contact_phone: z.string().optional(),
+    preferredLanguage: z.string().optional(),
+    emergencyContactName: z.string().optional(),
+    emergencyContactPhone: z.string().optional(),
   });
 
   type ProfileFormData = z.infer<typeof profileSchema>;
@@ -40,18 +40,18 @@ export default function UserProfile() {
         username: user.username,
         phone: user.phone || '',
         country: user.country || '',
-        date_of_birth: user.date_of_birth || '',
+        dateOfBirth: user.dateOfBirth || '',
         address: user.address || '',
-        preferred_language: user.preferred_language || '',
-        emergency_contact_name: user.emergency_contact_name || '',
-        emergency_contact_phone: user.emergency_contact_phone || '',
+        preferredLanguage: user.preferredLanguage || '',
+        emergencyContactName: user.emergencyContactName || '',
+        emergencyContactPhone: user.emergencyContactPhone || '',
       });
     }
   }, [user, reset]);
 
   const onSubmit = async (data: ProfileFormData) => {
     await new Promise((r) => setTimeout(r, 500));
-    const updated = { ...user!, ...data, updated_at: new Date().toISOString() };
+    const updated = { ...user!, ...data, updatedAt: new Date().toISOString() };
     localStorage.setItem('voyogo_user', JSON.stringify(updated));
     toast.success(t('success.profileUpdate'));
   };
@@ -124,7 +124,7 @@ export default function UserProfile() {
                   </label>
                   <input
                     type="date"
-                    {...register('date_of_birth')}
+                    {...register('dateOfBirth')}
                     className="p-4 rounded bg-gray-100 outline-none w-full"
                   />
                 </div>
@@ -134,7 +134,7 @@ export default function UserProfile() {
                     {t('form.preferredLanguage')}
                   </label>
                   <input
-                    {...register('preferred_language')}
+                    {...register('preferredLanguage')}
                     className="p-4 rounded bg-gray-100 outline-none w-full"
                     placeholder="English"
                   />
@@ -160,7 +160,7 @@ export default function UserProfile() {
                       {t('form.contactName')}
                     </label>
                     <input
-                      {...register('emergency_contact_name')}
+                      {...register('emergencyContactName')}
                       className="p-4 rounded bg-gray-100 outline-none w-full"
                       placeholder={t('form.contactName')}
                     />
@@ -170,7 +170,7 @@ export default function UserProfile() {
                       {t('form.contactPhone')}
                     </label>
                     <input
-                      {...register('emergency_contact_phone')}
+                      {...register('emergencyContactPhone')}
                       className="p-4 rounded bg-gray-100 outline-none w-full"
                       placeholder="+1 555 123 4567"
                     />

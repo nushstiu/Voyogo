@@ -17,7 +17,7 @@ const tourSchema = z.object({
   days: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
   description: z.string().min(10, 'Description must be at least 10 characters'),
   image: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
-  destination_id: z.coerce.number().min(1, UI_TEXT.ERROR_REQUIRED),
+  destinationId: z.coerce.number().min(1, UI_TEXT.ERROR_REQUIRED),
   status: z.enum(['active', 'inactive']),
 });
 
@@ -53,7 +53,7 @@ export default function TourModal({ isOpen, onClose, tour, destinations, onSaved
               days: tour.days,
               description: tour.description,
               image: tour.image,
-              destination_id: tour.destination_id,
+              destinationId: tour.destinationId,
               status: tour.status,
             }
           : {
@@ -63,7 +63,7 @@ export default function TourModal({ isOpen, onClose, tour, destinations, onSaved
               days: '',
               description: '',
               image: '',
-              destination_id: 0,
+              destinationId: 0,
               status: 'active',
             }
       );
@@ -139,7 +139,7 @@ export default function TourModal({ isOpen, onClose, tour, destinations, onSaved
               <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
                 Destination <span className="text-blue-500">*</span>
               </label>
-              <StyledSelect {...register('destination_id')}>
+              <StyledSelect {...register('destinationId')}>
                 <option value={0}>Select destination</option>
                 {destinations.map((d) => (
                   <option key={d.id} value={d.id}>
@@ -147,8 +147,8 @@ export default function TourModal({ isOpen, onClose, tour, destinations, onSaved
                   </option>
                 ))}
               </StyledSelect>
-              {errors.destination_id && (
-                <p className="text-red-500 text-sm mt-1">{errors.destination_id.message}</p>
+              {errors.destinationId && (
+                <p className="text-red-500 text-sm mt-1">{errors.destinationId.message}</p>
               )}
             </div>
           </div>

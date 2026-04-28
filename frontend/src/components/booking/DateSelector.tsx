@@ -150,7 +150,7 @@ export default function DateSelector({
     }, []);
 
     const realTours = selectedDestination
-        ? allTours.filter(t => t.destination_id === selectedDestination.id && t.status === TourStatus.Active)
+        ? allTours.filter(t => t.destinationId === selectedDestination.id && t.status === TourStatus.Active)
         : [];
 
     useEffect(() => {

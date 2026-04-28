@@ -30,11 +30,11 @@ export default function BookingDetailModal({ isOpen, onClose, booking }: Booking
     { label: UI_TEXT.LABEL_EMAIL, value: booking.email },
     { label: UI_TEXT.LABEL_PHONE, value: booking.phone },
     { label: 'Destination', value: booking.destination },
-    { label: 'Tour', value: booking.tour_name || '—' },
-    { label: 'Booking Date', value: booking.booking_date },
+    { label: 'Tour', value: booking.tourName || '—' },
+    { label: 'Booking Date', value: booking.bookingDate },
     { label: 'Duration', value: booking.duration },
-    { label: 'Created', value: new Date(booking.created_at).toLocaleString() },
-    { label: 'Updated', value: booking.updated_at ? new Date(booking.updated_at).toLocaleString() : '—' },
+    { label: 'Created', value: new Date(booking.createdAt).toLocaleString() },
+    { label: 'Updated', value: booking.updatedAt ? new Date(booking.updatedAt).toLocaleString() : '—' },
   ];
 
   return (
@@ -79,10 +79,10 @@ export default function BookingDetailModal({ isOpen, onClose, booking }: Booking
             </div>
           )}
 
-          {booking.admin_notes && (
+          {booking.adminNotes && (
             <div className="pt-3 border-t border-gray-200">
               <p className="text-xs text-gray-500 font-semibold uppercase mb-1">Admin Notes</p>
-              <p className="text-sm text-gray-600">{booking.admin_notes}</p>
+              <p className="text-sm text-gray-600">{booking.adminNotes}</p>
             </div>
           )}
         </div>

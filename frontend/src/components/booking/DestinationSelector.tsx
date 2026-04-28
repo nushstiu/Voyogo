@@ -124,7 +124,7 @@ export default function DestinationSelector({
                         <div className="p-3">
                             <div className="flex justify-between items-center mb-1">
                                 <span className="text-xs text-gray-500">{dest.packages} pachete</span>
-                                <span className="text-sm font-semibold text-green-600">{dest.price_range}</span>
+                                <span className="text-sm font-semibold text-green-600">{dest.priceRange}</span>
                             </div>
                             <p className="text-xs text-gray-500 line-clamp-2">{dest.description}</p>
                         </div>

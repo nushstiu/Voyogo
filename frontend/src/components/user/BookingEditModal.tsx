@@ -12,7 +12,7 @@ import toast from 'react-hot-toast';
 
 const editSchema = z.object({
   phone: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
-  booking_date: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
+  bookingDate: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
   duration: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
   notes: z.string().optional(),
 });
@@ -43,7 +43,7 @@ export default function BookingEditModal({ isOpen, onClose, booking, onSaved }: 
     if (isOpen && booking) {
       reset({
         phone: booking.phone,
-        booking_date: booking.booking_date,
+        bookingDate: booking.bookingDate,
         duration: booking.duration,
         notes: booking.notes || '',
       });
@@ -84,7 +84,7 @@ export default function BookingEditModal({ isOpen, onClose, booking, onSaved }: 
         <div className="px-6 py-3 bg-gray-50 text-sm">
           <p className="text-gray-600">
             <span className="font-medium text-gray-800">{booking.destination}</span>
-            {booking.tour_name && ` - ${booking.tour_name}`}
+            {booking.tourName && ` - ${booking.tourName}`}
           </p>
         </div>
 
@@ -106,11 +106,11 @@ export default function BookingEditModal({ isOpen, onClose, booking, onSaved }: 
             </label>
             <input
               type="date"
-              {...register('booking_date')}
+              {...register('bookingDate')}
               className="p-4 rounded bg-gray-100 outline-none w-full"
             />
-            {errors.booking_date && (
-              <p className="text-red-500 text-sm mt-1">{errors.booking_date.message}</p>
+            {errors.bookingDate && (
+              <p className="text-red-500 text-sm mt-1">{errors.bookingDate.message}</p>
             )}
           </div>
 

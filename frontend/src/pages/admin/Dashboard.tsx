@@ -58,7 +58,7 @@ export default function AdminDashboard() {
       });
       setRecentBookings(
         [...bookings]
-          .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
           .slice(0, 5)
       );
       setLoading(false);
@@ -210,7 +210,7 @@ export default function AdminDashboard() {
                   <div className="flex items-center gap-4">
                     <div className="hidden sm:flex items-center gap-1.5 text-gray-500 text-xs">
                       <FontAwesomeIcon icon={faClock} className="text-gray-400" />
-                      {new Date(booking.booking_date).toLocaleDateString('en-US', {
+                      {new Date(booking.bookingDate).toLocaleDateString('en-US', {
                         month: 'short',
                         day: 'numeric',
                       })}

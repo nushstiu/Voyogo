@@ -33,7 +33,7 @@ export default function TourDetails() {
 
   const tour = MOCK_TOURS.find((t) => t.id === id) || null;
   const destination = tour
-    ? MOCK_DESTINATIONS.find((d) => d.id === tour.destination_id) || null
+    ? MOCK_DESTINATIONS.find((d) => d.id === tour.destinationId) || null
     : null;
 
   if (!tour) {
@@ -569,7 +569,7 @@ function ClassicTourLayout({ tour, destination }: { tour: Tour; destination: Des
                   {destination && (
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">{t('tourDetails.priceRange')}</span>
-                      <span className="font-semibold">{destination.price_range}</span>
+                      <span className="font-semibold">{destination.priceRange}</span>
                     </div>
                   )}
                 </div>

@@ -26,7 +26,7 @@ import toast from 'react-hot-toast';
 export default function AdminDestinations() {
   const { t } = useTranslation();
   const [destinations, setDestinations] = useState<Destination[]>([]);
-  const [tours, setTours] = useState<{ destination_id: number }[]>([]);
+  const [tours, setTours] = useState<{ destinationId: number }[]>([]);
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const { filters, setFilter, resetFilters, hasActiveFilters } = useFilters({ keys: ['search'] });
@@ -62,7 +62,7 @@ export default function AdminDestinations() {
   }, [fetchDestinations]);
 
   const tourCount = (destId: number) =>
-    tours.filter((t) => t.destination_id === destId).length;
+    tours.filter((t) => t.destinationId === destId).length;
 
   const handleDelete = async (dest: Destination) => {
     await destinationService.delete(dest.id);
@@ -149,7 +149,7 @@ export default function AdminDestinations() {
                       <div className="text-sm">
                         <span className="text-gray-400">{dest.packages} {t('destinations.packages')}</span>
                         <span className="mx-2 text-gray-400">|</span>
-                        <span className="text-blue-500 font-medium">{dest.price_range}</span>
+                        <span className="text-blue-500 font-medium">{dest.priceRange}</span>
                       </div>
                       <div className="flex gap-1">
                         <button
@@ -204,7 +204,7 @@ export default function AdminDestinations() {
                           </div>
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-500">{dest.packages}</td>
-                        <td className="px-6 py-4 text-sm text-blue-500 font-medium">{dest.price_range}</td>
+                        <td className="px-6 py-4 text-sm text-blue-500 font-medium">{dest.priceRange}</td>
                         <td className="px-6 py-4 text-sm text-gray-500">{tourCount(dest.id)}</td>
                         <td className="px-6 py-4">
                           <div className="flex items-center justify-end gap-1">
