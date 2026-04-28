@@ -22,8 +22,8 @@ const LABEL_KEYS: Record<string, string> = {
   cancelled: 'status.cancelled',
   active: 'status.active',
   inactive: 'status.inactive',
-  admin: 'roles.admin',
-  user: 'roles.user',
+  Admin: 'roles.admin',
+  User: 'roles.user',
 };
 
 export default function StatusBadge({ status, className = '' }: StatusBadgeProps) {

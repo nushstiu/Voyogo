@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../context/AuthContext';
 import { ROUTES } from '../constants';
+import { UserRole } from '../types';
 import Header from '../components/layout/Header';
 
 export default function Login() {
@@ -40,7 +41,7 @@ export default function Login() {
     if (redirectTo) {
       navigate(`/${redirectTo}`);
     } else {
-      navigate(user.role === 'admin' ? ROUTES.ADMIN_DASHBOARD : ROUTES.USER_DASHBOARD);
+      navigate(user.role === UserRole.Admin ? ROUTES.ADMIN_DASHBOARD : ROUTES.USER_DASHBOARD);
     }
   };
 

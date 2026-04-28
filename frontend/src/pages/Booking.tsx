@@ -16,7 +16,7 @@ import { useAuth } from '../context/AuthContext';
 import { ROUTES } from '../constants/routes';
 import { MOCK_DESTINATIONS } from '../data/destinations.data';
 import { tourService } from '../services/tour.service';
-import { TourStatus } from '../types';
+import { TourStatus, UserRole } from '../types';
 import type { Destination, Tour } from '../types';
 import type { BookingData, AvailableTour, DayItinerary } from '../types/booking';
 import Header from '../components/layout/Header';
@@ -250,7 +250,7 @@ export default function Booking() {
     const { user } = useAuth();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
-    const isAdmin = user?.role === 'admin';
+    const isAdmin = user?.role === UserRole.Admin;
 
     // Search panel state
     const [searchDestId, setSearchDestId] = useState('');
@@ -300,7 +300,7 @@ export default function Booking() {
                 const date = startingDate ? new Date(startingDate) : new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
                 const built = buildAvailableTour(rawTour, date);
                 setSelectedTour(built);
-                const destIdNum = destId ? parseInt(destId, 10) : rawTour.destination_id;
+                const destIdNum = destId ? parseInt(destId, 10) : rawTour.destinationId;
                 const dest = MOCK_DESTINATIONS.find(d => d.id === destIdNum) || null;
                 setSelectedDestination(dest);
                 setBookingData(prev => ({
@@ -325,7 +325,7 @@ export default function Booking() {
         setBookingData(prev => ({ ...prev, travelers, destinationId: destIdNum || undefined, destinationName: dest?.name }));
         const date = searchDate ? searchDate.toDate() : new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
         const toursPool = searchDestId
-            ? allTours.filter(t => t.destination_id === destIdNum && t.status === TourStatus.Active)
+            ? allTours.filter(t => t.destinationId === destIdNum && t.status === TourStatus.Active)
             : allTours.filter(t => t.status === TourStatus.Active);
         const totalNeeded = searchAdults + searchChildren;
         const results = toursPool.map(t => buildAvailableTour(t, date)).filter(r => r.availableSpots >= totalNeeded);

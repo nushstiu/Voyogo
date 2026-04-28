@@ -12,6 +12,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { ROUTES } from '../../constants';
 import { UI_TEXT } from '../../constants/text';
+import { UserRole } from '../../types';
 
 export default function ProfileDropdown() {
   const { user, logout } = useAuth();
@@ -36,7 +37,7 @@ export default function ProfileDropdown() {
     navigate(ROUTES.LOGIN);
   };
 
-  const isAdmin = user.role === 'admin';
+  const isAdmin = user.role === UserRole.Admin;
 
   return (
     <div ref={ref} className="relative">

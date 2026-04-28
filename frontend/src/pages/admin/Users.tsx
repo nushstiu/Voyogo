@@ -34,8 +34,8 @@ export default function AdminUsers() {
   const debouncedSearch = useDebounce(filters.search, 300);
 
   const ROLE_OPTIONS = [
-    { label: t('roles.admin'), value: 'admin' },
-    { label: t('roles.user'), value: 'user' },
+    { label: t('roles.admin'), value: 'Admin' },
+    { label: t('roles.user'), value: 'User' },
   ];
 
   const createModal = useModal<undefined>();
@@ -81,7 +81,7 @@ export default function AdminUsers() {
       u.phone || '',
       u.country || '',
       u.role,
-      new Date(u.created_at).toLocaleDateString(),
+      new Date(u.createdAt).toLocaleDateString(),
     ]);
     const csv = [headers, ...rows].map((r) => r.join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
@@ -177,7 +177,7 @@ export default function AdminUsers() {
                             <StatusBadge status={u.role} />
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-500">
-                            {new Date(u.created_at).toLocaleDateString()}
+                            {new Date(u.createdAt).toLocaleDateString()}
                           </td>
                           <td className="px-6 py-4">
                             <div className="flex items-center justify-end gap-1">

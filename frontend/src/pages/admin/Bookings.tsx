@@ -71,8 +71,8 @@ export default function AdminBookings() {
       }
       if (filters.status) filtered = filtered.filter(b => b.status === filters.status);
       if (filters.destination) filtered = filtered.filter(b => b.destination === filters.destination);
-      if (filters.fromDate) filtered = filtered.filter(b => b.booking_date >= filters.fromDate);
-      if (filters.toDate) filtered = filtered.filter(b => b.booking_date <= filters.toDate);
+      if (filters.fromDate) filtered = filtered.filter(b => b.bookingDate >= filters.fromDate);
+      if (filters.toDate) filtered = filtered.filter(b => b.bookingDate <= filters.toDate);
       setBookings(filtered);
       setDestinations(allDests);
     } catch {
@@ -129,8 +129,8 @@ export default function AdminBookings() {
       `${b.name} ${b.surname}`,
       b.email,
       b.destination,
-      b.tour_name || '',
-      b.booking_date,
+      b.tourName || '',
+      b.bookingDate,
       b.duration,
       b.status,
     ]);
@@ -294,8 +294,8 @@ export default function AdminBookings() {
                         </div>
                       </td>
                       <td className="px-6 py-4 text-sm text-text-secondary">{b.destination}</td>
-                      <td className="px-6 py-4 text-sm text-text-secondary">{b.tour_name || '—'}</td>
-                      <td className="px-6 py-4 text-sm text-text-secondary">{b.booking_date}</td>
+                      <td className="px-6 py-4 text-sm text-text-secondary">{b.tourName || '—'}</td>
+                      <td className="px-6 py-4 text-sm text-text-secondary">{b.bookingDate}</td>
                       <td className="px-6 py-4 text-sm text-text-secondary">{b.duration}</td>
                       <td className="px-6 py-4">
                         <StatusBadge status={b.status} />

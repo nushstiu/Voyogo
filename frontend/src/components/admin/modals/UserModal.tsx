@@ -15,7 +15,7 @@ const userSchema = z.object({
   email: z.email(UI_TEXT.ERROR_INVALID_EMAIL),
   phone: z.string().optional(),
   country: z.string().optional(),
-  role: z.enum(['admin', 'user']),
+  role: z.enum(['Admin', 'User']),
 });
 
 type UserFormData = z.infer<typeof userSchema>;
@@ -44,7 +44,7 @@ export default function UserModal({ isOpen, onClose, user, readOnly, onSaved }: 
       reset(
         user
           ? { username: user.username, email: user.email, phone: user.phone || '', country: user.country || '', role: user.role }
-          : { username: '', email: '', phone: '', country: '', role: 'user' }
+          : { username: '', email: '', phone: '', country: '', role: 'User' }
       );
     }
   }, [isOpen, user, reset]);
@@ -150,18 +150,18 @@ export default function UserModal({ isOpen, onClose, user, readOnly, onSaved }: 
               disabled={readOnly}
               className={readOnly ? 'bg-gray-200 cursor-not-allowed text-gray-500' : ''}
             >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
+              <option value="User">User</option>
+              <option value="Admin">Admin</option>
             </StyledSelect>
           </div>
 
           {readOnly && user && (
             <div className="space-y-2 pt-2 border-t border-gray-200">
               <p className="text-xs text-gray-500">
-                Joined: {new Date(user.created_at).toLocaleDateString()}
+                Joined: {new Date(user.createdAt).toLocaleDateString()}
               </p>
               <p className="text-xs text-gray-500">
-                Updated: {new Date(user.updated_at).toLocaleDateString()}
+                Updated: {new Date(user.updatedAt).toLocaleDateString()}
               </p>
             </div>
           )}
