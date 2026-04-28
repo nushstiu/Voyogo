@@ -5,6 +5,7 @@ import http from './_http';
 interface AuthResponse {
     user: User;
     token: string;
+    refreshToken: string;
 }
 
 export const createAuthService = (axiosInstance: AxiosInstance) => ({

@@ -1,9 +1,11 @@
+import axios from 'axios';
 import { createContext, useContext, useState, useEffect, useMemo, type ReactNode } from 'react';
 import { UI_TEXT } from '../constants/text';
 import { createAuthService } from '../services/auth.service';
 import { useAxios } from './AxiosContext';
 import type { User } from '../types';
 import toast from 'react-hot-toast';
+import { isTokenValid, getRoleFromToken, getUserIdFromToken } from '../utils/jwt';
 
 interface AuthContextType {
   user: User | null;
@@ -21,15 +23,47 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const [user, setUser] = useState<User | null>(() => {
     const stored = localStorage.getItem('voyogo_user');
-    return stored ? JSON.parse(stored) : null;
+    const token = localStorage.getItem('voyogo_token');
+
+    // Verificam daca tokenul este valid inainte de a restaura sesiunea
+    if (stored && token && isTokenValid(token)) {
+      return JSON.parse(stored) as User;
+    }
+
+    // Token expirat sau lipsa - curatam localStorage
+    localStorage.removeItem('voyogo_user');
+    localStorage.removeItem('voyogo_token');
+    localStorage.removeItem('voyogo_refresh_token');
+    return null;
   });
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const stored = localStorage.getItem('voyogo_user');
-    if (stored) {
-      setUser(JSON.parse(stored));
+    const token = localStorage.getItem('voyogo_token');
+
+    if (stored && token && isTokenValid(token)) {
+      const parsedUser = JSON.parse(stored) as User;
+
+      // Extragem informatii din token si le verificam cu datele stocate
+      const roleFromToken = getRoleFromToken(token);
+      const userIdFromToken = getUserIdFromToken(token);
+
+      if (roleFromToken && userIdFromToken && userIdFromToken === String(parsedUser.id)) {
+        setUser(parsedUser);
+      } else {
+        // Token nu corespunde cu userul stocat
+        localStorage.removeItem('voyogo_user');
+        localStorage.removeItem('voyogo_token');
+        localStorage.removeItem('voyogo_refresh_token');
+      }
+    } else {
+      localStorage.removeItem('voyogo_user');
+      localStorage.removeItem('voyogo_token');
+      localStorage.removeItem('voyogo_refresh_token');
     }
+
     setLoading(false);
   }, []);
 
@@ -37,9 +71,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     try {
       const response = await authService.login(email, password);
+
+      // Extragem si logam informatii din token pentru debugging
+      const roleFromToken = getRoleFromToken(response.token);
+      const userIdFromToken = getUserIdFromToken(response.token);
+      console.log('[JWT] userId din token:', userIdFromToken);
+      console.log('[JWT] rol din token:', roleFromToken);
+
       setUser(response.user);
       localStorage.setItem('voyogo_user', JSON.stringify(response.user));
       localStorage.setItem('voyogo_token', response.token);
+      localStorage.setItem('voyogo_refresh_token', response.refreshToken);
       toast.success(UI_TEXT.SUCCESS_LOGIN);
       return response.user;
     } catch {
@@ -54,9 +96,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     try {
       const response = await authService.register(username, email, password);
+
+      const roleFromToken = getRoleFromToken(response.token);
+      const userIdFromToken = getUserIdFromToken(response.token);
+      console.log('[JWT] userId din token:', userIdFromToken);
+      console.log('[JWT] rol din token:', roleFromToken);
+
       setUser(response.user);
       localStorage.setItem('voyogo_user', JSON.stringify(response.user));
       localStorage.setItem('voyogo_token', response.token);
+      localStorage.setItem('voyogo_refresh_token', response.refreshToken);
       toast.success(UI_TEXT.SUCCESS_REGISTER);
       return response.user;
     } catch (err) {
@@ -69,9 +118,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = () => {
+    const refreshToken = localStorage.getItem('voyogo_refresh_token');
+    if (refreshToken) {
+      axios.post('http://localhost:5068/api/auth/revoke', { refreshToken }).catch(() => {});
+    }
     setUser(null);
     localStorage.removeItem('voyogo_user');
     localStorage.removeItem('voyogo_token');
+    localStorage.removeItem('voyogo_refresh_token');
     toast.success(UI_TEXT.SUCCESS_LOGOUT);
   };
 

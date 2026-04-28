@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, type ReactNode } from 'react';
-import axios, { type AxiosInstance } from 'axios';
+import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../constants/routes';
@@ -32,38 +32,70 @@ export function AxiosProvider({ children }: { children: ReactNode }) {
 
         const interceptorId = axiosInstance.interceptors.response.use(
             (response) => response,
-            (error) => {
-                if (error.response) {
-                    const status = error.response.status;
+            async (error) => {
+                if (!error.response) {
+                    if (error.request) {
+                        toast.error('Serverul nu răspunde. Verifică conexiunea la internet.');
+                    } else {
+                        toast.error('A apărut o eroare neașteptată.');
+                    }
+                    return Promise.reject(error);
+                }
 
-                    switch (status) {
-                        case 400:
-                            toast.error(
-                                error.response.data?.message || 'Date invalide. Verifică informațiile introduse.'
-                            );
-                            break;
-                        case 401:
+                const status = error.response.status;
+                const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
+
+                if (status === 401 && !originalRequest._retry) {
+                    originalRequest._retry = true;
+                    const refreshToken = localStorage.getItem('voyogo_refresh_token');
+
+                    if (refreshToken) {
+                        try {
+                            const res = await axios.post('http://localhost:5068/api/auth/refresh', { refreshToken });
+                            const { token, refreshToken: newRefresh } = res.data;
+                            localStorage.setItem('voyogo_token', token);
+                            localStorage.setItem('voyogo_refresh_token', newRefresh);
+                            if (originalRequest.headers) {
+                                originalRequest.headers.Authorization = `Bearer ${token}`;
+                            }
+                            return axiosInstance(originalRequest);
+                        } catch {
+                            localStorage.removeItem('voyogo_token');
+                            localStorage.removeItem('voyogo_refresh_token');
                             localStorage.removeItem('voyogo_user');
                             toast.error('Sesiunea a expirat. Te rugăm să te autentifici din nou.');
                             navigate(ROUTES.LOGIN);
-                            break;
-                        case 403:
-                            toast.error('Acces interzis. Nu ai permisiunea necesară.');
-                            break;
-                        case 404:
-                            toast.error('Resursa nu a fost găsită.');
-                            break;
-                        case 500:
-                            toast.error('Eroare de server. Încearcă din nou mai târziu.');
-                            break;
-                        default:
-                            toast.error('A apărut o eroare neașteptată. Încearcă din nou.');
-                            break;
+                            return Promise.reject(error);
+                        }
+                    } else {
+                        localStorage.removeItem('voyogo_token');
+                        localStorage.removeItem('voyogo_user');
+                        toast.error('Sesiunea a expirat. Te rugăm să te autentifici din nou.');
+                        navigate(ROUTES.LOGIN);
+                        return Promise.reject(error);
                     }
-                } else if (error.request) {
-                    toast.error('Serverul nu răspunde. Verifică conexiunea la internet.');
-                } else {
-                    toast.error('A apărut o eroare neașteptată.');
+                }
+
+                switch (status) {
+                    case 400:
+                        toast.error(
+                            error.response.data?.message || 'Date invalide. Verifică informațiile introduse.'
+                        );
+                        break;
+                    case 403:
+                        navigate(ROUTES.FORBIDDEN);
+                        break;
+                    case 404:
+                        toast.error('Resursa nu a fost găsită.');
+                        break;
+                    case 500:
+                        toast.error('Eroare de server. Încearcă din nou mai târziu.');
+                        break;
+                    default:
+                        if (status !== 401) {
+                            toast.error('A apărut o eroare neașteptată. Încearcă din nou.');
+                        }
+                        break;
                 }
 
                 return Promise.reject(error);
