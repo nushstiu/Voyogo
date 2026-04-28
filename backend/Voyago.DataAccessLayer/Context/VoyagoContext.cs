@@ -1,9 +1,6 @@
-using System.Security.Cryptography;
-using System.Text;
 using Microsoft.EntityFrameworkCore;
-using Voyago.Domain.Constants;
-using Voyago.Domain.Entities;
 using Voyago.Domain.Enums;
+using Voyago.Domain.Entities;
 
 namespace Voyago.DataAccessLayer.Context;
 
@@ -13,6 +10,7 @@ public class VoyagoContext : DbContext
     public DbSet<Destination> Destinations => Set<Destination>();
     public DbSet<Tour> Tours => Set<Tour>();
     public DbSet<Booking> Bookings => Set<Booking>();
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -33,6 +31,12 @@ public class VoyagoContext : DbContext
             .HasForeignKey(b => b.TourId)
             .OnDelete(DeleteBehavior.SetNull);
 
+        modelBuilder.Entity<RefreshToken>()
+            .HasOne(rt => rt.User)
+            .WithMany()
+            .HasForeignKey(rt => rt.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         var seed = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         modelBuilder.Entity<Destination>().HasData(
@@ -49,25 +53,7 @@ public class VoyagoContext : DbContext
             new Tour { Id = 5, Location = "New York, USA", Name = "NYC Manhattan Rush", Price = "$999", Days = "5 days", Description = "Five days covering Times Square, Central Park, and the Brooklyn Bridge.", Image = "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=800", DestinationId = 3, Status = TourStatus.Active, CreatedAt = seed }
         );
 
-        var adminHash = HashPassword("admin123");
-        var userHash = HashPassword("user123");
-
-        modelBuilder.Entity<User>().HasData(
-            new User { Id = 1, Username = "admin", Email = "admin@voyago.com", PasswordHash = adminHash, Phone = "+40712345678", Country = "Romania", Role = Roles.Admin, CreatedAt = seed, UpdatedAt = seed },
-            new User { Id = 2, Username = "testuser", Email = "user@voyago.com", PasswordHash = userHash, Role = Roles.User, CreatedAt = seed, UpdatedAt = seed }
-        );
-
-        modelBuilder.Entity<Booking>().HasData(
-            new Booking { Id = 1, UserId = 2, Name = "Ion", Surname = "Popescu", Email = "user@voyago.com", Phone = "+40722000001", Destination = "Paris", TourId = 1, BookingDate = new DateTime(2024, 6, 1, 0, 0, 0, DateTimeKind.Utc), Duration = "7 days", Status = "confirmed", CreatedAt = seed },
-            new Booking { Id = 2, UserId = 2, Name = "Ion", Surname = "Popescu", Email = "user@voyago.com", Phone = "+40722000001", Destination = "Tokyo", TourId = 3, BookingDate = new DateTime(2024, 9, 15, 0, 0, 0, DateTimeKind.Utc), Duration = "8 days", Status = "pending", CreatedAt = seed },
-            new Booking { Id = 3, UserId = 1, Name = "Admin", Surname = "Voyago", Email = "admin@voyago.com", Phone = "+40712345678", Destination = "New York", TourId = 5, BookingDate = new DateTime(2024, 12, 20, 0, 0, 0, DateTimeKind.Utc), Duration = "5 days", Status = "confirmed", CreatedAt = seed }
-        );
-    }
-
-    private static string HashPassword(string password)
-    {
-        using var sha = SHA256.Create();
-        var bytes = Encoding.UTF8.GetBytes(password);
-        return Convert.ToHexString(sha.ComputeHash(bytes)).ToLower();
+        // Utilizatorii si rezervarile sunt seed-ate la startup prin Program.cs
+        // (BCrypt este non-determinist, nu poate fi folosit in migrari EF Core)
     }
 }
