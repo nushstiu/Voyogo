@@ -4,7 +4,11 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Voyago.BusinessLayer;
+using Voyago.BusinessLayer.Core;
 using Voyago.DataAccessLayer;
+using Voyago.DataAccessLayer.Context;
+using Voyago.Domain.Constants;
+using Voyago.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,12 +49,9 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// JSON Serialization Options
+
 builder.Services.AddControllers().AddJsonOptions(options =>
-{
-    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
-    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.SnakeCaseLower));
-});
+{ });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -82,6 +83,9 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
+// Seed utilizatori si rezervari la startup (BCrypt - nu poate fi in migrari EF)
+SeedDatabase();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -95,3 +99,72 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void SeedDatabase()
+{
+    using var db = new VoyagoContext();
+    if (db.Users.Any()) return;
+
+    var seedDate = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+    // Seed utilizatori cu parole hashate BCrypt
+    var admin = new User
+    {
+        Username = "admin",
+        Email = "admin@voyago.com",
+        PasswordHash = AuthActions.HashPassword("admin123"),
+        Phone = "+40712345678",
+        Country = "Romania",
+        Role = Roles.Admin,
+        CreatedAt = seedDate,
+        UpdatedAt = seedDate
+    };
+
+    var testUser = new User
+    {
+        Username = "testuser",
+        Email = "user@voyago.com",
+        PasswordHash = AuthActions.HashPassword("user123"),
+        Role = Roles.User,
+        CreatedAt = seedDate,
+        UpdatedAt = seedDate
+    };
+
+    db.Users.AddRange(admin, testUser);
+    db.SaveChanges();
+
+    // Seed rezervari de test
+    db.Bookings.AddRange(
+        new Booking
+        {
+            UserId = testUser.Id,
+            Name = "Ion", Surname = "Popescu",
+            Email = "user@voyago.com", Phone = "+40722000001",
+            Destination = "Paris", TourId = 1,
+            BookingDate = new DateTime(2024, 6, 1, 0, 0, 0, DateTimeKind.Utc),
+            Duration = "7 days", Status = "confirmed",
+            CreatedAt = seedDate
+        },
+        new Booking
+        {
+            UserId = testUser.Id,
+            Name = "Ion", Surname = "Popescu",
+            Email = "user@voyago.com", Phone = "+40722000001",
+            Destination = "Tokyo", TourId = 3,
+            BookingDate = new DateTime(2024, 9, 15, 0, 0, 0, DateTimeKind.Utc),
+            Duration = "8 days", Status = "pending",
+            CreatedAt = seedDate
+        },
+        new Booking
+        {
+            UserId = admin.Id,
+            Name = "Admin", Surname = "Voyago",
+            Email = "admin@voyago.com", Phone = "+40712345678",
+            Destination = "New York", TourId = 5,
+            BookingDate = new DateTime(2024, 12, 20, 0, 0, 0, DateTimeKind.Utc),
+            Duration = "5 days", Status = "confirmed",
+            CreatedAt = seedDate
+        }
+    );
+    db.SaveChanges();
+}

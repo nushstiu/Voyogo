@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Voyago.BusinessLayer;
 using Voyago.Domain.Dtos;
@@ -49,6 +50,43 @@ public class AuthController : ControllerBase
         catch (Exception ex)
         {
             return StatusCode(500, "Eroare la inregistrare: " + ex.Message);
+        }
+    }
+
+    [HttpPost("refresh")]
+    [AllowAnonymous]
+    public IActionResult Refresh([FromBody] RefreshRequestDto dto)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(dto?.RefreshToken))
+                return BadRequest("Token de reimprospatare lipsa.");
+
+            var response = _bl.AuthAction().Refresh(dto.RefreshToken);
+            if (response == null) return Unauthorized("Token invalid sau expirat.");
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la reimprospatarea tokenului: " + ex.Message);
+        }
+    }
+
+    [HttpPost("revoke")]
+    [Authorize]
+    public IActionResult Revoke([FromBody] RefreshRequestDto dto)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(dto?.RefreshToken))
+                return BadRequest("Token de reimprospatare lipsa.");
+
+            _bl.AuthAction().Revoke(dto.RefreshToken);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la revocarea tokenului: " + ex.Message);
         }
     }
 }

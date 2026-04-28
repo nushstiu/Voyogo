@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Voyago.BusinessLayer;
@@ -16,6 +17,26 @@ public class UserController : ControllerBase
     public UserController(BusinessLogic bl)
     {
         _bl = bl;
+    }
+
+    [HttpGet("me")]
+    [Authorize(Roles = $"{Roles.User},{Roles.Admin}")]
+    public IActionResult GetMe()
+    {
+        try
+        {
+            var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userIdStr == null || !int.TryParse(userIdStr, out int userId))
+                return Unauthorized("Token invalid.");
+
+            var user = _bl.UserAction().GetById(userId);
+            if (user == null) return NotFound("Utilizatorul nu a fost gasit.");
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea utilizatorului curent: " + ex.Message);
+        }
     }
 
     [HttpGet]
