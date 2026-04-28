@@ -9,6 +9,8 @@ public class AuthAction : AuthActions, IAuthAction
 {
     public AuthAction(IConfiguration configuration) : base(configuration) { }
 
-    public AuthResponse? Login(UserLoginDto dto) => ExecuteLogin(dto);
-    public AuthResponse? Register(UserRegisterDto dto) => ExecuteRegister(dto);
+    public AuthResponse? Login(UserLoginDto dto)             => ExecuteLogin(dto);
+    public AuthResponse? Register(UserRegisterDto dto)       => ExecuteRegister(dto);
+    public AuthResponse? Refresh(string refreshToken)        => ExecuteRefresh(refreshToken);
+    public void Revoke(string refreshToken)                  => ExecuteRevoke(refreshToken);
 }

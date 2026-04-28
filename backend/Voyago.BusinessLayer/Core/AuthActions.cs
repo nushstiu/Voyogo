@@ -23,11 +23,18 @@ public abstract class AuthActions
     internal AuthResponse? ExecuteLogin(UserLoginDto dto)
     {
         using var db = new VoyagoContext();
-        var hash = HashPassword(dto.Password);
-        var user = db.Users.FirstOrDefault(u => u.Email == dto.Email && u.PasswordHash == hash);
+        var user = db.Users.FirstOrDefault(u => u.Email == dto.Email);
         if (user == null) return null;
 
-        return new AuthResponse { User = MapToDto(user), Token = GenerateJwtToken(user) };
+        if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.PasswordHash))
+            return null;
+
+        return new AuthResponse
+        {
+            User = MapToDto(user),
+            Token = GenerateJwtToken(user),
+            RefreshToken = GenerateAndStoreRefreshToken(user.Id)
+        };
     }
 
     internal AuthResponse? ExecuteRegister(UserRegisterDto dto)
@@ -56,7 +63,61 @@ public abstract class AuthActions
         db.Users.Add(user);
         db.SaveChanges();
 
-        return new AuthResponse { User = MapToDto(user), Token = GenerateJwtToken(user) };
+        return new AuthResponse
+        {
+            User = MapToDto(user),
+            Token = GenerateJwtToken(user),
+            RefreshToken = GenerateAndStoreRefreshToken(user.Id)
+        };
+    }
+
+    internal AuthResponse? ExecuteRefresh(string refreshToken)
+    {
+        using var db = new VoyagoContext();
+        var rt = db.RefreshTokens.FirstOrDefault(r => r.Token == refreshToken);
+
+        if (rt == null || rt.IsRevoked || rt.ExpiresAt <= DateTime.UtcNow)
+            return null;
+
+        var user = db.Users.FirstOrDefault(u => u.Id == rt.UserId);
+        if (user == null) return null;
+
+        rt.IsRevoked = true;
+        db.SaveChanges();
+
+        return new AuthResponse
+        {
+            User = MapToDto(user),
+            Token = GenerateJwtToken(user),
+            RefreshToken = GenerateAndStoreRefreshToken(user.Id)
+        };
+    }
+
+    internal void ExecuteRevoke(string refreshToken)
+    {
+        using var db = new VoyagoContext();
+        var rt = db.RefreshTokens.FirstOrDefault(r => r.Token == refreshToken);
+        if (rt == null) return;
+        rt.IsRevoked = true;
+        db.SaveChanges();
+    }
+
+    private string GenerateAndStoreRefreshToken(int userId)
+    {
+        using var db = new VoyagoContext();
+        var tokenBytes = RandomNumberGenerator.GetBytes(64);
+        var token = Convert.ToBase64String(tokenBytes);
+
+        db.RefreshTokens.Add(new RefreshToken
+        {
+            Token = token,
+            UserId = userId,
+            ExpiresAt = DateTime.UtcNow.AddDays(7),
+            CreatedAt = DateTime.UtcNow,
+            IsRevoked = false
+        });
+        db.SaveChanges();
+        return token;
     }
 
     private string GenerateJwtToken(User user)
@@ -84,12 +145,8 @@ public abstract class AuthActions
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    internal static string HashPassword(string password)
-    {
-        using var sha = SHA256.Create();
-        var bytes = Encoding.UTF8.GetBytes(password);
-        return Convert.ToHexString(sha.ComputeHash(bytes)).ToLower();
-    }
+    public static string HashPassword(string password)
+        => BCrypt.Net.BCrypt.HashPassword(password, workFactor: 10);
 
     internal static UserDto MapToDto(User user) => new()
     {
