@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Voyago.DataAccessLayer.Context;
 
@@ -11,9 +12,11 @@ using Voyago.DataAccessLayer.Context;
 namespace Voyago.DataAccessLayer.Migrations
 {
     [DbContext(typeof(VoyagoContext))]
-    partial class VoyagoContextModelSnapshot : ModelSnapshot
+    [Migration("20260422115634_SwitchToBCrypt")]
+    partial class SwitchToBCrypt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,37 +167,6 @@ namespace Voyago.DataAccessLayer.Migrations
                             Packages = 10,
                             PriceRange = "$900 - $2800"
                         });
-                });
-
-            modelBuilder.Entity("Voyago.Domain.Entities.RefreshToken", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsRevoked")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("Voyago.Domain.Entities.Tour", b =>
@@ -396,17 +368,6 @@ namespace Voyago.DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Tour");
-                });
-
-            modelBuilder.Entity("Voyago.Domain.Entities.RefreshToken", b =>
-                {
-                    b.HasOne("Voyago.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Voyago.Domain.Entities.Tour", b =>

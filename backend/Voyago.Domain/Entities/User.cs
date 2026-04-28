@@ -17,7 +17,7 @@ public class User
     public string Email { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Parola este obligatorie.")]
-    [StringLength(64, MinimumLength = 64, ErrorMessage = "PasswordHash trebuie sa aiba exact 64 de caractere.")]
+    [MaxLength(64)]
     public string PasswordHash { get; set; } = string.Empty;
 
     [StringLength(20, MinimumLength = 7, ErrorMessage = "Numarul de telefon trebuie sa aiba intre 7 si 20 de caractere.")]
