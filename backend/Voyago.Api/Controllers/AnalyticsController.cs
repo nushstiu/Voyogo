@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Voyago.DataAccessLayer.Context;
 using Voyago.Domain.Enums;
 
@@ -9,9 +8,21 @@ namespace Voyago.Api.Controllers;
 [Route("api/analytics")]
 public class AnalyticsController : ControllerBase
 {
+    // Verifica daca requestul vine de la un admin (prin header X-User-Role)
+    private bool IsAdmin()
+    {
+        var role = Request.Headers["X-User-Role"].FirstOrDefault();
+        return string.Equals(role, "Admin", StringComparison.OrdinalIgnoreCase) ||
+               string.Equals(role, "30", StringComparison.OrdinalIgnoreCase);
+    }
+
     [HttpGet("overview")]
     public IActionResult GetOverview()
     {
+        var userId = Request.Headers["X-User-Id"].FirstOrDefault();
+        if (string.IsNullOrWhiteSpace(userId)) return Unauthorized(new { message = "Missing X-User-Id header." });
+        if (!IsAdmin()) return StatusCode(403, new { message = "Admin access required." });
+
         using var db = new VoyagoContext();
 
         var totalUsers = db.Users.Count();
@@ -39,6 +50,10 @@ public class AnalyticsController : ControllerBase
     [HttpGet("bookings/trends")]
     public IActionResult GetBookingTrends()
     {
+        var userId = Request.Headers["X-User-Id"].FirstOrDefault();
+        if (string.IsNullOrWhiteSpace(userId)) return Unauthorized(new { message = "Missing X-User-Id header." });
+        if (!IsAdmin()) return StatusCode(403, new { message = "Admin access required." });
+
         using var db = new VoyagoContext();
 
         var result = db.Bookings
@@ -59,6 +74,10 @@ public class AnalyticsController : ControllerBase
     [HttpGet("destinations/popular")]
     public IActionResult GetPopularDestinations()
     {
+        var userId = Request.Headers["X-User-Id"].FirstOrDefault();
+        if (string.IsNullOrWhiteSpace(userId)) return Unauthorized(new { message = "Missing X-User-Id header." });
+        if (!IsAdmin()) return StatusCode(403, new { message = "Admin access required." });
+
         using var db = new VoyagoContext();
 
         var result = db.Bookings
@@ -78,6 +97,10 @@ public class AnalyticsController : ControllerBase
     [HttpGet("revenue")]
     public IActionResult GetRevenueByDestination()
     {
+        var userId = Request.Headers["X-User-Id"].FirstOrDefault();
+        if (string.IsNullOrWhiteSpace(userId)) return Unauthorized(new { message = "Missing X-User-Id header." });
+        if (!IsAdmin()) return StatusCode(403, new { message = "Admin access required." });
+
         using var db = new VoyagoContext();
 
         var result = db.Bookings
@@ -107,14 +130,14 @@ public class AnalyticsController : ControllerBase
     [HttpGet("bookings/status")]
     public IActionResult GetBookingStatusDistribution()
     {
+        var userId = Request.Headers["X-User-Id"].FirstOrDefault();
+        if (string.IsNullOrWhiteSpace(userId)) return Unauthorized(new { message = "Missing X-User-Id header." });
+        if (!IsAdmin()) return StatusCode(403, new { message = "Admin access required." });
+
         using var db = new VoyagoContext();
 
         var total = db.Bookings.Count();
-
-        if (total == 0)
-        {
-            return Ok(new List<object>());
-        }
+        if (total == 0) return Ok(new List<object>());
 
         var result = db.Bookings
             .AsEnumerable()
@@ -133,11 +156,8 @@ public class AnalyticsController : ControllerBase
 
     private static decimal ParsePrice(string price)
     {
-        if (string.IsNullOrWhiteSpace(price))
-            return 0;
-
+        if (string.IsNullOrWhiteSpace(price)) return 0;
         var cleaned = price.Replace("$", "").Replace(",", "").Trim();
-
         return decimal.TryParse(cleaned, out var value) ? value : 0;
     }
 }
