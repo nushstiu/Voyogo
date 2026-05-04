@@ -41,6 +41,31 @@ public abstract class AuthActions
         return new AuthResponse { User = MapToDto(user), Token = Guid.NewGuid().ToString() };
     }
 
+    internal bool ExecuteChangePassword(Guid userId, ChangePasswordDto dto)
+    {
+        using var db = new VoyagoContext();
+        var user = db.Users.FirstOrDefault(u => u.Id == userId);
+        if (user == null) return false;
+
+        var currentHash = HashPassword(dto.CurrentPassword);
+        if (user.PasswordHash != currentHash) return false;
+
+        user.PasswordHash = HashPassword(dto.NewPassword);
+        user.UpdatedAt = DateTime.UtcNow;
+        db.SaveChanges();
+
+        return true;
+    }
+
+    internal UserDto? ExecuteGetMe(Guid userId)
+    {
+        using var db = new VoyagoContext();
+        var user = db.Users.FirstOrDefault(u => u.Id == userId);
+        if (user == null) return null;
+
+        return MapToDto(user);
+    }
+
     internal static string HashPassword(string password)
     {
         using var sha = SHA256.Create();
