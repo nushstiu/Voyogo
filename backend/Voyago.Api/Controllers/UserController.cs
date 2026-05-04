@@ -42,4 +42,11 @@ public class UserController : ControllerBase
         if (!_action.Delete(id)) return NotFound();
         return NoContent();
     }
+    [HttpPost("{id}/avatar")]
+    public IActionResult UpdateAvatar(Guid id, [FromBody] string avatarUrl)
+    {
+        var result = _action.UpdateAvatar(id, avatarUrl);
+        if (result == null) return NotFound();
+        return Ok(result);
+    }
 }

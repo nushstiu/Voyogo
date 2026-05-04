@@ -10,4 +10,5 @@ public class UserAction : UserActions, IUserAction
     public UserDto? GetById(Guid id) => ExecuteGetById(id);
     public UserDto? Update(Guid id, UserDto dto) => ExecuteUpdate(id, dto);
     public bool Delete(Guid id) => ExecuteDelete(id);
+    public UserDto? UpdateAvatar(Guid id, string avatarUrl) => ExecuteUpdateAvatar(id, avatarUrl);
 }

@@ -8,4 +8,5 @@ public interface IUserAction
     UserDto? GetById(Guid id);
     UserDto? Update(Guid id, UserDto dto);
     bool Delete(Guid id);
+    UserDto? UpdateAvatar(Guid id, string avatarUrl);
 }
