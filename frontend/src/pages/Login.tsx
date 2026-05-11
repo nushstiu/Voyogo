@@ -56,8 +56,12 @@ export default function Login() {
   };
 
   const handleDemoLogin = async (demoEmail: string) => {
+    const demoPasswords: Record<string, string> = {
+      'admin@voyago.com': 'admin123',
+      'user@voyago.com': 'user123',
+    };
     try {
-      await doLogin(demoEmail, 'demo123');
+      await doLogin(demoEmail, demoPasswords[demoEmail] || 'user123');
     } catch {
       // handled in AuthContext
     }
@@ -163,14 +167,14 @@ export default function Login() {
                 </p>
                 <div className="flex gap-3">
                   <button
-                    onClick={() => handleDemoLogin('iulia@example.com')}
+                    onClick={() => handleDemoLogin('user@voyago.com')}
                     disabled={loading}
                     className="flex-1 text-sm py-2.5 px-3 border border-gray-200 rounded-lg hover:border-cyan-400 hover:text-cyan-400 transition-colors font-medium disabled:opacity-50"
                   >
                     {t('auth.userLogin')}
                   </button>
                   <button
-                    onClick={() => handleDemoLogin('admin@voyogo.com')}
+                    onClick={() => handleDemoLogin('admin@voyago.com')}
                     disabled={loading}
                     className="flex-1 text-sm py-2.5 px-3 border border-gray-200 rounded-lg hover:border-blue-500 hover:text-blue-500 transition-colors font-medium disabled:opacity-50"
                   >

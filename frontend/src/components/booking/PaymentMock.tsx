@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { CreditCard, Loader } from 'lucide-react';
 import type { BookingData, AvailableTour } from '../../types/booking';
+import { useAuth } from '../../context/AuthContext';
+import { bookingService } from '../../services/booking.service';
 
 interface Props {
     bookingData: BookingData;
@@ -57,6 +59,7 @@ function validateCard(number: string, name: string, expiry: string, cvv: string,
 }
 
 export default function PaymentMock({ bookingData, setBookingData, selectedTour, onNext, onBack }: Props) {
+    const { user } = useAuth();
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('card');
     const [isProcessing, setIsProcessing] = useState(false);
     const [processingStep, setProcessingStep] = useState('');
@@ -95,6 +98,29 @@ export default function PaymentMock({ bookingData, setBookingData, selectedTour,
 
         const bookingRef = `VYG-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
         setBookingData({ ...bookingData, bookingReference: bookingRef, paymentStatus: 'completed' });
+
+        // Salvam booking-ul in baza de date
+        if (user && selectedTour) {
+            const firstPassenger = bookingData.passengers?.[0];
+            try {
+                await bookingService.create({
+                    userId: user.id as unknown as string,
+                    name: firstPassenger?.firstName || user.username,
+                    surname: firstPassenger?.lastName || '',
+                    email: user.email,
+                    phone: user.phone || '+40700000000',
+                    destination: bookingData.destinationName || selectedTour.destinationName,
+                    tourId: selectedTour.tourId as unknown as string,
+                    bookingDate: bookingData.startDate?.toISOString() || new Date().toISOString(),
+                    duration: `${bookingData.duration} days`,
+                    status: 'pending',
+                    notes: bookingData.preferences?.specialRequests,
+                });
+            } catch {
+                // Nu blocam fluxul daca salvarea esueaza
+            }
+        }
+
         setIsProcessing(false);
         onNext();
     };

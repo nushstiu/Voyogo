@@ -9,6 +9,7 @@ import StyledSelect from '../../common/StyledSelect';
 import { bookingService } from '../../../services/booking.service';
 import { destinationService } from '../../../services/destination.service';
 import { tourService } from '../../../services/tour.service';
+import { useAuth } from '../../../context/AuthContext';
 import type { Destination, Tour } from '../../../types';
 import type { Booking } from '../../../types';
 import toast from 'react-hot-toast';
@@ -39,6 +40,7 @@ interface BookingModalProps {
 const DURATION_OPTIONS = ['1-2 Days', '3-5 Days', '5-7 Days', '7-14 Days', '14+ Days'];
 
 export default function BookingModal({ isOpen, onClose, booking, onSaved }: BookingModalProps) {
+  const { user } = useAuth();
   const overlayRef = useRef<HTMLDivElement>(null);
   const [selectedDest, setSelectedDest] = useState('');
   const [destinations, setDestinations] = useState<Destination[]>([]);
@@ -123,7 +125,7 @@ export default function BookingModal({ isOpen, onClose, booking, onSaved }: Book
         await bookingService.update(booking.id, data);
         toast.success(UI_TEXT.SUCCESS_BOOKING_UPDATED);
       } else {
-        await bookingService.create({ ...data, userId: 'admin-created' });
+        await bookingService.create({ ...data, userId: user?.id as unknown as string });
         toast.success(UI_TEXT.SUCCESS_BOOKING_CREATED);
       }
       onSaved();
