@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { UI_TEXT } from '../../../constants';
+import StyledSelect from '../../common/StyledSelect';
 import type { Tour, Destination } from '../../../types';
 import { tourService } from '../../../services/tour.service';
 import toast from 'react-hot-toast';
@@ -16,7 +17,7 @@ const tourSchema = z.object({
   days: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
   description: z.string().min(10, 'Description must be at least 10 characters'),
   image: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
-  destination_id: z.coerce.number().min(1, UI_TEXT.ERROR_REQUIRED),
+  destinationId: z.coerce.number().min(1, UI_TEXT.ERROR_REQUIRED),
   status: z.enum(['active', 'inactive']),
 });
 
@@ -52,7 +53,7 @@ export default function TourModal({ isOpen, onClose, tour, destinations, onSaved
               days: tour.days,
               description: tour.description,
               image: tour.image,
-              destination_id: tour.destination_id,
+              destinationId: tour.destinationId,
               status: tour.status,
             }
           : {
@@ -62,7 +63,7 @@ export default function TourModal({ isOpen, onClose, tour, destinations, onSaved
               days: '',
               description: '',
               image: '',
-              destination_id: 0,
+              destinationId: 0,
               status: 'active',
             }
       );
@@ -138,19 +139,16 @@ export default function TourModal({ isOpen, onClose, tour, destinations, onSaved
               <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
                 Destination <span className="text-blue-500">*</span>
               </label>
-              <select
-                {...register('destination_id')}
-                className="p-4 rounded bg-gray-100 outline-none w-full"
-              >
+              <StyledSelect {...register('destinationId')}>
                 <option value={0}>Select destination</option>
                 {destinations.map((d) => (
                   <option key={d.id} value={d.id}>
                     {d.name}
                   </option>
                 ))}
-              </select>
-              {errors.destination_id && (
-                <p className="text-red-500 text-sm mt-1">{errors.destination_id.message}</p>
+              </StyledSelect>
+              {errors.destinationId && (
+                <p className="text-red-500 text-sm mt-1">{errors.destinationId.message}</p>
               )}
             </div>
           </div>
@@ -211,10 +209,10 @@ export default function TourModal({ isOpen, onClose, tour, destinations, onSaved
             <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
               Status <span className="text-blue-500">*</span>
             </label>
-            <select {...register('status')} className="p-4 rounded bg-gray-100 outline-none w-full">
+            <StyledSelect {...register('status')}>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
-            </select>
+            </StyledSelect>
           </div>
 
           <div className="p-6 border-t border-gray-200 flex justify-end gap-3 -mx-6 -mb-6 mt-6">
@@ -228,7 +226,7 @@ export default function TourModal({ isOpen, onClose, tour, destinations, onSaved
             <button
               type="submit"
               disabled={isSubmitting}
-              className="bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors px-6 py-3 disabled:opacity-50"
+              className="bg-primary hover:bg-primary-hover text-white rounded-lg font-semibold transition-colors px-6 py-3 disabled:opacity-50"
             >
               {isSubmitting
                 ? UI_TEXT.LOADING

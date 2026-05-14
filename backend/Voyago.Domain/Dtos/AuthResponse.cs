@@ -1,7 +1,8 @@
-namespace Voyago.BusinessLayer.Dtos;
+namespace Voyago.Domain.Dtos;
 
 public class AuthResponse
 {
     public UserDto User { get; set; } = new();
     public string Token { get; set; } = string.Empty;
+    public string RefreshToken { get; set; } = string.Empty;
 }

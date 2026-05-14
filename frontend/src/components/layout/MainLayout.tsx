@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { UserRole } from '../../types';
 import Header from './Header';
 import Footer from './Footer';
 import Sidemenu from './Sidemenu';
@@ -12,7 +13,7 @@ interface MainLayoutProps {
 
 export default function MainLayout({ children, transparent = false, showSidemenu }: MainLayoutProps) {
   const { user } = useAuth();
-  const isAdmin = user?.role === 'admin';
+  const isAdmin = user?.role === UserRole.Admin;
   const displaySidemenu = showSidemenu !== undefined ? showSidemenu : isAdmin;
 
   return (

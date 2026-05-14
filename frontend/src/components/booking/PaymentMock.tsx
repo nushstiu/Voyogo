@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { CreditCard, Loader } from 'lucide-react';
 import type { BookingData, AvailableTour } from '../../types/booking';
+import { useAuth } from '../../context/AuthContext';
+import { bookingService } from '../../services/booking.service';
 
 interface Props {
     bookingData: BookingData;
@@ -57,6 +59,7 @@ function validateCard(number: string, name: string, expiry: string, cvv: string,
 }
 
 export default function PaymentMock({ bookingData, setBookingData, selectedTour, onNext, onBack }: Props) {
+    const { user } = useAuth();
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('card');
     const [isProcessing, setIsProcessing] = useState(false);
     const [processingStep, setProcessingStep] = useState('');
@@ -95,6 +98,29 @@ export default function PaymentMock({ bookingData, setBookingData, selectedTour,
 
         const bookingRef = `VYG-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
         setBookingData({ ...bookingData, bookingReference: bookingRef, paymentStatus: 'completed' });
+
+        // Salvam booking-ul in baza de date
+        if (user && selectedTour) {
+            const firstPassenger = bookingData.passengers?.[0];
+            try {
+                await bookingService.create({
+                    userId: user.id as unknown as string,
+                    name: firstPassenger?.firstName || user.username,
+                    surname: firstPassenger?.lastName || '',
+                    email: user.email,
+                    phone: user.phone || '+40700000000',
+                    destination: bookingData.destinationName || selectedTour.destinationName,
+                    tourId: selectedTour.tourId as unknown as string,
+                    bookingDate: bookingData.startDate?.toISOString() || new Date().toISOString(),
+                    duration: `${bookingData.duration} days`,
+                    status: 'pending',
+                    notes: bookingData.preferences?.specialRequests,
+                });
+            } catch {
+                // Nu blocam fluxul daca salvarea esueaza
+            }
+        }
+
         setIsProcessing(false);
         onNext();
     };
@@ -216,7 +242,7 @@ export default function PaymentMock({ bookingData, setBookingData, selectedTour,
                                 placeholder="1234 5678 9012 3456"
                                 value={cardDetails.number}
                                 onChange={(e) => handleCardNumberChange(e.target.value)}
-                                className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500 font-mono tracking-wider ${cardErrors.number ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}
+                                className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-primary font-mono tracking-wider ${cardErrors.number ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}
                                 maxLength={19}
                                 inputMode="numeric"
                             />
@@ -238,7 +264,7 @@ export default function PaymentMock({ bookingData, setBookingData, selectedTour,
                                         setCardErrors(errs);
                                     }
                                 }}
-                                className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500 uppercase ${cardErrors.name ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}
+                                className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-primary uppercase ${cardErrors.name ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}
                             />
                             {cardErrors.name && <p className="text-xs text-red-500 mt-1">{cardErrors.name}</p>}
                         </div>
@@ -253,7 +279,7 @@ export default function PaymentMock({ bookingData, setBookingData, selectedTour,
                                     placeholder="MM/AA"
                                     value={cardDetails.expiry}
                                     onChange={(e) => handleExpiryChange(e.target.value)}
-                                    className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500 ${cardErrors.expiry ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}
+                                    className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-primary ${cardErrors.expiry ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}
                                     maxLength={5}
                                     inputMode="numeric"
                                 />
@@ -275,7 +301,7 @@ export default function PaymentMock({ bookingData, setBookingData, selectedTour,
                                             setCardErrors(errs);
                                         }
                                     }}
-                                    className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500 ${cardErrors.cvv ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}
+                                    className={`w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-primary ${cardErrors.cvv ? 'border-red-400 bg-red-50' : 'border-gray-300'}`}
                                     maxLength={4}
                                     inputMode="numeric"
                                 />

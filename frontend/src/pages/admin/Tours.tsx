@@ -4,6 +4,7 @@ import {
   faPlus,
   faEdit,
   faTrash,
+  faRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import { tourService } from '../../services/tour.service';
@@ -29,9 +30,9 @@ export default function AdminTours() {
   const { t } = useTranslation();
   const [tours, setTours] = useState<Tour[]>([]);
   const [destinations, setDestinations] = useState<Destination[]>([]);
-  const [bookings, setBookings] = useState<{ tour_id?: string }[]>([]);
+  const [bookings, setBookings] = useState<{ tourId?: string }[]>([]);
   const [loading, setLoading] = useState(true);
-  const { filters, setFilter } = useFilters({ keys: ['search', 'status', 'destination_id'] });
+  const { filters, setFilter, resetFilters, hasActiveFilters } = useFilters({ keys: ['search', 'status', 'destinationId'] });
   const debouncedSearch = useDebounce(filters.search, 300);
 
   const STATUS_OPTIONS = [
@@ -57,7 +58,7 @@ export default function AdminTours() {
         filtered = filtered.filter(t => t.name.toLowerCase().includes(q) || t.location.toLowerCase().includes(q));
       }
       if (filters.status) filtered = filtered.filter(t => t.status === filters.status);
-      if (filters.destination_id) filtered = filtered.filter(t => String(t.destination_id) === filters.destination_id);
+      if (filters.destinationId) filtered = filtered.filter(t => String(t.destinationId) === filters.destinationId);
       setTours(filtered);
       setDestinations(allDests);
       setBookings(allBookings);
@@ -67,7 +68,7 @@ export default function AdminTours() {
       setBookings([]);
     }
     setLoading(false);
-  }, [debouncedSearch, filters.status, filters.destination_id]);
+  }, [debouncedSearch, filters.status, filters.destinationId]);
 
   useEffect(() => {
     fetchTours();
@@ -77,7 +78,7 @@ export default function AdminTours() {
 
   const destOptions = destinations.map((d) => ({ label: d.name, value: String(d.id) }));
   const destName = (id: number) => destinations.find((d) => d.id === id)?.name || '\u2014';
-  const bookingCount = (tourId: string) => bookings.filter((b) => b.tour_id === tourId).length;
+  const bookingCount = (tourId: string) => bookings.filter((b) => b.tourId === tourId).length;
 
   const handleDelete = async (tour: Tour) => {
     await tourService.delete(tour.id);
@@ -115,11 +116,20 @@ export default function AdminTours() {
                 allLabel={t('filters.filterByStatus')}
               />
               <FilterDropdown
-                value={filters.destination_id || 'all'}
-                onChange={(v) => setFilter('destination_id', v)}
+                value={filters.destinationId || 'all'}
+                onChange={(v) => setFilter('destinationId', v)}
                 options={destOptions}
                 allLabel={t('filters.filterByDestination')}
               />
+              {hasActiveFilters && (
+                <button
+                  onClick={resetFilters}
+                  className="text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-lg transition-colors flex items-center gap-2"
+                >
+                  <FontAwesomeIcon icon={faRotateLeft} />
+                  {t('filters.resetFilters')}
+                </button>
+              )}
             </div>
 
             {loading ? (
@@ -162,7 +172,7 @@ export default function AdminTours() {
                               </div>
                             </div>
                           </td>
-                          <td className="px-6 py-4 text-sm text-gray-500">{destName(tour.destination_id)}</td>
+                          <td className="px-6 py-4 text-sm text-gray-500">{destName(tour.destinationId)}</td>
                           <td className="px-6 py-4 text-sm text-blue-500 font-medium">{tour.price}</td>
                           <td className="px-6 py-4 text-sm text-gray-500">{tour.days}</td>
                           <td className="px-6 py-4 text-sm text-gray-500">{bookingCount(tour.id)}</td>

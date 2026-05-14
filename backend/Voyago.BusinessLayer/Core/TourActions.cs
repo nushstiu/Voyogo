@@ -1,4 +1,5 @@
-using Voyago.BusinessLayer.Dtos;
+using Microsoft.EntityFrameworkCore;
+using Voyago.Domain.Dtos;
 using Voyago.DataAccessLayer.Context;
 using Voyago.Domain.Entities;
 
@@ -6,30 +7,37 @@ namespace Voyago.BusinessLayer.Core;
 
 public abstract class TourActions
 {
-    internal List<Tour> ExecuteGetAll()
+    internal async Task<List<Tour>> ExecuteGetAll()
     {
         using var db = new VoyagoContext();
-        return db.Tours.ToList();
+        return await db.Tours.ToListAsync();
     }
 
-    internal Tour? ExecuteGetById(Guid id)
+    internal async Task<Tour?> ExecuteGetById(int id)
     {
         using var db = new VoyagoContext();
-        return db.Tours.FirstOrDefault(t => t.Id == id);
+        return await db.Tours.FirstOrDefaultAsync(t => t.Id == id);
     }
 
-    internal List<Tour> ExecuteGetByDestinationId(int destinationId)
+    internal async Task<List<Tour>> ExecuteGetByDestinationId(int destinationId)
     {
         using var db = new VoyagoContext();
-        return db.Tours.Where(t => t.DestinationId == destinationId).ToList();
+        return await db.Tours.Where(t => t.DestinationId == destinationId).ToListAsync();
     }
 
-    internal Tour ExecuteCreate(TourDto dto)
+    internal async Task<Tour> ExecuteCreate(TourDto dto)
     {
         using var db = new VoyagoContext();
+
+        // Validate foreign key: DestinationId must exist
+        var destinationExists = await db.Destinations.AnyAsync(d => d.Id == dto.DestinationId);
+        if (!destinationExists)
+        {
+            throw new InvalidOperationException($"Destinatia cu ID-ul {dto.DestinationId} nu exista.");
+        }
+
         var tour = new Tour
         {
-            Id = Guid.NewGuid(),
             Location = dto.Location,
             Name = dto.Name,
             Price = dto.Price,
@@ -41,15 +49,22 @@ public abstract class TourActions
             CreatedAt = DateTime.UtcNow
         };
         db.Tours.Add(tour);
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         return tour;
     }
 
-    internal Tour? ExecuteUpdate(Guid id, TourDto dto)
+    internal async Task<Tour?> ExecuteUpdate(int id, TourDto dto)
     {
         using var db = new VoyagoContext();
-        var tour = db.Tours.FirstOrDefault(t => t.Id == id);
+        var tour = await db.Tours.FirstOrDefaultAsync(t => t.Id == id);
         if (tour == null) return null;
+
+        // Validate foreign key: DestinationId must exist
+        var destinationExists = await db.Destinations.AnyAsync(d => d.Id == dto.DestinationId);
+        if (!destinationExists)
+        {
+            throw new InvalidOperationException($"Destinatia cu ID-ul {dto.DestinationId} nu exista.");
+        }
 
         tour.Location = dto.Location;
         tour.Name = dto.Name;
@@ -60,18 +75,18 @@ public abstract class TourActions
         tour.DestinationId = dto.DestinationId;
         tour.Status = dto.Status;
 
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         return tour;
     }
 
-    internal bool ExecuteDelete(Guid id)
+    internal async Task<bool> ExecuteDelete(int id)
     {
         using var db = new VoyagoContext();
-        var tour = db.Tours.FirstOrDefault(t => t.Id == id);
+        var tour = await db.Tours.FirstOrDefaultAsync(t => t.Id == id);
         if (tour == null) return false;
 
         db.Tours.Remove(tour);
-        db.SaveChanges();
+        await db.SaveChangesAsync();
         return true;
     }
 }

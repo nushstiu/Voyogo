@@ -5,20 +5,20 @@ export interface User {
   email: string;
   phone?: string;
   country?: string;
-  date_of_birth?: string;
+  dateOfBirth?: string;
   address?: string;
-  preferred_language?: string;
-  emergency_contact_name?: string;
-  emergency_contact_phone?: string;
-  profile_pic?: string | null;
+  preferredLanguage?: string;
+  emergencyContactName?: string;
+  emergencyContactPhone?: string;
+  profilePic?: string | null;
   role: UserRole;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export const UserRole = {
-  Admin: 'admin',
-  User: 'user',
+  Admin: 'Admin',
+  User: 'User',
 } as const;
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole];
@@ -39,12 +39,12 @@ export interface UpdateProfileData {
   username: string;
   phone: string;
   country: string;
-  date_of_birth?: string;
+  dateOfBirth?: string;
   address?: string;
-  preferred_language?: string;
-  emergency_contact_name?: string;
-  emergency_contact_phone?: string;
-  profile_pic?: File | null;
+  preferredLanguage?: string;
+  emergencyContactName?: string;
+  emergencyContactPhone?: string;
+  profilePic?: File | null;
 }
 
 // Destination Types
@@ -52,16 +52,16 @@ export interface Destination {
   id: number;
   name: string;
   packages: number;
-  price_range: string;
+  priceRange: string;
   image: string;
   description: string;
-  created_at?: string;
+  createdAt?: string;
 }
 
 export interface CreateDestinationData {
   name: string;
   packages: number;
-  price_range: string;
+  priceRange: string;
   image: string;
   description: string;
 }
@@ -75,9 +75,9 @@ export interface Tour {
   days: string;
   description: string;
   image: string;
-  destination_id: number;
+  destinationId: number;
   status: TourStatus;
-  created_at?: string;
+  createdAt?: string;
   itinerary?: { title: string; description: string }[];
   included?: string[];
   notIncluded?: string[];
@@ -99,28 +99,28 @@ export interface CreateTourData {
   days: string;
   description: string;
   image: string;
-  destination_id: number;
+  destinationId: number;
   status: TourStatus;
 }
 
 // Booking Types
 export interface Booking {
   id: string;
-  user_id: string;
+  userId: string;
   name: string;
   surname: string;
   email: string;
   phone: string;
   destination: string;
-  tour_id?: string;
-  tour_name?: string;
-  booking_date: string;
+  tourId?: string;
+  tourName?: string;
+  bookingDate: string;
   duration: string;
   status: BookingStatus;
   notes?: string;
-  admin_notes?: string;
-  created_at: string;
-  updated_at?: string;
+  adminNotes?: string;
+  createdAt: string;
+  updatedAt?: string;
 }
 
 export const BookingStatus = {
@@ -137,13 +137,13 @@ export interface CreateBookingData {
   email: string;
   phone: string;
   destination: string;
-  tour_id?: string;
-  booking_date: string;
+  tourId?: string;
+  bookingDate: string;
   duration: string;
   status?: BookingStatus;
   notes?: string;
-  admin_notes?: string;
-  user_id?: string;
+  adminNotes?: string;
+  userId?: string;
 }
 
 // Analytics Types

@@ -1,91 +1,102 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Voyago.BusinessLayer;
-using Voyago.BusinessLayer.Dtos;
-using Voyago.BusinessLayer.Interfaces;
+using Voyago.Domain.Dtos;
+using Voyago.Domain.Constants;
 
 namespace Voyago.Api.Controllers;
 
 [ApiController]
 [Route("api/users")]
+[Authorize]
 public class UserController : ControllerBase
 {
-    private readonly IUserAction _action;
+    private readonly BusinessLogic _bl;
 
-    public UserController()
+    public UserController(BusinessLogic bl)
     {
-        var bl = new BusinessLogic();
-        _action = bl.UserAction();
+        _bl = bl;
+    }
+
+    [HttpGet("me")]
+    [Authorize(Roles = $"{Roles.User},{Roles.Admin}")]
+    public IActionResult GetMe()
+    {
+        try
+        {
+            var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userIdStr == null || !int.TryParse(userIdStr, out int userId))
+                return Unauthorized("Token invalid.");
+
+            var user = _bl.UserAction().GetById(userId);
+            if (user == null) return NotFound("Utilizatorul nu a fost gasit.");
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea utilizatorului curent: " + ex.Message);
+        }
     }
 
     [HttpGet]
-    public IActionResult GetAll() => Ok(_action.GetAll());
-
-    [HttpGet("{id:guid}")]
-    public IActionResult GetById(Guid id)
+    [Authorize(Roles = Roles.Admin)]
+    public IActionResult GetAll()
     {
-        var user = _action.GetById(id);
-        if (user == null) return NotFound();
-        return Ok(user);
-    }
-
-    [HttpPut("{id:guid}")]
-    public IActionResult Update(Guid id, [FromBody] UserDto dto)
-    {
-        var updated = _action.Update(id, dto);
-        if (updated == null) return NotFound();
-        return Ok(updated);
-    }
-
-    [HttpDelete("{id:guid}")]
-    public IActionResult Delete(Guid id)
-    {
-        if (!_action.Delete(id)) return NotFound();
-        return NoContent();
-    }
-
-    // POST /api/users/{id}/avatar
-    // multipart/form-data, field: "avatar"
-    // Header: X-User-Id pentru verificare identitate (optional, Lab 5)
-    [HttpPost("{id:guid}/avatar")]
-    public async Task<IActionResult> UploadAvatar(Guid id, IFormFile avatar)
-    {
-        var userIdHeader = Request.Headers["X-User-Id"].FirstOrDefault();
-        var roleHeader = Request.Headers["X-User-Role"].FirstOrDefault();
-
-        // 401 daca lipseste headerul de autentificare
-        if (string.IsNullOrWhiteSpace(userIdHeader) || !Guid.TryParse(userIdHeader, out var requesterId))
-            return Unauthorized(new { message = "Missing or invalid X-User-Id header." });
-
-        // 403 daca userul incearca sa modifice alt user si nu e admin
-        var isAdmin = string.Equals(roleHeader, "Admin", StringComparison.OrdinalIgnoreCase) ||
-                      string.Equals(roleHeader, "30", StringComparison.OrdinalIgnoreCase);
-
-        if (requesterId != id && !isAdmin)
-            return StatusCode(403, new { message = "You are not allowed to update another user's avatar." });
-
-        if (avatar == null || avatar.Length == 0)
-            return BadRequest(new { message = "No file provided." });
-
-        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp" };
-        var ext = Path.GetExtension(avatar.FileName).ToLowerInvariant();
-        if (!allowedExtensions.Contains(ext))
-            return BadRequest(new { message = "Invalid file type. Allowed: jpg, jpeg, png, webp." });
-
-        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "avatars");
-        Directory.CreateDirectory(uploadsFolder);
-
-        var fileName = $"{id}{ext}";
-        var filePath = Path.Combine(uploadsFolder, fileName);
-
-        using (var stream = new FileStream(filePath, FileMode.Create))
+        try
         {
-            await avatar.CopyToAsync(stream);
+            return Ok(_bl.UserAction().GetAll());
         }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea utilizatorilor: " + ex.Message);
+        }
+    }
 
-        var avatarUrl = $"/avatars/{fileName}";
-        var updated = _action.UpdateAvatar(id, avatarUrl);
-        if (updated == null) return NotFound(new { message = "User not found." });
+    [HttpGet("{id:int}")]
+    [Authorize(Roles = $"{Roles.User},{Roles.Admin}")]
+    public IActionResult GetById(int id)
+    {
+        try
+        {
+            var user = _bl.UserAction().GetById(id);
+            if (user == null) return NotFound("Utilizatorul nu a fost gasit.");
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea utilizatorului: " + ex.Message);
+        }
+    }
 
-        return Ok(new { avatarUrl, user = updated });
+    [HttpPut("{id:int}")]
+    [Authorize(Roles = $"{Roles.User},{Roles.Admin}")]
+    public IActionResult Update(int id, [FromBody] UserDto dto)
+    {
+        try
+        {
+            var updated = _bl.UserAction().Update(id, dto);
+            if (updated == null) return NotFound("Utilizatorul nu a fost gasit.");
+            return Ok(updated);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la actualizarea utilizatorului: " + ex.Message);
+        }
+    }
+
+    [HttpDelete("{id:int}")]
+    [Authorize(Roles = Roles.Admin)]
+    public IActionResult Delete(int id)
+    {
+        try
+        {
+            if (!_bl.UserAction().Delete(id)) return NotFound("Utilizatorul nu a fost gasit.");
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la stergerea utilizatorului: " + ex.Message);
+        }
     }
 }

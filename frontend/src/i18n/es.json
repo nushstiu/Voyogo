@@ -64,6 +64,14 @@
     "privacy": "Política de privacidad",
     "terms": "Términos y condiciones"
   },
+  "filters": {
+    "all": "Todos",
+    "filterByRole": "Filtrar por rol",
+    "filterByStatus": "Filtrar por estado",
+    "filterByDestination": "Filtrar por destino",
+    "sortBy": "Ordenar por",
+    "resetFilters": "Restablecer filtros"
+  },
   "actions": {
     "edit": "Editar",
     "delete": "Eliminar",

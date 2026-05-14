@@ -6,6 +6,7 @@ import {
   faBan,
   faMapMarkerAlt,
   faClock,
+  faRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
@@ -33,7 +34,7 @@ export default function UserBookings() {
   const { user } = useAuth();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
-  const { filters, setFilter } = useFilters({ keys: ['search', 'status'] });
+  const { filters, setFilter, resetFilters, hasActiveFilters } = useFilters({ keys: ['search', 'status'] });
   const debouncedSearch = useDebounce(filters.search, 300);
 
   const STATUS_OPTIONS = [
@@ -54,7 +55,7 @@ export default function UserBookings() {
       const q = debouncedSearch.toLowerCase();
       data = data.filter(b =>
         b.destination.toLowerCase().includes(q) ||
-        (b.tour_name || '').toLowerCase().includes(q)
+        (b.tourName || '').toLowerCase().includes(q)
       );
     }
     if (filters.status) {
@@ -95,6 +96,15 @@ export default function UserBookings() {
               options={STATUS_OPTIONS}
               allLabel={t('filters.filterByStatus')}
             />
+            {hasActiveFilters && (
+              <button
+                onClick={resetFilters}
+                className="text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-lg transition-colors flex items-center gap-2"
+              >
+                <FontAwesomeIcon icon={faRotateLeft} />
+                {t('filters.resetFilters')}
+              </button>
+            )}
           </div>
 
           {loading ? (
@@ -118,13 +128,13 @@ export default function UserBookings() {
                           <p className="font-bold text-gray-800 text-lg">{b.destination}</p>
                           <StatusBadge status={b.status} />
                         </div>
-                        {b.tour_name && (
-                          <p className="text-sm text-blue-600 font-medium mb-2">{b.tour_name}</p>
+                        {b.tourName && (
+                          <p className="text-sm text-blue-600 font-medium mb-2">{b.tourName}</p>
                         )}
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-1 text-sm text-gray-600">
                           <div className="flex items-center gap-1">
                             <FontAwesomeIcon icon={faClock} className="text-gray-400 text-xs" />
-                            <span>{b.booking_date}</span>
+                            <span>{b.bookingDate}</span>
                           </div>
                           <div>
                             <span className="text-gray-400">Durată:</span>{' '}
@@ -144,7 +154,7 @@ export default function UserBookings() {
                           </div>
                           <div>
                             <span className="text-gray-400">Creat:</span>{' '}
-                            <span className="font-medium text-gray-700">{new Date(b.created_at).toLocaleDateString('ro-RO')}</span>
+                            <span className="font-medium text-gray-700">{new Date(b.createdAt).toLocaleDateString('ro-RO')}</span>
                           </div>
                         </div>
                         {b.notes && (

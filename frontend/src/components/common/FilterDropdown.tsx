@@ -1,4 +1,5 @@
 import { UI_TEXT } from '../../constants/text';
+import StyledSelect from './StyledSelect';
 
 interface FilterOption {
   label: string;
@@ -21,10 +22,10 @@ export default function FilterDropdown({
   className = '',
 }: FilterDropdownProps) {
   return (
-    <select
+    <StyledSelect
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className={`p-4 rounded bg-gray-100 outline-none w-full text-sm cursor-pointer ${className}`}
+      wrapperClassName={className}
     >
       <option value="all">{allLabel}</option>
       {options.map((opt) => (
@@ -32,6 +33,6 @@ export default function FilterDropdown({
           {opt.label}
         </option>
       ))}
-    </select>
+    </StyledSelect>
   );
 }

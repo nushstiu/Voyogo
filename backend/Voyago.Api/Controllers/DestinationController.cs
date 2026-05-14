@@ -1,7 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Voyago.BusinessLayer;
-using Voyago.BusinessLayer.Dtos;
-using Voyago.BusinessLayer.Interfaces;
+using Voyago.Domain.Dtos;
+using Voyago.Domain.Constants;
 
 namespace Voyago.Api.Controllers;
 
@@ -9,44 +10,95 @@ namespace Voyago.Api.Controllers;
 [Route("api/destinations")]
 public class DestinationController : ControllerBase
 {
-    private readonly IDestinationAction _action;
+    private readonly BusinessLogic _bl;
 
-    public DestinationController()
+    public DestinationController(BusinessLogic bl)
     {
-        var bl = new BusinessLogic();
-        _action = bl.DestinationAction();
+        _bl = bl;
     }
 
     [HttpGet]
-    public IActionResult GetAll() => Ok(_action.GetAll());
+    public async Task<IActionResult> GetAll()
+    {
+        try
+        {
+            return Ok(await _bl.DestinationAction().GetAll());
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea destinatiilor: " + ex.Message);
+        }
+    }
 
     [HttpGet("{id:int}")]
-    public IActionResult GetById(int id)
+    public async Task<IActionResult> GetById(int id)
     {
-        var dest = _action.GetById(id);
-        if (dest == null) return NotFound();
-        return Ok(dest);
+        try
+        {
+            var dest = await _bl.DestinationAction().GetById(id);
+            if (dest == null) return NotFound("Destinatia nu a fost gasita.");
+            return Ok(dest);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea destinatiei: " + ex.Message);
+        }
     }
 
     [HttpPost]
-    public IActionResult Create([FromBody] DestinationDto dto)
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> Create([FromBody] DestinationDto dto)
     {
-        var created = _action.Create(dto);
-        return Created(string.Empty, created);
+        try
+        {
+            if (dto == null)
+                return BadRequest("Corpul cererii nu poate fi null.");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Created(string.Empty, await _bl.DestinationAction().Create(dto));
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la crearea destinatiei: " + ex.Message);
+        }
     }
 
     [HttpPut("{id:int}")]
-    public IActionResult Update(int id, [FromBody] DestinationDto dto)
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> Update(int id, [FromBody] DestinationDto dto)
     {
-        var updated = _action.Update(id, dto);
-        if (updated == null) return NotFound();
-        return Ok(updated);
+        try
+        {
+            if (dto == null)
+                return BadRequest("Corpul cererii nu poate fi null.");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var updated = await _bl.DestinationAction().Update(id, dto);
+            if (updated == null) return NotFound("Destinatia nu a fost gasita.");
+            return Ok(updated);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la actualizarea destinatiei: " + ex.Message);
+        }
     }
 
     [HttpDelete("{id:int}")]
-    public IActionResult Delete(int id)
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> Delete(int id)
     {
-        if (!_action.Delete(id)) return NotFound();
-        return NoContent();
+        try
+        {
+            if (!await _bl.DestinationAction().Delete(id)) return NotFound("Destinatia nu a fost gasita.");
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la stergerea destinatiei: " + ex.Message);
+        }
     }
 }

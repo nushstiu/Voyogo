@@ -1,7 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Voyago.BusinessLayer;
-using Voyago.BusinessLayer.Dtos;
-using Voyago.BusinessLayer.Interfaces;
+using Voyago.Domain.Dtos;
+using Voyago.Domain.Constants;
 
 namespace Voyago.Api.Controllers;
 
@@ -9,61 +10,83 @@ namespace Voyago.Api.Controllers;
 [Route("api/auth")]
 public class AuthController : ControllerBase
 {
-    private readonly IAuthAction _action;
+    private readonly BusinessLogic _bl;
 
-    public AuthController()
+    public AuthController(BusinessLogic bl)
     {
-        var bl = new BusinessLogic();
-        _action = bl.AuthAction();
+        _bl = bl;
     }
 
     [HttpPost("login")]
     public IActionResult Login([FromBody] UserLoginDto dto)
     {
-        var response = _action.Login(dto);
-        if (response == null) return Unauthorized();
-        return Ok(response);
+        try
+        {
+            var response = _bl.AuthAction().Login(dto);
+            if (response == null) return Unauthorized("Email sau parola incorecte.");
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la autentificare: " + ex.Message);
+        }
     }
 
     [HttpPost("register")]
     public IActionResult Register([FromBody] UserRegisterDto dto)
     {
-        var response = _action.Register(dto);
-        if (response == null) return BadRequest("Email already registered.");
-        return Created(string.Empty, response);
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(dto.Role) && dto.Role == Roles.Visitor)
+                return BadRequest("Rolul 'Visitor' nu poate fi atribuit la inregistrare. Visitor = utilizator neautentificat.");
+
+            if (!string.IsNullOrWhiteSpace(dto.Role) && dto.Role != Roles.User && dto.Role != Roles.Admin)
+                return BadRequest($"Rol invalid. Roluri permise: {Roles.User}, {Roles.Admin}.");
+
+            var response = _bl.AuthAction().Register(dto);
+            if (response == null) return BadRequest("Emailul este deja inregistrat.");
+            return Created(string.Empty, response);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la inregistrare: " + ex.Message);
+        }
     }
 
-    // PUT /api/auth/change-password
-    // Header: X-User-Id: <guid>
-    [HttpPut("change-password")]
-    public IActionResult ChangePassword([FromBody] ChangePasswordDto dto)
+    [HttpPost("refresh")]
+    [AllowAnonymous]
+    public IActionResult Refresh([FromBody] RefreshRequestDto dto)
     {
-        var userIdHeader = Request.Headers["X-User-Id"].FirstOrDefault();
-        if (string.IsNullOrWhiteSpace(userIdHeader) || !Guid.TryParse(userIdHeader, out var userId))
-            return Unauthorized(new { message = "Missing or invalid X-User-Id header." });
+        try
+        {
+            if (string.IsNullOrWhiteSpace(dto?.RefreshToken))
+                return BadRequest("Token de reimprospatare lipsa.");
 
-        if (string.IsNullOrWhiteSpace(dto.CurrentPassword) || string.IsNullOrWhiteSpace(dto.NewPassword))
-            return BadRequest(new { message = "CurrentPassword and NewPassword are required." });
-
-        var success = _action.ChangePassword(userId, dto);
-        if (!success)
-            return BadRequest(new { message = "Current password is incorrect or user not found." });
-
-        return Ok(new { message = "Password changed successfully." });
+            var response = _bl.AuthAction().Refresh(dto.RefreshToken);
+            if (response == null) return Unauthorized("Token invalid sau expirat.");
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la reimprospatarea tokenului: " + ex.Message);
+        }
     }
 
-    // GET /api/auth/me
-    // Header: X-User-Id: <guid>
-    [HttpGet("me")]
-    public IActionResult GetMe()
+    [HttpPost("revoke")]
+    [Authorize]
+    public IActionResult Revoke([FromBody] RefreshRequestDto dto)
     {
-        var userIdHeader = Request.Headers["X-User-Id"].FirstOrDefault();
-        if (string.IsNullOrWhiteSpace(userIdHeader) || !Guid.TryParse(userIdHeader, out var userId))
-            return Unauthorized(new { message = "Missing or invalid X-User-Id header." });
+        try
+        {
+            if (string.IsNullOrWhiteSpace(dto?.RefreshToken))
+                return BadRequest("Token de reimprospatare lipsa.");
 
-        var user = _action.GetMe(userId);
-        if (user == null) return NotFound(new { message = "User not found." });
-
-        return Ok(user);
+            _bl.AuthAction().Revoke(dto.RefreshToken);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la revocarea tokenului: " + ex.Message);
+        }
     }
 }

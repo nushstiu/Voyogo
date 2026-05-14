@@ -64,6 +64,14 @@
     "privacy": "Datenschutzrichtlinie",
     "terms": "Allgemeine Geschäftsbedingungen"
   },
+  "filters": {
+    "all": "Alle",
+    "filterByRole": "Nach Rolle filtern",
+    "filterByStatus": "Nach Status filtern",
+    "filterByDestination": "Nach Reiseziel filtern",
+    "sortBy": "Sortieren nach",
+    "resetFilters": "Filter zurücksetzen"
+  },
   "actions": {
     "edit": "Bearbeiten",
     "delete": "Löschen",

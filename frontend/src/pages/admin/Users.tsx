@@ -6,6 +6,7 @@ import {
   faTrash,
   faEye,
   faFileExport,
+  faRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import { userService } from '../../services/user.service';
@@ -29,12 +30,12 @@ export default function AdminUsers() {
   const { t } = useTranslation();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
-  const { filters, setFilter } = useFilters({ keys: ['search', 'role'] });
+  const { filters, setFilter, resetFilters, hasActiveFilters } = useFilters({ keys: ['search', 'role'] });
   const debouncedSearch = useDebounce(filters.search, 300);
 
   const ROLE_OPTIONS = [
-    { label: t('roles.admin'), value: 'admin' },
-    { label: t('roles.user'), value: 'user' },
+    { label: t('roles.admin'), value: 'Admin' },
+    { label: t('roles.user'), value: 'User' },
   ];
 
   const createModal = useModal<undefined>();
@@ -80,7 +81,7 @@ export default function AdminUsers() {
       u.phone || '',
       u.country || '',
       u.role,
-      new Date(u.created_at).toLocaleDateString(),
+      new Date(u.createdAt).toLocaleDateString(),
     ]);
     const csv = [headers, ...rows].map((r) => r.join(',')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
@@ -130,6 +131,15 @@ export default function AdminUsers() {
                 options={ROLE_OPTIONS}
                 allLabel={t('filters.filterByRole')}
               />
+              {hasActiveFilters && (
+                <button
+                  onClick={resetFilters}
+                  className="text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-lg transition-colors flex items-center gap-2"
+                >
+                  <FontAwesomeIcon icon={faRotateLeft} />
+                  {t('filters.resetFilters')}
+                </button>
+              )}
             </div>
 
             {loading ? (
@@ -167,7 +177,7 @@ export default function AdminUsers() {
                             <StatusBadge status={u.role} />
                           </td>
                           <td className="px-6 py-4 text-sm text-gray-500">
-                            {new Date(u.created_at).toLocaleDateString()}
+                            {new Date(u.createdAt).toLocaleDateString()}
                           </td>
                           <td className="px-6 py-4">
                             <div className="flex items-center justify-end gap-1">

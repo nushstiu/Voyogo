@@ -5,9 +5,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { UI_TEXT } from '../../../constants';
+import StyledSelect from '../../common/StyledSelect';
 import { bookingService } from '../../../services/booking.service';
 import { destinationService } from '../../../services/destination.service';
 import { tourService } from '../../../services/tour.service';
+import { useAuth } from '../../../context/AuthContext';
 import type { Destination, Tour } from '../../../types';
 import type { Booking } from '../../../types';
 import toast from 'react-hot-toast';
@@ -18,12 +20,12 @@ const bookingSchema = z.object({
   email: z.email(UI_TEXT.ERROR_INVALID_EMAIL),
   phone: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
   destination: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
-  tour_id: z.string().optional(),
-  booking_date: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
+  tourId: z.string().optional(),
+  bookingDate: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
   duration: z.string().min(1, UI_TEXT.ERROR_REQUIRED),
   status: z.enum(['pending', 'confirmed', 'cancelled']),
   notes: z.string().optional(),
-  admin_notes: z.string().optional(),
+  adminNotes: z.string().optional(),
 });
 
 type BookingFormData = z.infer<typeof bookingSchema>;
@@ -38,6 +40,7 @@ interface BookingModalProps {
 const DURATION_OPTIONS = ['1-2 Days', '3-5 Days', '5-7 Days', '7-14 Days', '14+ Days'];
 
 export default function BookingModal({ isOpen, onClose, booking, onSaved }: BookingModalProps) {
+  const { user } = useAuth();
   const overlayRef = useRef<HTMLDivElement>(null);
   const [selectedDest, setSelectedDest] = useState('');
   const [destinations, setDestinations] = useState<Destination[]>([]);
@@ -82,12 +85,12 @@ export default function BookingModal({ isOpen, onClose, booking, onSaved }: Book
               email: booking.email,
               phone: booking.phone,
               destination: booking.destination,
-              tour_id: booking.tour_id || '',
-              booking_date: booking.booking_date,
+              tourId: booking.tourId || '',
+              bookingDate: booking.bookingDate,
               duration: booking.duration,
               status: booking.status,
               notes: booking.notes || '',
-              admin_notes: booking.admin_notes || '',
+              adminNotes: booking.adminNotes || '',
             }
           : {
               name: '',
@@ -95,12 +98,12 @@ export default function BookingModal({ isOpen, onClose, booking, onSaved }: Book
               email: '',
               phone: '',
               destination: '',
-              tour_id: '',
-              booking_date: '',
+              tourId: '',
+              bookingDate: '',
               duration: '',
               status: 'pending',
               notes: '',
-              admin_notes: '',
+              adminNotes: '',
             }
       );
     }
@@ -122,7 +125,7 @@ export default function BookingModal({ isOpen, onClose, booking, onSaved }: Book
         await bookingService.update(booking.id, data);
         toast.success(UI_TEXT.SUCCESS_BOOKING_UPDATED);
       } else {
-        await bookingService.create({ ...data, user_id: 'admin-created' });
+        await bookingService.create({ ...data, userId: user?.id as unknown as string });
         toast.success(UI_TEXT.SUCCESS_BOOKING_CREATED);
       }
       onSaved();
@@ -206,34 +209,28 @@ export default function BookingModal({ isOpen, onClose, booking, onSaved }: Book
               <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
                 Destination <span className="text-blue-500">*</span>
               </label>
-              <select
-                {...register('destination')}
-                className="p-4 rounded bg-gray-100 outline-none w-full"
-              >
+              <StyledSelect {...register('destination')}>
                 <option value="">Select destination</option>
                 {destinations.map((d) => (
                   <option key={d.id} value={d.name}>
                     {d.name}
                   </option>
                 ))}
-              </select>
+              </StyledSelect>
               {errors.destination && (
                 <p className="text-red-500 text-sm mt-1">{errors.destination.message}</p>
               )}
             </div>
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">Tour</label>
-              <select
-                {...register('tour_id')}
-                className="p-4 rounded bg-gray-100 outline-none w-full"
-              >
+              <StyledSelect {...register('tourId')}>
                 <option value="">No specific tour</option>
                 {filteredTours.map((t) => (
                   <option key={t.id} value={t.id}>
                     {t.name}
                   </option>
                 ))}
-              </select>
+              </StyledSelect>
             </div>
           </div>
 
@@ -244,28 +241,25 @@ export default function BookingModal({ isOpen, onClose, booking, onSaved }: Book
               </label>
               <input
                 type="date"
-                {...register('booking_date')}
-                className="p-4 rounded bg-gray-100 outline-none w-full"
+                {...register('bookingDate')}
+                className="p-4 rounded-lg bg-gray-100 outline-none w-full text-sm text-gray-700 focus:ring-2 focus:ring-primary focus:bg-white transition-all cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-50 [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:hover:opacity-100"
               />
-              {errors.booking_date && (
-                <p className="text-red-500 text-sm mt-1">{errors.booking_date.message}</p>
+              {errors.bookingDate && (
+                <p className="text-red-500 text-sm mt-1">{errors.bookingDate.message}</p>
               )}
             </div>
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
                 Duration <span className="text-blue-500">*</span>
               </label>
-              <select
-                {...register('duration')}
-                className="p-4 rounded bg-gray-100 outline-none w-full"
-              >
+              <StyledSelect {...register('duration')}>
                 <option value="">Select duration</option>
                 {DURATION_OPTIONS.map((d) => (
                   <option key={d} value={d}>
                     {d}
                   </option>
                 ))}
-              </select>
+              </StyledSelect>
               {errors.duration && (
                 <p className="text-red-500 text-sm mt-1">{errors.duration.message}</p>
               )}
@@ -276,11 +270,11 @@ export default function BookingModal({ isOpen, onClose, booking, onSaved }: Book
             <label className="block text-sm font-semibold text-gray-700 mb-2 uppercase">
               Status <span className="text-blue-500">*</span>
             </label>
-            <select {...register('status')} className="p-4 rounded bg-gray-100 outline-none w-full">
+            <StyledSelect {...register('status')}>
               <option value="pending">{UI_TEXT.STATUS_PENDING}</option>
               <option value="confirmed">{UI_TEXT.STATUS_CONFIRMED}</option>
               <option value="cancelled">{UI_TEXT.STATUS_CANCELLED}</option>
-            </select>
+            </StyledSelect>
           </div>
 
           <div>
@@ -300,7 +294,7 @@ export default function BookingModal({ isOpen, onClose, booking, onSaved }: Book
               Admin Notes
             </label>
             <textarea
-              {...register('admin_notes')}
+              {...register('adminNotes')}
               rows={2}
               className="p-4 rounded bg-gray-100 outline-none w-full resize-none"
               placeholder="Internal notes (not visible to user)..."
@@ -318,7 +312,7 @@ export default function BookingModal({ isOpen, onClose, booking, onSaved }: Book
             <button
               type="submit"
               disabled={isSubmitting}
-              className="bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors px-6 py-3 disabled:opacity-50"
+              className="bg-primary hover:bg-primary-hover text-white rounded-lg font-semibold transition-colors px-6 py-3 disabled:opacity-50"
             >
               {isSubmitting
                 ? UI_TEXT.LOADING

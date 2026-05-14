@@ -60,8 +60,8 @@ export default function BookingDetailModal({ isOpen, onClose, booking }: Booking
           <div className="flex items-start justify-between gap-3">
             <div>
               <h3 className="font-bold text-gray-800 text-xl">{booking.destination}</h3>
-              {booking.tour_name && (
-                <p className="text-sm text-blue-600 font-medium mt-0.5">{booking.tour_name}</p>
+              {booking.tourName && (
+                <p className="text-sm text-blue-600 font-medium mt-0.5">{booking.tourName}</p>
               )}
             </div>
             <StatusBadge status={booking.status} />
@@ -71,10 +71,10 @@ export default function BookingDetailModal({ isOpen, onClose, booking }: Booking
           <div className="bg-blue-50 rounded-xl p-4">
             <p className="text-xs font-semibold text-blue-700 uppercase mb-3">Detalii Călătorie</p>
             <div className="grid grid-cols-2 gap-3">
-              <Field label="Data plecare" value={booking.booking_date} />
+              <Field label="Data plecare" value={booking.bookingDate} />
               <Field label="Durată" value={booking.duration} />
-              {booking.tour_id && <Field label="ID Tur" value={booking.tour_id} />}
-              <Field label="Creat la" value={new Date(booking.created_at).toLocaleDateString('ro-RO')} />
+              {booking.tourId && <Field label="ID Tur" value={booking.tourId} />}
+              <Field label="Creat la" value={new Date(booking.createdAt).toLocaleDateString('ro-RO')} />
             </div>
           </div>
 
@@ -97,18 +97,18 @@ export default function BookingDetailModal({ isOpen, onClose, booking }: Booking
           )}
 
           {/* Admin Notes */}
-          {booking.admin_notes && (
+          {booking.adminNotes && (
             <div className="bg-purple-50 border border-purple-200 rounded-xl p-4">
               <p className="text-xs font-semibold text-purple-700 uppercase mb-2">Mesaj de la agenție</p>
-              <p className="text-sm text-gray-700">{booking.admin_notes}</p>
+              <p className="text-sm text-gray-700">{booking.adminNotes}</p>
             </div>
           )}
 
           {/* Footer info */}
           <div className="text-xs text-gray-400 border-t pt-3">
             ID rezervare: <span className="font-mono">{booking.id}</span>
-            {booking.updated_at && (
-              <span className="ml-3">Actualizat: {new Date(booking.updated_at).toLocaleDateString('ro-RO')}</span>
+            {booking.updatedAt && (
+              <span className="ml-3">Actualizat: {new Date(booking.updatedAt).toLocaleDateString('ro-RO')}</span>
             )}
           </div>
         </div>

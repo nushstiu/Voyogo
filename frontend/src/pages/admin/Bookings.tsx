@@ -8,6 +8,7 @@ import {
   faFileExport,
   faCheckDouble,
   faBan,
+  faRotateLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
 import { bookingService } from '../../services/booking.service';
@@ -36,7 +37,7 @@ export default function AdminBookings() {
   const [destinations, setDestinations] = useState<Destination[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-  const { filters, setFilter } = useFilters({
+  const { filters, setFilter, resetFilters, hasActiveFilters } = useFilters({
     keys: ['search', 'status', 'destination', 'fromDate', 'toDate'],
   });
   const debouncedSearch = useDebounce(filters.search, 300);
@@ -70,8 +71,8 @@ export default function AdminBookings() {
       }
       if (filters.status) filtered = filtered.filter(b => b.status === filters.status);
       if (filters.destination) filtered = filtered.filter(b => b.destination === filters.destination);
-      if (filters.fromDate) filtered = filtered.filter(b => b.booking_date >= filters.fromDate);
-      if (filters.toDate) filtered = filtered.filter(b => b.booking_date <= filters.toDate);
+      if (filters.fromDate) filtered = filtered.filter(b => b.bookingDate >= filters.fromDate);
+      if (filters.toDate) filtered = filtered.filter(b => b.bookingDate <= filters.toDate);
       setBookings(filtered);
       setDestinations(allDests);
     } catch {
@@ -128,8 +129,8 @@ export default function AdminBookings() {
       `${b.name} ${b.surname}`,
       b.email,
       b.destination,
-      b.tour_name || '',
-      b.booking_date,
+      b.tourName || '',
+      b.bookingDate,
       b.duration,
       b.status,
     ]);
@@ -208,6 +209,15 @@ export default function AdminBookings() {
                 className="input-default py-2 text-sm"
               />
             </div>
+            {hasActiveFilters && (
+              <button
+                onClick={resetFilters}
+                className="text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 px-3 py-2 rounded-lg transition-colors flex items-center gap-2"
+              >
+                <FontAwesomeIcon icon={faRotateLeft} />
+                {t('filters.resetFilters')}
+              </button>
+            )}
           </div>
         </div>
 
@@ -284,8 +294,8 @@ export default function AdminBookings() {
                         </div>
                       </td>
                       <td className="px-6 py-4 text-sm text-text-secondary">{b.destination}</td>
-                      <td className="px-6 py-4 text-sm text-text-secondary">{b.tour_name || '—'}</td>
-                      <td className="px-6 py-4 text-sm text-text-secondary">{b.booking_date}</td>
+                      <td className="px-6 py-4 text-sm text-text-secondary">{b.tourName || '—'}</td>
+                      <td className="px-6 py-4 text-sm text-text-secondary">{b.bookingDate}</td>
                       <td className="px-6 py-4 text-sm text-text-secondary">{b.duration}</td>
                       <td className="px-6 py-4">
                         <StatusBadge status={b.status} />

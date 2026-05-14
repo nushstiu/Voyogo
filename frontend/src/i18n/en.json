@@ -128,7 +128,8 @@
     "filterByRole": "Filter by role",
     "filterByStatus": "Filter by status",
     "filterByDestination": "Filter by destination",
-    "sortBy": "Sort by"
+    "sortBy": "Sort by",
+    "resetFilters": "Reset filters"
   },
 
   "modals": {

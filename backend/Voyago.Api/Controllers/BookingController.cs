@@ -1,103 +1,122 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Voyago.BusinessLayer;
-using Voyago.BusinessLayer.Dtos;
-using Voyago.BusinessLayer.Interfaces;
-using Voyago.DataAccessLayer.Context;
+using Voyago.Domain.Dtos;
+using Voyago.Domain.Constants;
 
 namespace Voyago.Api.Controllers;
 
 [ApiController]
 [Route("api/bookings")]
+[Authorize(Roles = $"{Roles.User},{Roles.Admin}")]
 public class BookingController : ControllerBase
 {
-    private readonly IBookingAction _action;
+    private readonly BusinessLogic _bl;
 
-    public BookingController()
+    public BookingController(BusinessLogic bl)
     {
-        var bl = new BusinessLogic();
-        _action = bl.BookingAction();
+        _bl = bl;
     }
 
     [HttpGet]
-    public IActionResult GetAll() => Ok(_action.GetAll());
-
-    [HttpGet("{id:guid}")]
-    public IActionResult GetById(Guid id)
+    public async Task<IActionResult> GetAll()
     {
-        var booking = _action.GetById(id);
-        if (booking == null) return NotFound();
-        return Ok(booking);
+        try
+        {
+            return Ok(await _bl.BookingAction().GetAll());
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea rezervarilor: " + ex.Message);
+        }
     }
 
-    [HttpGet("user/{userId:guid}")]
-    public IActionResult GetByUser(Guid userId) => Ok(_action.GetByUserId(userId));
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        try
+        {
+            var booking = await _bl.BookingAction().GetById(id);
+            if (booking == null) return NotFound("Rezervarea nu a fost gasita.");
+            return Ok(booking);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea rezervarii: " + ex.Message);
+        }
+    }
+
+    [HttpGet("user/{userId:int}")]
+    public async Task<IActionResult> GetByUser(int userId)
+    {
+        try
+        {
+            return Ok(await _bl.BookingAction().GetByUserId(userId));
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea rezervarilor utilizatorului: " + ex.Message);
+        }
+    }
 
     [HttpPost]
-    public IActionResult Create([FromBody] BookingDto dto)
+    public async Task<IActionResult> Create([FromBody] BookingDto dto)
     {
-        var created = _action.Create(dto);
-        return Created(string.Empty, created);
+        try
+        {
+            if (dto == null)
+                return BadRequest("Corpul cererii nu poate fi null.");
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Created(string.Empty, await _bl.BookingAction().Create(dto));
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la crearea rezervarii: " + ex.Message);
+        }
     }
 
-    [HttpPatch("{id:guid}/status")]
-    public IActionResult UpdateStatus(Guid id, [FromBody] UpdateStatusDto dto)
+    [HttpPatch("{id:int}/status")]
+    public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateStatusDto dto)
     {
-        var updated = _action.UpdateStatus(id, dto.Status);
-        if (updated == null) return NotFound();
-        return Ok(updated);
+        try
+        {
+            if (dto == null)
+                return BadRequest("Corpul cererii nu poate fi null.");
+
+            // Validate status enum
+            var validStatuses = new[] { "pending", "confirmed", "cancelled" };
+            if (!validStatuses.Contains(dto.Status.ToLower()))
+                return BadRequest($"Status invalid. Valori permise: {string.Join(", ", validStatuses)}");
+
+            var updated = await _bl.BookingAction().UpdateStatus(id, dto.Status);
+            if (updated == null) return NotFound("Rezervarea nu a fost gasita.");
+            return Ok(updated);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la actualizarea statusului rezervarii: " + ex.Message);
+        }
     }
 
-    // PUT /api/bookings/{id} — admin only
-    [HttpPut("{id:guid}")]
-    public IActionResult Update(Guid id, [FromBody] UpdateBookingDto dto)
+    [HttpDelete("{id:int}")]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> Delete(int id)
     {
-        var userIdHeader = Request.Headers["X-User-Id"].FirstOrDefault();
-        if (string.IsNullOrWhiteSpace(userIdHeader)) 
-            return Unauthorized(new { message = "Missing X-User-Id header." });
-
-        var role = Request.Headers["X-User-Role"].FirstOrDefault();
-        var isAdmin = string.Equals(role, "Admin", StringComparison.OrdinalIgnoreCase) ||
-                      string.Equals(role, "30", StringComparison.OrdinalIgnoreCase);
-        if (!isAdmin) 
-            return StatusCode(403, new { message = "Admin access required." });
-
-        if (string.IsNullOrWhiteSpace(dto.Name)) return BadRequest(new { message = "Name is required." });
-        if (string.IsNullOrWhiteSpace(dto.Surname)) return BadRequest(new { message = "Surname is required." });
-        if (string.IsNullOrWhiteSpace(dto.Email)) return BadRequest(new { message = "Email is required." });
-        if (string.IsNullOrWhiteSpace(dto.Phone)) return BadRequest(new { message = "Phone is required." });
-        if (string.IsNullOrWhiteSpace(dto.Destination)) return BadRequest(new { message = "Destination is required." });
-        if (string.IsNullOrWhiteSpace(dto.Duration)) return BadRequest(new { message = "Duration is required." });
-        if (string.IsNullOrWhiteSpace(dto.Status)) return BadRequest(new { message = "Status is required." });
-
-        using var db = new VoyagoContext();
-
-        var booking = db.Bookings.FirstOrDefault(b => b.Id == id);
-        if (booking == null) return NotFound();
-
-        booking.UserId = dto.UserId;
-        booking.Name = dto.Name;
-        booking.Surname = dto.Surname;
-        booking.Email = dto.Email;
-        booking.Phone = dto.Phone;
-        booking.Destination = dto.Destination;
-        booking.TourId = dto.TourId;
-        booking.TourName = dto.TourName;
-        booking.BookingDate = dto.BookingDate;
-        booking.Duration = dto.Duration;
-        booking.Status = dto.Status;
-        booking.Notes = dto.Notes;
-        booking.AdminNotes = dto.AdminNotes;
-        booking.UpdatedAt = DateTime.UtcNow;
-
-        db.SaveChanges();
-
-        return Ok(booking);
-    }
-
-    [HttpDelete("{id:guid}")]
-    public IActionResult Delete(Guid id)
-    {
-        if (!_action.Delete(id)) return NotFound();
-        return NoContent();
+        try
+        {
+            if (!await _bl.BookingAction().Delete(id)) return NotFound("Rezervarea nu a fost gasita.");
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la stergerea rezervarii: " + ex.Message);
+        }
     }
 }

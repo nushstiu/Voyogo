@@ -510,7 +510,7 @@ export default function DestinationDetails() {
   }
 
   const destinationTours = MOCK_TOURS.filter(
-      (tour) => tour.destination_id === destination.toursDestinationId
+      (tour) => tour.destinationId === destination.toursDestinationId
   );
 
   return (

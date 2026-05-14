@@ -1,4 +1,4 @@
-using Voyago.BusinessLayer.Dtos;
+using Voyago.Domain.Dtos;
 using Voyago.DataAccessLayer.Context;
 
 namespace Voyago.BusinessLayer.Core;
@@ -27,7 +27,7 @@ public abstract class UserActions
         }).ToList();
     }
 
-    internal UserDto? ExecuteGetById(Guid id)
+    internal UserDto? ExecuteGetById(int id)
     {
         using var db = new VoyagoContext();
         var u = db.Users.FirstOrDefault(u => u.Id == id);
@@ -52,7 +52,7 @@ public abstract class UserActions
         };
     }
 
-    internal UserDto? ExecuteUpdate(Guid id, UserDto dto)
+    internal UserDto? ExecuteUpdate(int id, UserDto dto)
     {
         using var db = new VoyagoContext();
         var user = db.Users.FirstOrDefault(u => u.Id == id);
@@ -79,7 +79,7 @@ public abstract class UserActions
         return dto;
     }
 
-    internal bool ExecuteDelete(Guid id)
+    internal bool ExecuteDelete(int id)
     {
         using var db = new VoyagoContext();
         var user = db.Users.FirstOrDefault(u => u.Id == id);

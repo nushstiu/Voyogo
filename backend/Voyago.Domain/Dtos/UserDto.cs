@@ -1,10 +1,8 @@
-using Voyago.Domain.Enums;
-
-namespace Voyago.BusinessLayer.Dtos;
+namespace Voyago.Domain.Dtos;
 
 public class UserDto
 {
-    public Guid Id { get; set; }
+    public int Id { get; set; }
     public string Username { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string? Phone { get; set; }
@@ -15,7 +13,7 @@ public class UserDto
     public string? EmergencyContactName { get; set; }
     public string? EmergencyContactPhone { get; set; }
     public string? ProfilePic { get; set; }
-    public UserRole Role { get; set; }
+    public string Role { get; set; } = "User";
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 }
