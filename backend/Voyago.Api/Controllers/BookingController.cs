@@ -64,12 +64,8 @@ public class BookingController : ControllerBase
     {
         try
         {
-            if (dto == null)
-                return BadRequest("Corpul cererii nu poate fi null.");
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
+            if (dto == null) return BadRequest("Corpul cererii nu poate fi null.");
+            if (!ModelState.IsValid) return BadRequest(ModelState);
             return Created(string.Empty, await _bl.BookingAction().Create(dto));
         }
         catch (InvalidOperationException ex)
@@ -87,10 +83,8 @@ public class BookingController : ControllerBase
     {
         try
         {
-            if (dto == null)
-                return BadRequest("Corpul cererii nu poate fi null.");
+            if (dto == null) return BadRequest("Corpul cererii nu poate fi null.");
 
-            // Validate status enum
             var validStatuses = new[] { "pending", "confirmed", "cancelled" };
             if (!validStatuses.Contains(dto.Status.ToLower()))
                 return BadRequest($"Status invalid. Valori permise: {string.Join(", ", validStatuses)}");
@@ -102,6 +96,26 @@ public class BookingController : ControllerBase
         catch (Exception ex)
         {
             return StatusCode(500, "Eroare la actualizarea statusului rezervarii: " + ex.Message);
+        }
+    }
+
+    // PUT /api/bookings/{id} - admin only, update complet
+    [HttpPut("{id:int}")]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> Update(int id, [FromBody] BookingDto dto)
+    {
+        try
+        {
+            if (dto == null) return BadRequest("Corpul cererii nu poate fi null.");
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            var updated = await _bl.BookingAction().Update(id, dto);
+            if (updated == null) return NotFound("Rezervarea nu a fost gasita.");
+            return Ok(updated);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la actualizarea rezervarii: " + ex.Message);
         }
     }
 
