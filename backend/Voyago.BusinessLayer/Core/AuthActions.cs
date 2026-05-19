@@ -44,11 +44,8 @@ public abstract class AuthActions
 
         var role = string.IsNullOrWhiteSpace(dto.Role) ? Roles.User : dto.Role;
 
-        if (role == Roles.Visitor)
-            return null;
-
-        if (role != Roles.User && role != Roles.Admin)
-            return null;
+        if (role == Roles.Visitor) return null;
+        if (role != Roles.User && role != Roles.Admin) return null;
 
         var user = new User
         {
@@ -100,6 +97,23 @@ public abstract class AuthActions
         if (rt == null) return;
         rt.IsRevoked = true;
         db.SaveChanges();
+    }
+
+    // ADAUGAT - schimbare parola cu verificare BCrypt
+    internal bool ExecuteChangePassword(int userId, ChangePasswordDto dto)
+    {
+        using var db = new VoyagoContext();
+        var user = db.Users.FirstOrDefault(u => u.Id == userId);
+        if (user == null) return false;
+
+        if (!BCrypt.Net.BCrypt.Verify(dto.CurrentPassword, user.PasswordHash))
+            return false;
+
+        user.PasswordHash = HashPassword(dto.NewPassword);
+        user.UpdatedAt = DateTime.UtcNow;
+        db.SaveChanges();
+
+        return true;
     }
 
     private string GenerateAndStoreRefreshToken(int userId)
