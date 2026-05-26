@@ -13,10 +13,11 @@ public class BusinessLogic
         _configuration = configuration;
     }
 
-    public IAuthAction AuthAction()             => new AuthAction(_configuration);
-    public IUserAction UserAction()             => new UserAction();
-    public ITourAction TourAction()             => new TourAction();
+    public IAuthAction AuthAction()               => new AuthAction(_configuration);
+    public IUserAction UserAction()               => new UserAction();
+    public ITourAction TourAction()               => new TourAction();
     public IDestinationAction DestinationAction() => new DestinationAction();
-    public IBookingAction BookingAction()       => new BookingAction();
-    public IWishlistAction WishlistAction()     => new WishlistAction();  // <-- ADAUGAT
+    public IBookingAction BookingAction()         => new BookingAction();
+    public IWishlistAction WishlistAction()       => new WishlistAction();
+    public IAnalyticsAction AnalyticsAction()     => new AnalyticsAction();  // <-- ADAUGAT
 }
