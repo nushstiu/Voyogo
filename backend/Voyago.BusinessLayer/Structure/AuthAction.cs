@@ -13,4 +13,5 @@ public class AuthAction : AuthActions, IAuthAction
     public AuthResponse? Register(UserRegisterDto dto)       => ExecuteRegister(dto);
     public AuthResponse? Refresh(string refreshToken)        => ExecuteRefresh(refreshToken);
     public void Revoke(string refreshToken)                  => ExecuteRevoke(refreshToken);
+    public bool ChangePassword(int userId, ChangePasswordDto dto) => ExecuteChangePassword(userId, dto);  // <-- ADAUGAT
 }

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Voyago.BusinessLayer;
@@ -38,8 +39,7 @@ public class AuthController : ControllerBase
         try
         {
             if (!string.IsNullOrWhiteSpace(dto.Role) && dto.Role == Roles.Visitor)
-                return BadRequest("Rolul 'Visitor' nu poate fi atribuit la inregistrare. Visitor = utilizator neautentificat.");
-
+                return BadRequest("Rolul 'Visitor' nu poate fi atribuit la inregistrare.");
             if (!string.IsNullOrWhiteSpace(dto.Role) && dto.Role != Roles.User && dto.Role != Roles.Admin)
                 return BadRequest($"Rol invalid. Roluri permise: {Roles.User}, {Roles.Admin}.");
 
@@ -87,6 +87,56 @@ public class AuthController : ControllerBase
         catch (Exception ex)
         {
             return StatusCode(500, "Eroare la revocarea tokenului: " + ex.Message);
+        }
+    }
+
+    // PUT /api/auth/change-password
+    // Necesita autentificare - userId luat din JWT claim
+    [HttpPut("change-password")]
+    [Authorize(Roles = $"{Roles.User},{Roles.Admin}")]
+    public IActionResult ChangePassword([FromBody] ChangePasswordDto dto)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(dto.CurrentPassword) || string.IsNullOrWhiteSpace(dto.NewPassword))
+                return BadRequest("Parola curenta si parola noua sunt obligatorii.");
+
+            var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userIdStr == null || !int.TryParse(userIdStr, out int userId))
+                return Unauthorized("Token invalid.");
+
+            var success = _bl.AuthAction().ChangePassword(userId, dto);
+            if (!success)
+                return BadRequest("Parola curenta este incorecta sau utilizatorul nu exista.");
+
+            return Ok(new { message = "Parola a fost schimbata cu succes." });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la schimbarea parolei: " + ex.Message);
+        }
+    }
+
+    // GET /api/auth/me
+    // Returneaza userul curent din JWT
+    [HttpGet("me")]
+    [Authorize(Roles = $"{Roles.User},{Roles.Admin}")]
+    public IActionResult GetMe()
+    {
+        try
+        {
+            var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userIdStr == null || !int.TryParse(userIdStr, out int userId))
+                return Unauthorized("Token invalid.");
+
+            var user = _bl.UserAction().GetById(userId);
+            if (user == null) return NotFound("Utilizatorul nu a fost gasit.");
+
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la obtinerea utilizatorului curent: " + ex.Message);
         }
     }
 }

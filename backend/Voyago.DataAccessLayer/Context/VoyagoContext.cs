@@ -11,6 +11,7 @@ public class VoyagoContext : DbContext
     public DbSet<Tour> Tours => Set<Tour>();
     public DbSet<Booking> Bookings => Set<Booking>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+    public DbSet<Wishlist> Wishlists => Set<Wishlist>();  // <-- ADAUGAT
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -36,6 +37,19 @@ public class VoyagoContext : DbContext
             .WithMany()
             .HasForeignKey(rt => rt.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Relatii Wishlist
+        modelBuilder.Entity<Wishlist>()
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(w => w.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Wishlist>()
+            .HasOne<Tour>()
+            .WithMany()
+            .HasForeignKey(w => w.TourId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         var seed = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 

@@ -8,4 +8,5 @@ public interface IAuthAction
     AuthResponse? Register(UserRegisterDto dto);
     AuthResponse? Refresh(string refreshToken);
     void Revoke(string refreshToken);
+    bool ChangePassword(int userId, ChangePasswordDto dto);  // <-- ADAUGAT
 }

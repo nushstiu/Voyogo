@@ -34,8 +34,8 @@ public abstract class UserActions
         user.EmergencyContactPhone = dto.EmergencyContactPhone;
         user.ProfilePic = dto.ProfilePic;
         user.UpdatedAt = DateTime.UtcNow;
-
         db.SaveChanges();
+
         return AuthActions.MapToDto(user);
     }
 
@@ -48,5 +48,19 @@ public abstract class UserActions
         db.Users.Remove(user);
         db.SaveChanges();
         return true;
+    }
+
+    // ADAUGAT - salveaza URL-ul avatarului in ProfilePic
+    internal UserDto? ExecuteUpdateAvatar(int id, string avatarUrl)
+    {
+        using var db = new VoyagoContext();
+        var user = db.Users.FirstOrDefault(u => u.Id == id);
+        if (user == null) return null;
+
+        user.ProfilePic = avatarUrl;
+        user.UpdatedAt = DateTime.UtcNow;
+        db.SaveChanges();
+
+        return AuthActions.MapToDto(user);
     }
 }

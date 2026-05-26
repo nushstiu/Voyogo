@@ -99,4 +99,52 @@ public class UserController : ControllerBase
             return StatusCode(500, "Eroare la stergerea utilizatorului: " + ex.Message);
         }
     }
+
+    // POST /api/users/{id}/avatar
+    // Upload imagine profil - multipart/form-data, field: "avatar"
+    // 401 daca nu e autentificat, 403 daca incearca sa modifice alt user fara sa fie admin
+    [HttpPost("{id:int}/avatar")]
+    [Authorize(Roles = $"{Roles.User},{Roles.Admin}")]
+    public async Task<IActionResult> UploadAvatar(int id, IFormFile avatar)
+    {
+        try
+        {
+            var userIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userIdStr == null || !int.TryParse(userIdStr, out int requesterId))
+                return Unauthorized("Token invalid.");
+
+            var isAdmin = User.IsInRole(Roles.Admin);
+            if (requesterId != id && !isAdmin)
+                return StatusCode(403, "Nu ai permisiunea sa modifici avatarul altui utilizator.");
+
+            if (avatar == null || avatar.Length == 0)
+                return BadRequest("Niciun fisier nu a fost furnizat.");
+
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp" };
+            var ext = Path.GetExtension(avatar.FileName).ToLowerInvariant();
+            if (!allowedExtensions.Contains(ext))
+                return BadRequest("Tip de fisier invalid. Permise: jpg, jpeg, png, webp.");
+
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "avatars");
+            Directory.CreateDirectory(uploadsFolder);
+
+            var fileName = $"{id}{ext}";
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await avatar.CopyToAsync(stream);
+            }
+
+            var avatarUrl = $"/avatars/{fileName}";
+            var updated = _bl.UserAction().UpdateAvatar(id, avatarUrl);
+            if (updated == null) return NotFound("Utilizatorul nu a fost gasit.");
+
+            return Ok(new { avatarUrl, user = updated });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Eroare la incarcarea avatarului: " + ex.Message);
+        }
+    }
 }
